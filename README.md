@@ -1,5 +1,5 @@
 <p align="center"><a href="https://github.com/Trueminds-Innovations-Ltd" target="_blank"><img
-src="https://drive.google.com/file/d/1bmrd9j_CBV5bvJAC5_6IzSAxaltBYeYQ/view?usp=sharing" width="200" height="auto"></a></p>
+src="https://truemindsltd.com/public/images/talent-faculty.jpeg" width="200" height="auto"></a></p>
 
 ## About Project => Talent Faculty by Trueminds Innovations Ltd
 
