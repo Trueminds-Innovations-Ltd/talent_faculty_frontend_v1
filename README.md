@@ -86,28 +86,80 @@ The strategic benefits of this project include an improved overall experience fo
 
 ### Stacks:
 
-- **Frontend : React**
+- **Framework**: Next.js
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
 
 ## Setup Guide
-##### Setting up your workspace
-##### React Version => '12.44.0'
-Before running this app locally make sure you have the following software installed:
-<ul>
-    <li>.....</li>
-    <li>.....</li>
-    <li>Node.js</li>
-    <li>An updated Web Browser</li>
-</ul>
-Now, follow this steps:
-<ol>
-    <li>Go to https://github.com/Trueminds-Innovations-Ltd/talent_faculty_frontend_v1.</li>
-    <li>Open your terminal, navigate to your preferred folder and Run:
-        <code>git clone https://github.com/Trueminds-Innovations-Ltd/talent_faculty_frontend_v1.git</code>.</li>
-    <li>Run <code>npm install</code></li>
-    <li>Run <code>npm ....</code></li>
-    <li>Copy all the contents of the <code>.env.example</code> file. Create <code>.env</code> file and paste all the
-        contents you copied from <code>.env.example</code> file to your <code>.env</code> file.</li>
-</ol>
+
+Follow these instructions to set up and run the project locally.
+
+### Prerequisites
+
+Before running this application locally, ensure you have the following software installed:
+
+- **Node.js** (v18.17.0 or later recommended)
+- **npm** (comes with Node.js) or another package manager like **Yarn** or **pnpm**
+- **Git**
+- An updated web browsers
+
+### Local Development Setup
+
+1. **Clone the Repository**
+   Open your terminal, navigate to your preferred directory, and run:
+   ```bash
+   git clone https://github.com/Trueminds-Innovations-Ltd/talent_faculty_frontend_v1.git
+   ```
+
+2. **Navigate into the Project Directory**
+   ```bash
+   cd talent_faculty_frontend_v1
+   ```
+
+3. **Install Dependencies**
+   Install the project dependencies using your package manager:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+4. **Environment Variables Configuration**
+   Copy the environment variables template to create your local configuration:
+   ```bash
+   cp .env.example .env.local
+   ```
+   *Note: Open the `.env.local` file in your editor and supply any necessary keys/values if applicable.*
+
+5. **Run the Development Server**
+   Start the local development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+6. **Open the Application**
+   Open [http://localhost:3000](http://localhost:3000) (or the port shown in your terminal) in your browser to view the application.
+
+### Useful Commands
+
+- **Build the application for production:**
+  ```bash
+  npm run build
+  ```
+- **Start the production server locally:**
+  ```bash
+  npm run start
+  ```
+- **Lint and format checks:**
+  ```bash
+  npm run lint
+  ```
 
 ## IMPORTANT NOTE:
 - Make sure you have Node.js installed.
