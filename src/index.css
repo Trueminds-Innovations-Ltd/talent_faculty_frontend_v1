@@ -33,6 +33,7 @@
       opacity: 0;
       transform: translateY(4px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -93,4 +94,14 @@ body {
     text-transform: uppercase;
     color: var(--color-neutral-400);
   }
+}
+
+body::-webkit-scrollbar {
+  width: 0.25em;
+  height: 0;
+  background-color: black;
+}
+
+body {
+  scroll-behavior: smooth;
 }
