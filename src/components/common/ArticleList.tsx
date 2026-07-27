@@ -1,27 +1,31 @@
-import React from 'react';
+import { ChevronRight } from "lucide-react";
 
-const ARTICLES = [
-  { id: 1, title: 'How to submit an assignment' },
-  { id: 2, title: 'How to take an assessment' },
-  { id: 3, title: 'How to download a certificate' },
-  { id: 4, title: 'How to track my progress' },
-  { id: 5, title: 'How to change my password' },
+const articles = [
+  "How to submit an assignment",
+  "How to take an assessment",
+  "How to download a certificate",
+  "How to track my progress",
+  "How to change my password",
 ];
 
-const ArticleList: React.FC = () => {
+const ArticleList = () => {
   return (
-    <div className="bg-white border border-neutral-200 rounded-3xl p-8 shadow-xs text-left">
-      <h3 className="text-lg font-bold text-neutral-800 mb-6">Popular Articles</h3>
-      <ul className="space-y-4">
-        {ARTICLES.map((article) => (
-          <li key={article.id} className="flex items-center gap-3 group cursor-pointer">
-            <span className="text-[10px] text-[#0F8A5F] shrink-0 transform scale-y-90">▶</span>
-            <span className="text-sm font-medium text-[#0F8A5F] hover:text-[#0b6646] hover:underline transition-colors duration-200">
-              {article.title}
-            </span>
-          </li>
+    <div className="rounded-xl border border-gray-200 bg-white p-6">
+      <h2 className="text-lg font-semibold mb-5">
+        Popular Articles
+      </h2>
+
+      <div className="space-y-4">
+        {articles.map((article) => (
+          <button
+            key={article}
+            className="flex items-center gap-3 text-green-700 hover:text-green-800 transition"
+          >
+            <ChevronRight size={16} />
+            <span className="text-sm">{article}</span>
+          </button>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
