@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ThemeColors } from "../../components/ThemeColors";
 import Sidebar from "../../components/layout/Sidebar";
 import TopBar from "../../components/layout/TopBar";
@@ -24,7 +24,6 @@ export default function Messages() {
   const [isMobileChatView, setIsMobileChatView] = useState<boolean>(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
   
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const [messageSearchQuery, setMessageSearchQuery] = useState<string>("");
   const [messageInput, setMessageInput] = useState<string>("");
 

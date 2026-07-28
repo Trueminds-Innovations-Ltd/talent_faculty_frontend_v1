@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ThemeColors } from "../../components/ThemeColors";
 
 export default function Signup10() {

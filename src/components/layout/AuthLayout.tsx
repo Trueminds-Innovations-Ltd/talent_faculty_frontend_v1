@@ -15,9 +15,9 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   activeToggle = 'signup',
 }) => {
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="min-h-screen lg:h-screen flex flex-col lg:flex-row lg:overflow-hidden">
       {/* Left Panel - Green */}
-      <div className="relative w-full lg:w-[42%] xl:w-[40%] bg-primary-dark overflow-hidden">
+      <div className="relative w-full lg:w-[42%] xl:w-[40%] bg-primary-dark overflow-hidden lg:h-full lg:overflow-y-auto">
         {/* Decorative blurred circles */}
         <div className="absolute top-[-10%] left-[-10%] w-[300px] h-[300px] rounded-full bg-primary/40 blur-[80px]" />
         <div className="absolute top-[20%] right-[-5%] w-[200px] h-[200px] rounded-full bg-secondary/30 blur-[60px]" />
@@ -52,13 +52,13 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
         )}
 
         {/* Left panel content */}
-        <div className="relative z-10 flex flex-col justify-center h-full px-8 py-12 lg:px-12 lg:py-16 xl:px-16">
+        <div className="relative z-10 flex flex-col justify-center min-h-full px-8 py-12 lg:px-12 lg:py-16 xl:px-16">
           {leftPanelContent}
         </div>
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 bg-primary-light min-h-screen overflow-y-auto">
+      <div className="flex-1 bg-primary-light min-h-screen lg:min-h-0 lg:h-full overflow-y-auto">
         {/* Desktop toggle - shown only on large screens */}
         {showToggle && (
           <div className="hidden lg:flex justify-center pt-10 pb-6">
