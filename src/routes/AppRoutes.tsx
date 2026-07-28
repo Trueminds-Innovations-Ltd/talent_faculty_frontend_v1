@@ -6,13 +6,13 @@ import Signup4 from '../pages/auth/Signup4'
 import Signup11 from '../pages/auth/Signup11'
 import Dashboard from '../pages/student/Dashboard'
 import MyCourses from '../pages/student/MyCourses'
+import Signup3 from '../pages/auth/Signup3.tsx'
+import Signup10 from '../pages/auth/Signup10.tsx'
+import Messages from '../pages/student/Messages.tsx'
+import Notifications from '../pages/student/Notifications.tsx'
 import MyProfile from '../pages/student/MyProfile.tsx'
 import Settings from '../pages/student/Settings.tsx'
 import Help$Support from '../pages/student/Help & Support.tsx'
-import Messages from '../pages/student/Messages.tsx'
-import Notifications from '../pages/student/Notifications.tsx'
-import Signup3 from '../pages/auth/Signup3.tsx'
-import Signup10 from '../pages/auth/Signup10.tsx'
 
 const AppRoutes = () => {
   return (
@@ -37,8 +37,7 @@ const AppRoutes = () => {
       <Route path="/profile" element={<MyProfile />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/help" element={<Help$Support />} />
-      </Routes>
+    </Routes>
   )
 }
 
-export default AppRoutes
