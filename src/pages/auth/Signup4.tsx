@@ -61,10 +61,10 @@ const Signup4: React.FC = () => {
       <p className="text-secondary text-xs font-medium tracking-widest uppercase mb-4">
         STEP 3 OF 3
       </p>
-      <h1 className="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight mb-6">
+      <h1 className="font-display text-3xl lg:text-5xl xl:text-5xl leading-tight mb-6">
         Almost there,<br />Make it yours.
       </h1>
-      <p className="text-white/70 text-base lg:text-lg leading-relaxed max-w-sm mb-12">
+      <p className="text-white/70 italic lg:text-lg leading-relaxed max-w-sm mb-12">
         Your name and details help instructors and classmates recognize you.
       </p>
       <StepIndicator steps={steps} />

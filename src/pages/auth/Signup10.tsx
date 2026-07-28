@@ -48,18 +48,18 @@ export default function Signup10() {
         className="flex-1 flex flex-col relative items-center justify-center p-6 md:p-12 min-h-[60vh] md:min-h-screen"
       >
         <div className="w-full max-w-md flex flex-col items-center text-center mt-8 md:mt-0">
-          
+
           {/* Logo Placeholder */}
           <div className="mb-16 md:mb-20">
-            <img 
-                src="./logo1.png" 
-                alt="TalentFaculty Logo" 
-                className="h-10 md:h-25 object-contain" 
+            <img
+              src="./logo1.png"
+              alt="TalentFaculty Logo"
+              className="h-10 md:h-25 object-contain"
             />
           </div>
 
           {/* Success Checkmark Icon */}
-          <div 
+          <div
             className="mb-8 rounded-full border-2 flex items-center justify-center h-14 w-14 md:h-16 md:w-16"
             style={{ borderColor: ThemeColors.primaryGreen }}
           >
@@ -88,7 +88,7 @@ export default function Signup10() {
           >
             You are all set
           </h2>
-          
+
           <p
             style={{ color: ThemeColors.neutralAsh2 }}
             className="text-xs md:text-sm leading-relaxed mb-10 max-w-[260px] md:max-w-xs"

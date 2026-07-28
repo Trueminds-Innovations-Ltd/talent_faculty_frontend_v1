@@ -16,22 +16,44 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen ">
 
       {/* Left Panel - Green Gradient */}
-      <div className="md:flex md:w-[360px] lg:w-[589px] min-h-[20vh] md:min-h-screen relative overflow-hidden bg-[#024F2A]">
+      <div className=" lg:w-[42%] xl:w-[40%] h-full lg:flex lg:h-screen relative overflow-hidden bg-primary-dark">
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center mt-10 md:mt-0 px-12 xl:px-16">
-          <p className="text-sm font-semibold uppercase tracking-widest  text-[#34C759] mb-6">
+
+        {/* Tab Toggle */}
+        <div className="flex  px-6 pt-6 pb-4 relative z-100 lg:hidden  mb-10">
+          <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1">
+            <button
+              onClick={() => setActiveTab('signin')}
+              className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signin'
+                ? 'bg-white text-primary-dark shadow-md'
+                : 'text-white hover:bg-[#057834]/5'
+                }`}
+            >
+              Sign In
+            </button>
+            <Link
+              to="/signup"
+              className="rounded-full px-6 py-2 text-sm font-semibold text-white hover:bg-[#057834]/5 transition-all duration-200"
+            >
+              Sign Up
+            </Link>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex flex-col justify-center mt-8 mb-8 lg:mb-0 lg:mt-0 px-12 xl:px-16">
+          <p className="text-sm font-semibold uppercase tracking-widest  text-secondary mb-6">
             Welcome back
           </p>
-          <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-2">
+          <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl  text-white leading-tight mb-2">
             Every course is a<br />path.
           </h1>
-          <h1 className="text-3xl lg:text-4xl  hidden md:block xl:text-5xl font-bold text-white leading-tight mb-8">
+          <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl text-white leading-tight mb-8">
             Let's find yours.
           </h1>
-          <p className="text-base  hidden md:block text-white/60 italic leading-relaxed max-w-xs">
+          <p className="text-base   text-white/60 italic leading-relaxed max-w-xs">
             TalentFlow tracks progress the way a good mentor would, one deliberate step after another.
           </p>
         </div>
@@ -44,24 +66,24 @@ export default function Login() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex flex-col items-center justify-center bg-[#f2faf3] px-6 py-12 sm:px-12">
+      <div className="flex-1 flex flex-col items-center h-screen justify-center bg-[#E6F4EA] px-6 py-12 sm:px-12">
         <div className="w-full max-w-md">
 
           {/* Tab Toggle */}
-          <div className="flex md:justify-center mb-10">
+          <div className=" md:justify-center hidden lg:flex mb-10">
             <div className="inline-flex items-center rounded-full border border-[#34C759]/30 bg-white p-1 shadow-sm">
               <button
                 onClick={() => setActiveTab('signin')}
                 className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signin'
-                  ? 'bg-[#057834] text-white shadow-md'
-                  : 'text-[#057834] hover:bg-[#057834]/5'
+                  ? 'bg-primary-dark text-white shadow-md'
+                  : 'text-primary-dark hover:bg-primary-dark/5'
                   }`}
               >
                 Sign In
               </button>
               <Link
                 to="/signup"
-                className="rounded-full px-6 py-2 text-sm font-semibold text-[#34C759] hover:bg-[#34C759]/5 transition-all duration-200"
+                className="rounded-full px-6 py-2 text-sm font-semibold text-primary-dark hover:bg-[#34C759]/5 transition-all duration-200"
               >
                 Sign Up
               </Link>
@@ -151,12 +173,14 @@ export default function Login() {
             </div>
 
             {/* Sign In Button */}
-            <button
-              type="submit"
-              className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
-            >
-              Sign In
-            </button>
+            <Link to="/dashboard">
+              <button
+                type="button"
+                className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
+              >
+                Sign In
+              </button>
+            </Link>
           </form>
 
           {/* Divider */}
