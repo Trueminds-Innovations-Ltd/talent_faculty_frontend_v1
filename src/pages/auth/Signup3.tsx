@@ -1,4 +1,4 @@
-import { useState } from 'react'
+
 import { Link } from 'react-router-dom'
 import { ThemeColors } from "../../components/ThemeColors";
 import AuthLayout from '../../components/layout/AuthLayout';
@@ -39,12 +39,12 @@ export default function Signup3() {
   )
   return (
 
-    <main className="flex flex-col w-full  min-h-screen">
+    <main className="flex flex-col w-full md:justify-center  min-h-screen">
 
       {/* Right Form Section */}
-      <AuthLayout leftPanelContent={leftPanelContent} activeToggle="signup">
+      <AuthLayout leftPanelContent={leftPanelContent} activeToggle="signup" >
         {/* Main Card Content */}
-        <div className="w-full    flex flex-col justify-center items-center">
+        <div className="w-full    flex flex-col justify-center md:items-center">
           <h2 style={{ color: ThemeColors.neutralCoalblack }} className="text-xl md:text-2xl lg:text-3xl font-bold mb-3">
             Check your inbox
           </h2>

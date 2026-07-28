@@ -16,10 +16,10 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen ">
+    <div className="flex flex-col lg:flex-row min-h-screen">
 
       {/* Left Panel - Green Gradient */}
-      <div className=" lg:w-[42%] xl:w-[40%] h-full lg:flex lg:h-screen relative overflow-hidden bg-primary-dark">
+      <div className="lg:w-[42%] xl:w-[40%] lg:flex lg:min-h-screen relative overflow-hidden bg-primary-dark">
         {/* Content */}
 
         {/* Tab Toggle */}
@@ -27,7 +27,7 @@ export default function Login() {
           <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1">
             <button
               onClick={() => setActiveTab('signin')}
-              className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signin'
+              className={`rounded-full px-6 py-2 text-sm  transition-all duration-200 ${activeTab === 'signin'
                 ? 'bg-white text-primary-dark shadow-md'
                 : 'text-white hover:bg-[#057834]/5'
                 }`}
@@ -36,7 +36,7 @@ export default function Login() {
             </button>
             <Link
               to="/signup"
-              className="rounded-full px-6 py-2 text-sm font-semibold text-white hover:bg-[#057834]/5 transition-all duration-200"
+              className="rounded-full px-6 py-2 text-sm  text-white hover:bg-[#057834]/5 transition-all duration-200"
             >
               Sign Up
             </Link>
@@ -66,15 +66,15 @@ export default function Login() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex flex-col items-center h-screen justify-center bg-[#E6F4EA] px-6 py-12 sm:px-12">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex flex-col items-center lg:min-h-screen justify-center bg-[#E6F4EA] px-6 py-12 sm:px-12">
+        <div className="w-full max-w-md ">
 
           {/* Tab Toggle */}
           <div className=" md:justify-center hidden lg:flex mb-10">
             <div className="inline-flex items-center rounded-full border border-[#34C759]/30 bg-white p-1 shadow-sm">
               <button
                 onClick={() => setActiveTab('signin')}
-                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signin'
+                className={`rounded-full px-6 py-2 text-sm  transition-all duration-200 ${activeTab === 'signin'
                   ? 'bg-primary-dark text-white shadow-md'
                   : 'text-primary-dark hover:bg-primary-dark/5'
                   }`}
@@ -83,7 +83,7 @@ export default function Login() {
               </button>
               <Link
                 to="/signup"
-                className="rounded-full px-6 py-2 text-sm font-semibold text-primary-dark hover:bg-[#34C759]/5 transition-all duration-200"
+                className="rounded-full px-6 py-2 text-sm text-primary-dark hover:bg-[#34C759]/5 transition-all duration-200"
               >
                 Sign Up
               </Link>

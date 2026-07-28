@@ -89,14 +89,14 @@ export default function Signin() {
             <div className="inline-flex items-center rounded-full border border-[#34C759]/30 bg-white p-1 shadow-sm">
               <Link
                 to="/login"
-                className="rounded-full px-6 py-2 text-sm font-semibold text-primary-dark hover:bg-[#34C759]/5 transition-all duration-200"
+                className="rounded-full px-6 py-2 text-sm  text-primary-dark hover:bg-[#34C759]/5 transition-all duration-200"
               >
                 Sign In
               </Link>
 
               <button
                 onClick={() => setActiveTab('signin')}
-                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signup'
+                className={`rounded-full px-6 py-2 text-sm  transition-all duration-200 ${activeTab === 'signup'
                   ? 'bg-primary-dark text-white shadow-md'
                   : 'text-primary-dark hover:bg-primary-dark/5'
                   }`}

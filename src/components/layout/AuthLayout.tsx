@@ -56,7 +56,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 bg-[#E6F4EA] min-h-screen lg:min-h-0 lg:h-full overflow-y-auto">
+      <div className="flex-1 bg-[#E6F4EA] min-h-screen   lg:h-screen overflow-y-auto">
         {/* Desktop toggle - shown only on large screens */}
         {showToggle && (
           <div className="hidden lg:flex justify-center pt-10 pb-6">

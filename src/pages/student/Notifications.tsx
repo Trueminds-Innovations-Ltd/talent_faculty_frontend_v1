@@ -103,12 +103,29 @@ export default function Notifications() {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col overflow-y-auto px-4 sm:px-6 py-6 bg-white">
-          
+
+          {/* Search Bar */}
+          <div className="relative mb-4 shrink-0">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search notifications"
+              style={{ color: ThemeColors.neutralCoalblack }}
+              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-neutral-900 focus:outline-none focus:ring-1 focus:ring-[#057834]"
+            />
+          </div>
+
           <div className="flex items-center gap-6 sm:gap-8 border-b border-gray-100 mb-6 text-sm overflow-x-auto no-scrollbar whitespace-nowrap shrink-0">
             {["All", `Unread (${unreadCount})`, "Assignments", "Courses", "Messages", "System"].map((tab) => {
-              const tabName = tab.split(" ")[0]; 
+              const tabName = tab.split(" ")[0];
               const isActive = activeTab === tabName || (activeTab === "Unread" && tab.startsWith("Unread"));
-              
+
               return (
                 <button
                   key={tab}
@@ -116,17 +133,16 @@ export default function Notifications() {
                   style={{
                     color: isActive ? ThemeColors.primaryGreen : undefined,
                   }}
-                  className={`pb-3 font-medium transition-colors relative shrink-0 ${
-                    isActive
+                  className={`pb-3 font-medium transition-colors relative shrink-0 ${isActive
                       ? "text-[#057834]"
                       : "text-gray-500 hover:text-gray-800"
-                  }`}
+                    }`}
                 >
                   {tab}
                   {isActive && (
-                    <span 
+                    <span
                       style={{ backgroundColor: ThemeColors.primaryGreen }}
-                      className="absolute bottom-0 left-0 w-full h-[2px] bg-[#057834]" 
+                      className="absolute bottom-0 left-0 w-full h-[2px] bg-[#057834]"
                     />
                   )}
                 </button>

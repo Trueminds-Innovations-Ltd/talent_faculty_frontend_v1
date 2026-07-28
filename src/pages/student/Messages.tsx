@@ -23,8 +23,7 @@ export default function Messages() {
   const [activeChatId, setActiveChatId] = useState<number>(1);
   const [isMobileChatView, setIsMobileChatView] = useState<boolean>(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
-  
-  const [searchQuery, setSearchQuery] = useState<string>("");
+
   const [messageSearchQuery, setMessageSearchQuery] = useState<string>("");
   const [messageInput, setMessageInput] = useState<string>("");
 
@@ -81,6 +80,15 @@ export default function Messages() {
 
   const activeChatData = chatList.find((c) => c.id === activeChatId) || chatList[0];
 
+  const filteredChatList = chatList.filter((chat) => {
+    if (messageSearchQuery.trim() === "") return true;
+    const query = messageSearchQuery.toLowerCase();
+    return (
+      chat.name.toLowerCase().includes(query) ||
+      chat.preview.toLowerCase().includes(query)
+    );
+  });
+
   const handleSelectChat = (id: number) => {
     setActiveChatId(id);
     setIsMobileChatView(true);
@@ -108,7 +116,7 @@ export default function Messages() {
         {/* Main Content Area */}
         <div className="flex-1 flex overflow-hidden p-0 md:p-6 bg-[#F8F9FA]">
           <div className="flex w-full h-full bg-white md:rounded-2xl md:border md:border-gray-200 overflow-hidden md:shadow-sm">
-            
+
             {/* Left Column: Chat List */}
             <div className={`w-full md:w-[350px] lg:w-[400px] flex-col border-r border-gray-100 ${isMobileChatView ? 'hidden md:flex' : 'flex'}`}>
               <div className="p-4 border-b border-gray-100">
@@ -130,15 +138,14 @@ export default function Messages() {
               </div>
 
               <div className="flex-1 overflow-y-auto">
-                {chatList.map((chat) => (
+                {filteredChatList.map((chat) => (
                   <div
                     key={chat.id}
                     onClick={() => handleSelectChat(chat.id)}
-                    className={`flex items-start gap-3 p-4 cursor-pointer transition-colors ${
-                      activeChatId === chat.id
+                    className={`flex items-start gap-3 p-4 cursor-pointer transition-colors ${activeChatId === chat.id
                         ? "bg-[#F2FBF5]"
                         : "hover:bg-gray-50"
-                    }`}
+                      }`}
                   >
                     <img src={chat.avatar} alt={chat.name} className="w-12 h-12 rounded-full object-cover shrink-0" />
                     <div className="flex-1 min-w-0">
@@ -159,7 +166,7 @@ export default function Messages() {
               {/* Chat Header */}
               <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-4">
                 {/* Mobile Back Button */}
-                <button 
+                <button
                   onClick={() => setIsMobileChatView(false)}
                   className="md:hidden text-gray-500 hover:text-gray-800"
                 >
@@ -187,11 +194,10 @@ export default function Messages() {
                         <img src={activeChatData.avatar} alt="avatar" className="w-8 h-8 rounded-full mb-1" />
                       )}
                       <div
-                        className={`px-5 py-3 rounded-2xl text-sm ${
-                          msg.sender === "me"
-                            ? "bg-[#FFF4ED] text-gray-800 rounded-br-sm" 
+                        className={`px-5 py-3 rounded-2xl text-sm ${msg.sender === "me"
+                            ? "bg-[#FFF4ED] text-gray-800 rounded-br-sm"
                             : "bg-[#F3F4F6] text-gray-800 rounded-bl-sm"
-                        }`}
+                          }`}
                       >
                         {msg.text}
                       </div>
@@ -214,7 +220,7 @@ export default function Messages() {
                     style={{ color: ThemeColors.neutralCoalblack }}
                     className="w-full pl-6 pr-12 py-4 bg-white border border-gray-200 rounded-full text-sm text-neutral-950 focus:outline-none focus:border-[#057834]"
                   />
-                  <button 
+                  <button
                     style={{ color: ThemeColors.primaryGreen }}
                     className="absolute right-4 p-2 hover:bg-gray-50 rounded-full transition-colors"
                   >
