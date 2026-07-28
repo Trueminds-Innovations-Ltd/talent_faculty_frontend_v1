@@ -16,30 +16,28 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen font-sans">
+    <div className="flex min-h-screen font-sans">
 
       {/* Left Panel - Green Gradient */}
-      <div className="md:flex md:w-[360px] lg:w-[589px] min-h-[20vh] md:min-h-screen relative overflow-hidden bg-[#024F2A]">
+      <div className="hidden lg:flex lg:w-[589px] relative overflow-hidden bg-[#0d401b]">
+        {/* Radial glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[#34C759]/40 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/3 h-[300px] w-[300px] rounded-full bg-[#34C759]/20 blur-[80px]" />
+
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center mt-10 md:mt-0 px-12 xl:px-16">
-          <p className="text-sm font-semibold uppercase tracking-widest  text-[#34C759] mb-6">
+        <div className="relative z-10 flex flex-col justify-center px-12 xl:px-16">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#34C759] mb-6">
             Welcome back
           </p>
-          <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-2">
+          <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-2">
             Every course is a<br />path.
           </h1>
-          <h1 className="text-3xl lg:text-4xl  hidden md:block xl:text-5xl font-bold text-white leading-tight mb-8">
+          <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-8">
             Let's find yours.
           </h1>
-          <p className="text-base  hidden md:block text-white/60 italic leading-relaxed max-w-xs">
+          <p className="text-base text-white/60 italic leading-relaxed max-w-xs">
             TalentFlow tracks progress the way a good mentor would, one deliberate step after another.
           </p>
-        </div>
-        <div className="absolute left-0 top-0">
-          <img src="./Ellipse 1.png" alt="ellipse_1" className="w-[420px] h-[391px] drop-shadow-2xl" />
-        </div>
-        <div className="absolute right-0 bottom-0">
-          <img src="./Ellipse 2.png" alt="ellipse_1" className="w-[420px] h-[391px] drop-shadow-2xl" />
         </div>
       </div>
 
@@ -48,13 +46,13 @@ export default function Login() {
         <div className="w-full max-w-md">
 
           {/* Tab Toggle */}
-          <div className="flex md:justify-center mb-10">
+          <div className="flex justify-center mb-10">
             <div className="inline-flex items-center rounded-full border border-[#34C759]/30 bg-white p-1 shadow-sm">
               <button
                 onClick={() => setActiveTab('signin')}
                 className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signin'
-                  ? 'bg-[#057834] text-white shadow-md'
-                  : 'text-[#057834] hover:bg-[#057834]/5'
+                  ? 'bg-[#34C759] text-white shadow-md'
+                  : 'text-[#34C759] hover:bg-[#34C759]/5'
                   }`}
               >
                 Sign In
@@ -153,7 +151,7 @@ export default function Login() {
             {/* Sign In Button */}
             <button
               type="submit"
-              className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
+              className="w-full rounded-lg bg-[#34C759] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
             >
               Sign In
             </button>
