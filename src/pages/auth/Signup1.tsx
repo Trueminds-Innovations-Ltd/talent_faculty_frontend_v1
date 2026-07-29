@@ -5,32 +5,53 @@ export default function Signin() {
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signup')
   const [formData, setFormData] = useState({
     email: '',
-
   })
 
 
 
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen font-sans">
 
       {/* Left Panel - Green Gradient */}
-      <div className=" md:flex  md:w-[360px] lg:w-[589px] min-h-[20vh] md:min-h-screen  relative overflow-hidden bg-[#024F2A]">
+      <div className=" lg:flex  lg:w-[42%] xl:w-[40%] min-h-[20vh] lg:min-h-screen  relative overflow-hidden bg-primary-dark">
 
         {/* Content */}
+
+        {/* Tab Toggle */}
+        <div className="flex  px-6 pt-6 pb-4 relative z-100  flex lg:hidden  mb-10">
+          <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1">
+            <Link
+              to="/login"
+              className="rounded-full px-6 py-2 text-sm font-semibold text-white hover:bg-[#34C759]/5 transition-all duration-200"
+            >
+              Sign In
+            </Link>
+
+            <button
+              onClick={() => setActiveTab('signup')}
+              className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signup'
+                ? 'bg-white text-primary-dark shadow-md'
+                : 'text-[#057834] hover:bg-[#057834]/5'
+                }`}
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
         <div className="relative z-10 flex flex-col justify-center mt-10 md:mt-0 px-12 xl:px-16">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#34C759] mb-6">
+          <p className="text-sm font-semibold uppercase tracking-widest text-secondary mb-6">
             step 1 of 3
           </p>
-          <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-2">
+          <h1 className="text-3xl lg:text-4xl xl:text-5xl  text-white leading-tight mb-2">
             First, an account.
           </h1>
-          <p className="text-base hidden md:block text-white/60 italic leading-relaxed max-w-xs mb-10">
+          <p className="text-base  text-white/60 italic leading-relaxed max-w-xs mb-10">
             Just the basics, you can shape your learning path in the next step
           </p>
 
           {/* Steps list */}
-          <div className="flex hidden md:block flex-col gap-5">
+          <div className="flex  flex-col mb-8 gap-5">
             {/* Step 1 - Account (active) */}
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-[#F2882F] shrink-0" />
@@ -60,24 +81,24 @@ export default function Signin() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex flex-col items-center md:justify-center bg-[#f2faf3] px-6 py-12 sm:px-12">
+      <div className="flex-1 flex flex-col items-center md:justify-center bg-[#E6F4EA] px-6 py-12 sm:px-12">
         <div className="w-full max-w-md">
 
           {/* Tab Toggle */}
-          <div className="flex md:justify-center mb-10">
+          <div className="hidden lg:flex md:justify-center mb-10">
             <div className="inline-flex items-center rounded-full border border-[#34C759]/30 bg-white p-1 shadow-sm">
               <Link
                 to="/login"
-                className="rounded-full px-6 py-2 text-sm font-semibold text-[#34C759] hover:bg-[#34C759]/5 transition-all duration-200"
+                className="rounded-full px-6 py-2 text-sm  text-primary-dark hover:bg-[#34C759]/5 transition-all duration-200"
               >
                 Sign In
               </Link>
 
               <button
                 onClick={() => setActiveTab('signin')}
-                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-200 ${activeTab === 'signup'
-                  ? 'bg-[#057834] text-white shadow-md'
-                  : 'text-[#057834] hover:bg-[#057834]/5'
+                className={`rounded-full px-6 py-2 text-sm  transition-all duration-200 ${activeTab === 'signup'
+                  ? 'bg-primary-dark text-white shadow-md'
+                  : 'text-primary-dark hover:bg-primary-dark/5'
                   }`}
               >
                 Sign Up
@@ -123,13 +144,14 @@ export default function Signin() {
 
 
 
-
-            <button
-              type="submit"
-              className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
-            >
-              Continue
-            </button>
+            <Link to="/signup3">
+              <button
+                type="submit"
+                className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
+              >
+                Continue
+              </button>
+            </Link>
           </form>
 
 
