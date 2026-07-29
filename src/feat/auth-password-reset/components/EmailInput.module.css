@@ -1,0 +1,29 @@
+label{
+    display:block;
+    margin-bottom:12px;
+    font-size:18px;
+    color:#242424;
+}
+
+.input{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid #D8D8D8;
+    border-radius:10px;
+    height:52px;
+    padding:0 16px;
+}
+
+.input input{
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:17px;
+    background:transparent;
+}
+
+.input input::placeholder{
+    color:#C3C3C3;
+}
