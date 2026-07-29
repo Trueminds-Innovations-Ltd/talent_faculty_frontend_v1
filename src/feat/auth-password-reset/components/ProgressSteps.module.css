@@ -1,0 +1,32 @@
+.steps{
+    margin-top:auto;
+}
+
+
+.item{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:32px;
+    color:#8EA79A;
+    font-size:22px;
+}
+
+.active{
+    color:#fff;
+}
+
+.dot,
+.activeDot{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+}
+
+.dot{
+    background:#A4B7A8;
+}
+
+.activeDot{
+    background:#FF8500;
+}
