@@ -72,7 +72,7 @@ export default function App() {
   ]
 
   return (
-    <div className="relative min-h-screen bg-primary text-slate-100 overflow-x-hidden">
+    <div className="relative min-h-screen bg-primary-dark text-slate-100 overflow-x-hidden">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/4 -z-10 h-[600px] w-[600px] rounded-full bg-indigo-500/10 blur-[150px]" />
       <div className="absolute top-1/3 right-1/4 -z-10 h-[500px] w-[500px] rounded-full bg-purple-500/10 blur-[130px]" />
@@ -280,7 +280,7 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-12 bg-primary/20">
+      <footer className="border-t border-white/5 py-12 bg-primary-dark">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:flex sm:items-center sm:justify-between">
           <p className="text-sm text-slate-500">
             &copy; {new Date().getFullYear()} TalentFaculty. All rights reserved.

@@ -80,9 +80,12 @@ export default function Signup3() {
             <p style={{ color: ThemeColors.neutralAsh3 }} className="text-xs font-medium">
               Didn't get it? <button type="button" style={{ color: ThemeColors.primaryGreen }} className="font-bold hover:underline ml-1">Resend code</button>
             </p>
-            <button type="button" style={{ color: ThemeColors.primaryGreen }} className="text-xs font-semibold hover:underline">
-              Back
-            </button>
+            <Link to='/signup'>
+              <button type="button" style={{ color: ThemeColors.primaryGreen }} className="text-xs font-semibold hover:underline">
+                Back
+              </button>
+            </Link>
+
           </div>
         </div>
       </AuthLayout>

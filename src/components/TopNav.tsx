@@ -12,7 +12,7 @@ export default function TopNav() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-primary backdrop-blur-md">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-primary-dark backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
