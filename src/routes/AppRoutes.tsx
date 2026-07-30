@@ -7,6 +7,8 @@ import Signup11 from '../pages/auth/Signup11'
 import Dashboard from '../pages/student/Dashboard'
 import MyCourses from '../pages/student/MyCourses'
 import Signup3 from '../pages/auth/Signup3.tsx'
+import Signup6 from '../pages/auth/Signup6'
+import Signup9 from '../pages/auth/Signup9'
 import Signup10 from '../pages/auth/Signup10.tsx'
 import Messages from '../pages/student/Messages.tsx'
 import Notifications from '../pages/student/Notifications.tsx'
@@ -15,6 +17,8 @@ import Settings from '../pages/student/Settings.tsx'
 import Help$Support from '../pages/student/Help & Support.tsx'
 import Welcome from '../pages/auth/Welcome.tsx'
 import PasswordReset from '../pages/auth/PasswordReset.tsx'
+import Progress from '../pages/student/Progress'
+import Certificates from '../pages/student/Certificates'
 
 const AppRoutes = () => {
   return (
@@ -28,6 +32,10 @@ const AppRoutes = () => {
       <Route path="/signup10" element={<Signup10 />} />
       <Route path="/welcome" element={<Welcome />} />
 
+      {/* Password reset flow: Request -> Verify -> Reset */}
+      <Route path="/signup6" element={<Signup6 />} />
+      <Route path="/signup9" element={<Signup9 />} />
+
       {/* Tutor / faculty sign up flow */}
       <Route path="/signup11" element={<Signup11 />} />
 
@@ -37,6 +45,7 @@ const AppRoutes = () => {
       {/* Legacy generic /signup link -> send to the student sign up flow */}
       <Route path="/signup" element={<Navigate to="/signup1" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
+
       {/* Student Dashboard */}
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/courses" element={<MyCourses />} />
@@ -45,6 +54,8 @@ const AppRoutes = () => {
       <Route path="/profile" element={<MyProfile />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/help" element={<Help$Support />} />
+      <Route path="/progress" element={<Progress />} />
+      <Route path="/certificates" element={<Certificates />} />
 
 
     </Routes>
