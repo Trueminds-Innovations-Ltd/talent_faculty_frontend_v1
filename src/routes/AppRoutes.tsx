@@ -13,6 +13,8 @@ import Notifications from '../pages/student/Notifications.tsx'
 import MyProfile from '../pages/student/MyProfile.tsx'
 import Settings from '../pages/student/Settings.tsx'
 import Help$Support from '../pages/student/Help & Support.tsx'
+import Welcome from '../pages/auth/Welcome.tsx'
+import PasswordReset from '../pages/auth/PasswordReset.tsx'
 
 const AppRoutes = () => {
   return (
@@ -24,8 +26,14 @@ const AppRoutes = () => {
       <Route path="/signup4" element={<Signup4 />} />
       <Route path="/signup3" element={<Signup3 />} />
       <Route path="/signup10" element={<Signup10 />} />
+      <Route path="/welcome" element={<Welcome />} />
+
       {/* Tutor / faculty sign up flow */}
       <Route path="/signup11" element={<Signup11 />} />
+
+      <Route path="/passwordReset" element={<PasswordReset />} />
+
+
       {/* Legacy generic /signup link -> send to the student sign up flow */}
       <Route path="/signup" element={<Navigate to="/signup1" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />

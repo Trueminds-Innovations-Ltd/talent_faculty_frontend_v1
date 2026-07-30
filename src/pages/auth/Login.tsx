@@ -16,7 +16,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen">
+    <div className="flex flex-col lg:flex-row h-screen">
 
       {/* Left Panel - Green Gradient */}
       <div className="lg:w-[42%] xl:w-[40%] lg:flex lg:min-h-screen relative overflow-hidden bg-primary-dark">
@@ -48,7 +48,7 @@ export default function Login() {
             Welcome back
           </p>
           <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl  text-white leading-tight mb-2">
-            Every course is a<br />path.
+            Every course is a path.
           </h1>
           <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl text-white leading-tight mb-8">
             Let's find yours.
@@ -167,7 +167,7 @@ export default function Login() {
                 />
                 <span className="text-sm text-[#4b5563]">Remember me</span>
               </label>
-              <a href="#forgot" className="text-sm font-medium text-[#34C759] hover:text-[#2eb14f] transition-colors">
+              <a href="/passwordReset" className="text-sm font-medium text-[#34C759] hover:text-[#2eb14f] transition-colors">
                 Forgot password ?
               </a>
             </div>

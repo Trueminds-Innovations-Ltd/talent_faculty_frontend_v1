@@ -5,8 +5,8 @@ const LeftPanel = () => {
     <section className={styles.left}>
       <div className={styles.circle}></div>
 
-      <div className={styles.content}>
-        <h1>
+      <div className="h-full w-full relative flex items-center px-8 py-12 lg:px-12 lg:py-16 xl:px-16 " >
+        <h1 className='text-5xl'>
           Welcome back
           <br />
           to TalentFaculty.

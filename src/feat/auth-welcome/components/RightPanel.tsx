@@ -1,17 +1,14 @@
 import styles from "./RightPanel.module.css";
 import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 const RightPanel = () => {
-  const handleContinue = () => {
-    console.log("Continue clicked");
-    // Later, navigate to the dashboard
-  };
 
   return (
     <section className={styles.right}>
       <div className={styles.wrapper}>
-        
+
         <img
           src="/logo1.png"
           alt="TalentFaculty"
@@ -28,9 +25,12 @@ const RightPanel = () => {
           Your account is ready, let's get you to your dashboard.
         </p>
 
-        <button onClick={handleContinue}>
-          Continue
-        </button>
+        <Link to='/dashboard' className="w-full">
+          <button className="bg-primary w-full" >
+            Continue
+          </button>
+        </Link>
+
       </div>
     </section>
   );

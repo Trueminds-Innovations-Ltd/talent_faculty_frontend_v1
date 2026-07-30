@@ -155,15 +155,19 @@ const Signup4: React.FC = () => {
             <p className="text-xs text-semantic-error -mt-3">{errors.agreeToTerms}</p>
           )}
 
-          <Button
-            type="submit"
-            variant="primary"
-            fullWidth
-            isLoading={isLoading}
-            className="mt-2 bg-[#057834]"
-          >
-            Continue
-          </Button>
+
+          <Link to='/welcome'>
+            <Button
+              type="button"
+              variant="primary"
+              fullWidth
+              isLoading={isLoading}
+              className="mt-2 bg-[#057834]"
+            >
+              Continue
+            </Button>
+          </Link>
+
         </form>
 
         <p className="text-center text-sm text-neutral-400 mt-6">
