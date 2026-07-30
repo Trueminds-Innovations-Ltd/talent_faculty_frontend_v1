@@ -33,14 +33,12 @@ const AppRoutes = () => {
       <Route path="/welcome" element={<Welcome />} />
 
       {/* Password reset flow: Request -> Verify -> Reset */}
+      <Route path="/passwordReset" element={<PasswordReset />} />
       <Route path="/signup6" element={<Signup6 />} />
       <Route path="/signup9" element={<Signup9 />} />
 
       {/* Tutor / faculty sign up flow */}
       <Route path="/signup11" element={<Signup11 />} />
-
-      <Route path="/passwordReset" element={<PasswordReset />} />
-
 
       {/* Legacy generic /signup link -> send to the student sign up flow */}
       <Route path="/signup" element={<Navigate to="/signup1" replace />} />
