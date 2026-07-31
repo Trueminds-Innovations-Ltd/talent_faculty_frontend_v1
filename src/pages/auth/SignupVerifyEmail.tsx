@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ThemeColors } from "../../components/ThemeColors";
 import AuthLayout from '../../components/layout/AuthLayout';
 
-export default function Signup3() {
+export default function SignupVerifyEmail() {
   const leftPanelContent = (
     <div className="text-white">
       <p className="text-secondary text-xs font-medium tracking-widest uppercase mb-4">
@@ -66,7 +66,7 @@ export default function Signup3() {
           </div>
 
           {/* Verify Button */}
-          <Link to="/signup4" className='w-full flex justify-center mb-2'>
+          <Link to="/signup-submit-details" className='w-full flex justify-center mb-2'>
             <button
               type="submit"
               className="w-full md:w-1/2 rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
