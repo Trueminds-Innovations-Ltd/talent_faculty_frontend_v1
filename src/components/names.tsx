@@ -92,7 +92,7 @@ const Name = () => {
         el.scrollBy({ left: direction === 'left' ? -step : step, behavior: 'smooth' });
     };
     return (
-        <section className="w-full max-w-7xl mx-auto rounded-2xl     bg-white md:px-3 px-10">
+        <section className="w-full max-w-7xl mx-auto rounded-2xl   bg-white md:px-3 px-3">
             <div className="flex items-start justify-between gap-4 mb-6 md:px-5">
                 <div>
                     <h2 className="text-3xl font-bold text-gray-900">
