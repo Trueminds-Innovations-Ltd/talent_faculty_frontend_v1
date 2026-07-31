@@ -68,16 +68,17 @@ const PasswordReset: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             error={error}
           />
-
-          <Button
-            type="submit"
-            variant="primary"
-            fullWidth
-            isLoading={isLoading}
-            className="mt-2 bg-[#057834]"
-          >
-            Send code
-          </Button>
+          <Link to="/signup6">
+            <Button
+              type="submit"
+              variant="primary"
+              fullWidth
+              isLoading={isLoading}
+              className="mt-2 bg-[#057834]"
+            >
+              Send code
+            </Button>
+          </Link>
         </form>
 
         <p className="text-center text-sm text-neutral-400 mt-6">
