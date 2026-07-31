@@ -3,9 +3,6 @@ import { useRef, useState, useEffect } from 'react';
 import { ArrowLeft2, ArrowRight2, } from 'iconsax-react';
 
 const Name = () => {
-    const [activeFeature, setActiveFeature] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef(null);
     const scrollRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
