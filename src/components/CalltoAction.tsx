@@ -13,8 +13,8 @@ const CalltoAction = () => {
 
                 <div className="absolute rounded-3xl inset-0 bg-black/50" />
 
-                <div className="flex relative z-10 flex-col md:flex-row items-center w-full h-full  text-white">
-                    <div className="p-20 text-left max-w-md xl:max-w-xl">
+                <div className="flex relative z-10 flex-col md:flex-row items-center justify-center md:justify-start w-full h-full  text-white">
+                    <div className="p-6 sm:p-10 md:p-16 lg:p-20 text-left w-full max-w-md xl:max-w-xl">
                         <h1 className="text-2xl md:text-2xl font-bold  text-white">A Learning Dashboard Designed for Success</h1>
                         <p className='mt-4'>Stay organized with a personalized dashboard that keeps your courses, assignments, assessments, certificates, and progress in one place.</p>
 
