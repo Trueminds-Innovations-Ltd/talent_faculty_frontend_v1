@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, TrendingUp, ClipboardList,
@@ -33,9 +33,26 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
   const location = useLocation()
   const [toolsOpen, setToolsOpen] = useState(true)
   const [menuOpen, setMenuOpen] = useState(true)
-  const [collapsed, setCollapsed] = useState(false)
+  
+  // Persist collapsed state in localStorage
+  const [collapsed, setCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebar-collapsed')
+    return saved ? JSON.parse(saved) : false
+  })
+
+  // Save to localStorage whenever sidebar is collapsed
+  useEffect(() => {
+    localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
+  }, [collapsed])
 
   const isActive = (path: string) => location.pathname === path
+
+  // Only close mobile sidebar on mobile viewport
+  const handleNavClick = () => {
+    if (window.innerWidth < 1024) {
+      onMobileClose()
+    }
+  }
 
   return (
     <>
@@ -103,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
                   <Link
                     key={item.label}
                     to={item.path}
-                    onClick={onMobileClose}
+                    onClick={handleNavClick}
                     className={`
                       group relative flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium
                       transition-all duration-200
@@ -116,19 +133,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
                   >
                     <span className="flex-shrink-0">{item.icon}</span>
 
-                    {/* Label — hidden when collapsed on desktop */}
+
                     <span className={`whitespace-nowrap transition-all duration-300 ${collapsed ? 'lg:hidden' : ''}`}>
                       {item.label}
                     </span>
 
-                    {/* Active indicator bulge — desktop collapsed only */}
+
                     {active && collapsed && (
                       <span className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2">
                         <span className="block w-1.5 h-6 bg-primary rounded-l-full" />
                       </span>
                     )}
 
-                    {/* Tooltip — desktop collapsed only */}
+
                     {collapsed && (
                       <span className="hidden lg:group-hover:block absolute left-full ml-3 px-3 py-1.5 bg-neutral-800 text-white text-xs font-medium rounded-lg whitespace-nowrap z-50 shadow-lg">
                         {item.label}
@@ -160,7 +177,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
                   <Link
                     key={item.label}
                     to={item.path}
-                    onClick={onMobileClose}
+                    onClick={handleNavClick}
                     className={`
                       group relative flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium
                       transition-all duration-200
@@ -191,7 +208,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
               })}
 
               <button
-                onClick={() => { onLogoutClick(); onMobileClose() }}
+                onClick={() => { onLogoutClick(); handleNavClick() }}
                 className={`
                   group relative flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium
                   text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 w-full text-left

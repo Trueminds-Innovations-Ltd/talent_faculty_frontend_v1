@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import App from '../App'
 import Login from '../pages/auth/Login'
-import Signup1 from '../pages/auth/Signup1.tsx'
-import Signup4 from '../pages/auth/Signup4'
+import Signupemail from '../pages/auth/SignupEmail.tsx'
+import SignupSubmitDetails from '../pages/auth/SignupSubmitDetails.tsx'
 import Signup11 from '../pages/auth/Signup11'
 import Dashboard from '../pages/student/Dashboard'
 import MyCourses from '../pages/student/MyCourses'
-import Signup3 from '../pages/auth/Signup3.tsx'
+import SignupVerifyEmail from '../pages/auth/SignupVerifyEmail.tsx'
 import Signup6 from '../pages/auth/Signup6'
 import Signup9 from '../pages/auth/Signup9'
 import Signup10 from '../pages/auth/Signup10.tsx'
@@ -25,10 +25,11 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/signup1" element={<Signup1 />} />
+      <Route path="/signup-email" element={<Signupemail />} />
+
       {/* Student sign up flow */}
-      <Route path="/signup4" element={<Signup4 />} />
-      <Route path="/signup3" element={<Signup3 />} />
+      <Route path="/signup-verify-email" element={<SignupVerifyEmail />} />
+      <Route path="/signup-submit-details" element={<SignupSubmitDetails />} />
       <Route path="/signup10" element={<Signup10 />} />
       <Route path="/welcome" element={<Welcome />} />
 
@@ -41,7 +42,9 @@ const AppRoutes = () => {
       <Route path="/signup11" element={<Signup11 />} />
 
       {/* Legacy generic /signup link -> send to the student sign up flow */}
-      <Route path="/signup" element={<Navigate to="/signup1" replace />} />
+      <Route path="/signup" element={<Navigate to="/signup-email" replace />} />
+      <Route path="/signup-verify-email" element={<Navigate to="/signup-verify-email" replace />} />
+      <Route path="/signup-submit-details" element={<Navigate to="/signup-submit-details" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
 
       {/* Student Dashboard */}

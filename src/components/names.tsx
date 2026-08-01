@@ -3,9 +3,6 @@ import { useRef, useState, useEffect } from 'react';
 import { ArrowLeft2, ArrowRight2, } from 'iconsax-react';
 
 const Name = () => {
-    const [activeFeature, setActiveFeature] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef(null);
     const scrollRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
@@ -25,42 +22,42 @@ const Name = () => {
             title: 'Sarah Amos',
             img: "/james.jpg",
             name: 'Graphics Design',
-            projects: "Skytop Media ",
+            projects: "Skytop Media",
         },
         {
             id: 'frontend-development',
-            title: 'Frontend Development',
+            title: 'James Okafor',
             img: "/james.jpg",
-            name: 'Graphics Design',
-            projects: "Skytop Media ",
+            name: 'Frontend Development',
+            projects: "TechBridge",
         },
         {
             id: 'backend-development',
-            title: 'Backend Development',
+            title: 'Ada Nwachukwu',
             img: "/james.jpg",
-            name: 'Graphics Design',
-            projects: "Skytop Media ",
+            name: 'Backend Development',
+            projects: "CodeCraft Ltd",
         },
         {
-            id: 'product-management',
-            title: 'Product Management',
+            id: 'product-management-1',
+            title: 'Emeka Uche',
             img: "/james.jpg",
-            name: 'Graphics Design',
-            projects: "Skytop Media ",
+            name: 'Product Management',
+            projects: "Launchpad HQ",
         },
         {
-            id: 'product-management',
-            title: 'Product Management',
+            id: 'product-management-2',
+            title: 'Chioma Bello',
             img: "/james.jpg",
-            name: 'Graphics Design',
-            projects: "Skytop Media ",
+            name: 'UI/UX Design',
+            projects: "PixelWorks",
         },
         {
-            id: 'product-management',
-            title: 'Product Management',
+            id: 'product-management-3',
+            title: 'Tunde Adeyemi',
             img: "/james.jpg",
-            name: 'Graphics Design',
-            projects: "Skytop Media ",
+            name: 'Data Science',
+            projects: "Insightful Co",
         },
     ];
 
@@ -129,13 +126,13 @@ const Name = () => {
             {/* Cards */}
             <div
                 ref={scrollRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
+                className="flex gap-4 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
             >
                 {name.map((path) => (
                     <article
                         key={path.id}
                         data-card
-                        className="snap-start shrink-0 w-[350px] sm:w-[calc(25%-12px)] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        className="shrink-0 w-[280px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                     >
                         <div className="h-[400px] w-full relative overflow-hidden  inset-0 bg-gray-100">
                             <img

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 import {
     Award,
@@ -12,8 +12,6 @@ import {
 
 const Feat = () => {
     const [activeFeature, setActiveFeature] = useState(0);
-    const [setIsVisible] = useState(false);
-    const sectionRef = useRef(null);
 
     const features = [
         {
@@ -62,7 +60,7 @@ const Feat = () => {
 
 
     return (
-        <section ref={sectionRef} className="relative bg-white to-gray-50 py-10 lg:pt-20 overflow-hidden">
+        <section className="relative bg-white to-gray-50 py-10 lg:pt-20 overflow-hidden">
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Section Header */}

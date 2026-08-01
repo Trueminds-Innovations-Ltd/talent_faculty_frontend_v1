@@ -144,7 +144,7 @@ export default function Signin() {
 
 
 
-            <Link to="/signup3">
+            <Link to="/signup-verify-email" state={{ email: formData.email }}>
               <button
                 type="submit"
                 className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
