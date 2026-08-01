@@ -122,7 +122,12 @@ const SignupSubmitDetails: React.FC = () => {
             label="Phone number"
             placeholder="Enter your phone number"
             value={formData.phoneNumber}
-            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+            onChange={(phoneNumber) =>
+              setFormData({
+                ...formData,
+                phoneNumber,
+              })
+            }
             error={errors.phoneNumber}
           />
 
