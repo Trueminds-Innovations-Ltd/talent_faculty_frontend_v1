@@ -8,7 +8,7 @@ import Button from '../../components/common/Button'
 import Checkbox from '../../components/common/Checkbox'
 import StepIndicator from '../../components/common/StepIndicator'
 
-const Signup4: React.FC = () => {
+const SignupSubmitDetails: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -122,7 +122,12 @@ const Signup4: React.FC = () => {
             label="Phone number"
             placeholder="Enter your phone number"
             value={formData.phoneNumber}
-            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+            onChange={(phoneNumber) =>
+              setFormData({
+                ...formData,
+                phoneNumber,
+              })
+            }
             error={errors.phoneNumber}
           />
 
@@ -181,4 +186,4 @@ const Signup4: React.FC = () => {
   )
 }
 
-export default Signup4
+export default SignupSubmitDetails
