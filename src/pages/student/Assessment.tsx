@@ -61,17 +61,6 @@ const Assessments: React.FC = () => {
       subtitle="Take quizzes and track your performance"
     >
       <div className="space-y-8">
-
-        {/* Top Bar */}
-
-        <div className="flex items-center justify-between">
-
-          <div></div>
-
-    
-
-        </div>
-
         {/* Tabs */}
 
         <div className="flex gap-12 border-b border-neutral-200">
@@ -81,11 +70,10 @@ const Assessments: React.FC = () => {
             <button
               key={tab.name}
               onClick={() => setActiveTab(tab.name)}
-              className={`pb-4 text-[18px] font-semibold transition ${
-                activeTab === tab.name
-                  ? "border-b-2 border-green-700 text-green-700"
-                  : "text-neutral-400"
-              }`}
+              className={`pb-4 text-md font-semibold transition ${activeTab === tab.name
+                ? "border-b-2 border-green-700 text-green-700"
+                : "text-neutral-400"
+                }`}
             >
               {tab.name} ({tab.count})
             </button>
@@ -95,8 +83,8 @@ const Assessments: React.FC = () => {
         </div>
 
         {/* Assessment Cards */}
-           <div className="space-y-6">
-            {assessments.map((assessment, index) => (
+        <div className="space-y-6">
+          {assessments.map((assessment, index) => (
             <div
               key={index}
               className="flex items-center justify-between rounded-2xl border border-neutral-200 bg-white px-6 py-6 transition hover:shadow-sm"
@@ -104,8 +92,8 @@ const Assessments: React.FC = () => {
               {/* Left */}
 
               <div>
-                
-                <h3 className="text-[22px] font-medium text-neutral-800">
+
+                <h3 className="text-xl font-medium text-neutral-800">
                   {assessment.title}
                 </h3>
 
@@ -153,7 +141,7 @@ const Assessments: React.FC = () => {
 
                   <div className="text-right">
 
-                    <h2 className="text-4xl font-small text-green-700">
+                    <h2 className="text-3xl font-small text-green-700">
                       {assessment.score}
                     </h2>
 

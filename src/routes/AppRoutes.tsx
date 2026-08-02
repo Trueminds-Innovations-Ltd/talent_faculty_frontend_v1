@@ -19,6 +19,8 @@ import Welcome from '../pages/auth/Welcome.tsx'
 import PasswordReset from '../pages/auth/PasswordReset.tsx'
 import Assignments from '../pages/student/Assignment.tsx'
 import Assessments from '../pages/student/Assessment.tsx'
+import Progress from '../pages/student/Progress.tsx'
+import Certificates from '../pages/student/Certificates.tsx'
 
 const AppRoutes = () => {
   return (

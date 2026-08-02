@@ -22,9 +22,9 @@ export default function Signup6() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen font-sans">
       {/* Left Panel - Green Gradient */}
-      <div className="md:flex md:w-[360px] lg:w-[589px] min-h-[20vh] md:min-h-screen relative overflow-hidden bg-[#024F2A]">
+      <div className="lg:flex  lg:w-[42%] xl:w-[40%] min-h-[20vh] lg:min-h-screen  relative overflow-hidden bg-[#024F2A]">
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center mt-10 md:mt-0 px-12 xl:px-16">
           <p className="text-sm font-semibold uppercase tracking-widest text-[#F2882F] mb-6">
@@ -40,29 +40,23 @@ export default function Signup6() {
           </p>
 
           {/* Steps list */}
-          <div className="flex hidden md:block flex-col gap-5">
-            {/* Step 1 */}
+          <div className="flex  flex-col mb-8 gap-5">
+            {/* Step 1 - Account (active) */}
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-[#F2882F] shrink-0" />
-              <span className="text-[#F2882F] font-semibold text-sm">
-                Request
-              </span>
+              <span className="text-white font-semibold text-sm">Request</span>
             </div>
 
-            {/* Step 2 */}
+            {/* Step 2 - Verify */}
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-[#F2882F] shrink-0" />
-              <span className="text-white font-semibold text-sm">
-                Verify
-              </span>
+              <span className="text-white font-medium text-sm">Verify</span>
             </div>
 
-            {/* Step 3 */}
+            {/* Step 3 - Details */}
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-white/30 shrink-0" />
-              <span className="text-white/40 font-medium text-sm">
-                Reset
-              </span>
+              <span className="text-white/40 font-medium text-sm">Reset</span>
             </div>
           </div>
         </div>
