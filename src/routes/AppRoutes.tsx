@@ -15,6 +15,8 @@ import Settings from '../pages/student/Settings.tsx'
 import Help$Support from '../pages/student/Help & Support.tsx'
 import Welcome from '../pages/auth/Welcome.tsx'
 import PasswordReset from '../pages/auth/PasswordReset.tsx'
+import Assignments from '../pages/student/Assignment.tsx'
+import Assessments from '../pages/student/Assessment.tsx'
 
 const AppRoutes = () => {
   return (
@@ -40,6 +42,8 @@ const AppRoutes = () => {
       {/* Student Dashboard */}
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/courses" element={<MyCourses />} />
+      <Route path="/assignments" element={<Assignments />} />
+      <Route path="/assessments" element={<Assessments />} />
       <Route path="/messages" element={<Messages />} />
       <Route path="/notifications" element={<Notifications />} />
       <Route path="/profile" element={<MyProfile />} />
