@@ -19,7 +19,7 @@ export default function Login() {
     <div className="flex flex-col lg:flex-row h-screen">
 
       {/* Left Panel - Green Gradient */}
-      <div className="lg:w-[42%] xl:w-[40%] lg:flex lg:min-h-screen relative overflow-hidden bg-primary-dark">
+      <div className="lg:w-[42%] xl:w-[40%] lg:flex min-h-[43vh]  md:min-h-[68vh]  lg:min-h-screen relative overflow-hidden bg-primary-dark">
         {/* Content */}
 
         {/* Tab Toggle */}
@@ -43,7 +43,7 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="relative z-10 flex flex-col justify-center mt-8 mb-8 lg:mb-0 lg:mt-0 px-12 xl:px-16">
+        <div className="relative z-10 flex flex-col justify-center mt-8 md:mt-1 mb-8 lg:mb-0 lg:mt-0 px-12 xl:px-16">
           <p className="text-sm font-semibold uppercase tracking-widest  text-secondary mb-6">
             Welcome back
           </p>

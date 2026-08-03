@@ -58,6 +58,38 @@
   /* Semantic colors */
   --color-semantic-error: #EF4444;
 
+  /* Admin dashboard brand palette — scoped to /admin/* screens so the
+     public site / auth flow accent colors above are left untouched. */
+  --color-admin-primary: #057834;
+  --color-admin-primary-dark: #024F2A;
+  --color-admin-primary-light: #E6F4EA;
+  --color-admin-secondary: #F57C00;
+  --color-admin-secondary-light: #FFF4E6;
+
+  --color-admin-success: #22C55E;
+  --color-admin-success-light: #E7F9EE;
+  --color-admin-warning: #FDB022;
+  --color-admin-warning-light: #FEF6E7;
+  --color-admin-danger: #F04438;
+  --color-admin-danger-light: #FDEDEC;
+  --color-admin-info: #3B82F6;
+  --color-admin-info-light: #EAF2FE;
+  --color-admin-purple: #8B5CF6;
+  --color-admin-purple-light: #F3EFFE;
+  --color-admin-pink: #EC4899;
+  --color-admin-pink-light: #FCE9F2;
+
+  --color-admin-ink: #1A1A1A;
+  --color-admin-ash: #333333;
+  --color-admin-ash-1: #4D4D4D;
+  --color-admin-ash-2: #666666;
+  --color-admin-ash-3: #808080;
+  --color-admin-ash-4: #999999;
+  --color-admin-ash-5: #B3B3B3;
+  --color-admin-ash-6: #D1D1D1;
+  --color-admin-ash-7: #E6E6E6;
+  --color-admin-milk: #FEFEFE;
+
   --animate-fade-in: fade-in 0.3s ease-out;
 
   @keyframes fade-in {

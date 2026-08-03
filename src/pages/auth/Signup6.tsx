@@ -31,11 +31,11 @@ export default function Signup6() {
             step 2 of 3
           </p>
 
-          <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-2">
+          <h1 className="text-3xl lg:text-4xl xl:text-5xl  text-white leading-tight mb-2">
             One code stands between you and your dashboard.
           </h1>
 
-          <p className="text-base hidden md:block text-white/60 italic leading-relaxed max-w-xs mb-10">
+          <p className="text-base  md:block text-white/60 italic leading-relaxed max-w-xs mb-10">
             Code expires after 10 minutes.
           </p>
 

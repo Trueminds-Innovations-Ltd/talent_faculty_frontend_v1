@@ -58,7 +58,7 @@ const pendingTasks = [
 ]
 
 const SeeAllLink: React.FC = () => (
-  <button className="text-sm font-semibold text-admin-primary hover:text-admin-primary-dark transition-colors">
+  <button className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors">
     See all
   </button>
 )
@@ -72,8 +72,8 @@ const Dashboard: React.FC = () => {
       <div className="space-y-6 max-w-[1400px]">
         {/* Platform Overview */}
         <section>
-          <h2 className="text-base font-bold text-admin-ink mb-3">Platform Overview</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          <h2 className="text-base font-bold text-black mb-3">Platform Overview</h2>
+          <div className="grid grid-cols-2 text-black sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             {platformOverview.map((item) => (
               <StatCard key={item.label} {...item} />
             ))}
@@ -81,7 +81,7 @@ const Dashboard: React.FC = () => {
         </section>
 
         {/* Platform Activities */}
-        <Card title="Platform Activities">
+        <Card title="Platform Activities" className='text-black'>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
             {platformActivities.map((item) => (
               <ActivityCard key={item.title} {...item} />
@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
         </Card>
 
         {/* Quick Links */}
-        <Card title="Quick Links">
+        <Card title="Quick Links" className='text-black'>
           <div className="flex flex-wrap gap-3">
             {quickLinks.map((item) => (
               <QuickLinkButton key={item.label} {...item} />
@@ -99,7 +99,7 @@ const Dashboard: React.FC = () => {
         </Card>
 
         {/* Recent Activities + Pending Tasks */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-black sm:gap-6">
           <Card title="Recent Activities" action={<SeeAllLink />}>
             <div>
               {recentActivities.map((item, i) => (

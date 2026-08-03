@@ -21,6 +21,7 @@ import Assignments from '../pages/student/Assignment.tsx'
 import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
+import InstructorDashboard from '../pages/instructors/InDashboard.tsx'
 import AdminDashboard from '../pages/admin/Dashboard.tsx'
 import AdminCourses from '../pages/admin/Courses.tsx'
 
@@ -69,6 +70,8 @@ const AppRoutes = () => {
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/courses" element={<AdminCourses />} />
 
+      {/* Instructor Dashboard */}
+      <Route path="/intructordash" element={<InstructorDashboard />} />
     </Routes>
   )
 }

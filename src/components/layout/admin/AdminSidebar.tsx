@@ -75,7 +75,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
               className={`h-18 object-contain transition-all duration-300 ${collapsed ? 'lg:h-8' : ''}`}
             />
           </Link>
-          
+
           {/* Collapse toggle — desktop only */}
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -99,7 +99,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
           {/* Main Menu */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className={`flex items-center gap-2 w-full px-3 py-2 text-xs font-semibold text-admin-ash-4 uppercase tracking-wider hover:text-admin-ash-2 transition-colors ${collapsed ? 'lg:justify-center' : ''}`}
+            className={`flex items-center gap-2 w-full px-3 py-2 text-xs font-semibold text-primary uppercase tracking-wider hover:text-admin-ash-2 transition-colors ${collapsed ? 'lg:justify-center' : ''}`}
           >
             {menuOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             {!collapsed && <span>Main Menu</span>}
@@ -119,8 +119,8 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
                       transition-all duration-200
                       ${collapsed ? 'lg:justify-center lg:px-2' : ''}
                       ${active
-                        ? 'bg-admin-primary text-white shadow-sm'
-                        : 'text-admin-ink hover:bg-admin-primary/10 hover:text-admin-primary'
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-black hover:bg-primary/10 hover:text-black'
                       }
                     `}
                   >
@@ -148,7 +148,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
             onClick={() => { onLogoutClick(); handleNavClick() }}
             className={`
               group relative flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium
-              text-admin-ink hover:bg-admin-danger-light hover:text-admin-danger transition-all duration-200 w-full text-left
+              text-black hover:bg-admin-danger-light hover:text-admin-danger transition-all duration-200 w-full text-left
               ${collapsed ? 'lg:justify-center lg:px-2' : ''}
             `}
           >
