@@ -21,6 +21,7 @@ import Assignments from '../pages/student/Assignment.tsx'
 import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
+import InstructorDashboard from '../pages/instructors/InDashboard.tsx'
 
 const AppRoutes = () => {
   return (
@@ -62,6 +63,8 @@ const AppRoutes = () => {
       <Route path="/progress" element={<Progress />} />
       <Route path="/certificates" element={<Certificates />} />
 
+      {/* Instructor Dashboard */}
+      <Route path="/intructordash" element={<InstructorDashboard />} />
 
     </Routes>
   )
