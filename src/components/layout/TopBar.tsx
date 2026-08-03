@@ -46,7 +46,9 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
               className="flex items-center gap-2 hover:bg-neutral-50 rounded-full px-2 py-1 transition-colors"
             >
               <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
-                <span className="text-primary font-semibold text-xs">SJ</span>
+                <span className="text-primary font-semibold text-xs">
+                  <img src="../rita.png" alt="" />
+                </span>
               </div>
               <ChevronDown size={16} className="text-neutral-400 hidden sm:block" />
             </button>
