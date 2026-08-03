@@ -1,5 +1,6 @@
 
 import { ThemeColors } from "../../components/ThemeColors";
+import { Link } from "react-router-dom";
 
 export default function Signup10() {
   return (
@@ -47,10 +48,10 @@ export default function Signup10() {
         style={{ backgroundColor: ThemeColors.secondaryAsh }}
         className="flex-1 flex flex-col relative items-center justify-center p-6 md:p-12 min-h-[60vh] md:min-h-screen"
       >
-        <div className="w-full max-w-md flex flex-col items-center text-center mt-8 md:mt-0">
+        <div className=" items-center w-full flex flex-col text-center mt-8 md:mt-0">
 
           {/* Logo Placeholder */}
-          <div className="mb-16 md:mb-20">
+          <div className="flex flex-col mb-8 items-center md:mb-20">
             <img
               src="./logo1.png"
               alt="TalentFaculty Logo"
@@ -60,7 +61,7 @@ export default function Signup10() {
 
           {/* Success Checkmark Icon */}
           <div
-            className="mb-8 rounded-full border-2 flex items-center justify-center h-14 w-14 md:h-16 md:w-16"
+            className="mb-8 rounded-full  border-2 flex flex-col items-center justify-center h-14 w-14 md:h-16 md:w-16"
             style={{ borderColor: ThemeColors.primaryGreen }}
           >
             <svg
@@ -97,13 +98,15 @@ export default function Signup10() {
           </p>
 
           {/* Action Button */}
-          <button
-            type="button"
-            style={{ backgroundColor: ThemeColors.primaryGreen }}
-            className="w-full py-3.5 rounded-lg text-white font-semibold text-sm hover:opacity-95 transition-opacity shadow-sm"
-          >
-            Back to sign in
-          </button>
+          <Link to='/login' className="w-full max-w-xs">
+            <button
+              type="button"
+              style={{ backgroundColor: ThemeColors.primaryGreen }}
+              className="w-full px-10 py-3.5 rounded-lg text-white font-semibold text-sm hover:opacity-95 transition-opacity shadow-sm"
+            >
+              Back to sign in
+            </button>
+          </Link>
         </div>
       </div>
     </main>
