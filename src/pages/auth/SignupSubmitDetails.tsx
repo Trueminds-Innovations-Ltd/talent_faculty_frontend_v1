@@ -8,7 +8,7 @@ import Button from '../../components/common/Button'
 import Checkbox from '../../components/common/Checkbox'
 import StepIndicator from '../../components/common/StepIndicator'
 
-const Signup4: React.FC = () => {
+const SignupSubmitDetails: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -61,10 +61,10 @@ const Signup4: React.FC = () => {
       <p className="text-secondary text-xs font-medium tracking-widest uppercase mb-4">
         STEP 3 OF 3
       </p>
-      <h1 className="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight mb-6">
+      <h1 className="font-display text-3xl lg:text-5xl xl:text-5xl leading-tight mb-6">
         Almost there,<br />Make it yours.
       </h1>
-      <p className="text-white/70 text-base lg:text-lg leading-relaxed max-w-sm mb-12">
+      <p className="text-white/70 italic lg:text-lg leading-relaxed max-w-sm mb-12">
         Your name and details help instructors and classmates recognize you.
       </p>
       <StepIndicator steps={steps} />
@@ -122,7 +122,12 @@ const Signup4: React.FC = () => {
             label="Phone number"
             placeholder="Enter your phone number"
             value={formData.phoneNumber}
-            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+            onChange={(phoneNumber) =>
+              setFormData({
+                ...formData,
+                phoneNumber,
+              })
+            }
             error={errors.phoneNumber}
           />
 
@@ -139,11 +144,11 @@ const Signup4: React.FC = () => {
             label={
               <span>
                 I agree to the{' '}
-                <Link to="#" className="text-primary hover:text-primary-dark font-medium">
+                <Link to="#" className="text-primary-dark hover:text-primary-dark font-medium">
                   terms of service
                 </Link>{' '}
                 and{' '}
-                <Link to="#" className="text-primary hover:text-primary-dark font-medium">
+                <Link to="#" className="text-primary-dark hover:text-primary-dark font-medium">
                   policy
                 </Link>
               </span>
@@ -155,20 +160,24 @@ const Signup4: React.FC = () => {
             <p className="text-xs text-semantic-error -mt-3">{errors.agreeToTerms}</p>
           )}
 
-          <Button
-            type="submit"
-            variant="primary"
-            fullWidth
-            isLoading={isLoading}
-            className="mt-2"
-          >
-            Continue
-          </Button>
+
+          <Link to='/welcome'>
+            <Button
+              type="button"
+              variant="primary"
+              fullWidth
+              isLoading={isLoading}
+              className="mt-2 bg-[#057834]"
+            >
+              Continue
+            </Button>
+          </Link>
+
         </form>
 
         <p className="text-center text-sm text-neutral-400 mt-6">
           Already have an account?{' '}
-          <Link to="/login" className="text-primary hover:text-primary-dark font-medium transition-colors">
+          <Link to="/login" className="text-primary-dark hover:text-primary-dark font-medium transition-colors">
             Sign in
           </Link>
         </p>
@@ -177,4 +186,4 @@ const Signup4: React.FC = () => {
   )
 }
 
-export default Signup4
+export default SignupSubmitDetails

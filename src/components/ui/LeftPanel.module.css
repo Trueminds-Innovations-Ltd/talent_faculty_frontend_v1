@@ -1,0 +1,57 @@
+.left{
+    flex:35%;
+    background:#01582B;
+    position:relative;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+}
+
+.circle{
+    position:absolute;
+    width:410px;
+    height:440px;
+    border-radius:50%;
+    background:#f57b005e;
+    filter:blur(20px);
+    top:-20px;
+    left:6px;
+    opacity:.9;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  padding-left: 70px;
+  width: 600px;
+}
+
+.content h1 {
+  font-family: "Squada One", sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 64px;
+  color: #fff;
+  width: 600px;
+  max-width: none;
+  white-space: nowrap;
+  margin-top: -230px;
+  align-items: center;
+}
+
+@media(max-width:900px){
+
+.left{
+    flex:unset;
+    height:350px;
+}
+
+.content{
+    padding:40px;
+}
+
+.content h1{
+    font-size:42px;
+}
+
+}

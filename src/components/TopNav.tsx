@@ -5,14 +5,15 @@ export default function TopNav() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navLinks = [
-    { label: 'Find Faculty', href: '#find-faculty', badge: 'New' },
-    { label: 'Institutions', href: '#institutions' },
-    { label: 'Resources', href: '#resources' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: 'Home', href: '#' },
+    { label: 'Programs', href: '#' },
+    { label: 'Features', href: '#' },
+    { label: 'Success Stories', href: '#' },
+    { label: 'Contact', href: '#' },
   ]
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-primary backdrop-blur-md">
+    <nav className=" top-0 fixed z-100 w-full p-2   bg-white backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
@@ -25,48 +26,44 @@ export default function TopNav() {
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 transition-all duration-200 hover:bg-white/5 hover:text-white group"
+                className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black  group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
                   {link.label}
-                  {link.badge && (
-                    <span className="rounded-full bg-indigo-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-400 border border-indigo-500/20">
-                      {link.badge}
-                    </span>
-                  )}
+
                 </span>
-                <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-indigo-500 transition-transform duration-200 group-hover:scale-x-100"></span>
+                <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
               </a>
             ))}
           </div>
 
           {/* Action Buttons (Desktop) */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/login"
-              className="text-sm font-semibold text-slate-300 transition-colors duration-200 hover:text-white px-3 py-2"
+              className="text-sm font-semibold text-black border-2 border-gray-200 rounded-xl  px-3 py-2"
             >
               Sign In
             </Link>
             <Link
               to="/signup"
-              className="relative inline-flex items-center justify-center rounded-xl bg-slate-500/10 px-4.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/20 transition-all duration-200 hover:from-indigo-500 hover:to-purple-500 hover:scale-[1.02] hover:shadow-indigo-500/35 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/50"
+              className="relative inline-flex items-center justify-center rounded-xl bg-primary px-4.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/20 transition-all duration-200 hover:from-indigo-500 hover:to-purple-500 hover:scale-[1.02] hover:shadow-indigo-500/35 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/50"
             >
-              Join as Faculty
+              Enroll Now
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden">
+          <div className="flex lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-white/5 hover:text-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500/50"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-white/5 hover:text-white focus:outline-hidden"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
@@ -88,35 +85,32 @@ export default function TopNav() {
 
       {/* Mobile Menu Panel */}
       {isOpen && (
-        <div className="md:hidden border-t border-white/5 bg-slate-950/95 backdrop-blur-lg" id="mobile-menu">
+        <div className="lg:hidden border-t border-white/5 bg-white/20 backdrop-blur-lg" id="mobile-menu">
           <div className="space-y-1.5 px-4 py-4.5">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-slate-300 hover:bg-white/5 hover:text-white"
+                className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-black"
               >
                 <span>{link.label}</span>
-                {link.badge && (
-                  <span className="rounded-full bg-indigo-500/10 px-1.5 py-0.5 text-xs font-semibold text-indigo-400 border border-indigo-500/20">
-                    {link.badge}
-                  </span>
-                )}
+
+
               </a>
             ))}
             <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/5 pt-5">
               <Link
                 to="/login"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-slate-300 hover:bg-white/5 hover:text-white"
+                className="flex items-center justify-center rounded-xl border border-gray-100 px-4 py-2.5 text-sm font-semibold text-black hover:bg-white/5 hover:text-white"
               >
                 Sign In
               </Link>
               <Link
                 to="/signup"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center rounded-xl bg-linear-to-r from-indigo-600 to-purple-600 px-4 py-2.5 text-sm font-semibold text-white hover:from-indigo-500 hover:to-purple-500"
+                className="flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:from-indigo-500 hover:to-purple-500"
               >
                 Join Now
               </Link>

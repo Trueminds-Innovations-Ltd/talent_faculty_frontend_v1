@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Search, Bell, ChevronDown, Menu } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 interface TopBarProps {
   title?: string
@@ -29,15 +30,16 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
             <input
               type="text"
               placeholder="Search courses or lessons..."
+
               className="bg-transparent text-sm text-neutral-700 placeholder-neutral-400 outline-none w-full"
             />
           </div>
-
-          <button className="relative p-2 rounded-full hover:bg-neutral-100 text-neutral-600 transition-colors">
-            <Bell size={20} />
-            <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 border-2 border-white" />
-          </button>
-
+          <Link to='/notifications'>
+            <button className="relative p-2 rounded-full hover:bg-neutral-100 text-neutral-600 transition-colors">
+              <Bell size={20} />
+              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 border-2 border-white" />
+            </button>
+          </Link>
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}
@@ -56,8 +58,8 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
                     <p className="text-sm font-semibold text-neutral-800">Samuel Johnson</p>
                     <p className="text-xs text-neutral-400">samuel@example.com</p>
                   </div>
-                  <a href="/profile" className="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">Profile</a>
-                  <a href="/settings" className="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">Settings</a>
+                  <a className="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">Profile</a>
+                  <a className="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">Settings</a>
                   <div className="border-t border-neutral-100 mt-1" />
                   <button className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Log Out</button>
                 </div>

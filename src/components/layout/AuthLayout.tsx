@@ -29,21 +29,19 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
             <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1">
               <Link
                 to="/login"
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeToggle === 'signin'
-                    ? 'bg-white text-primary-dark'
-                    : 'text-white/80 hover:text-white'
-                }`}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeToggle === 'signin'
+                  ? 'bg-white text-primary-dark'
+                  : 'text-white/80 hover:text-white'
+                  }`}
               >
                 Sign In
               </Link>
               <Link
-                to="/signup4"
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeToggle === 'signup'
-                    ? 'bg-white text-primary-dark'
-                    : 'text-white/80 hover:text-white'
-                }`}
+                to="#"
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeToggle === 'signup'
+                  ? 'bg-white text-primary-dark'
+                  : 'text-white/80 hover:text-white'
+                  }`}
               >
                 Sign Up
               </Link>
@@ -58,28 +56,26 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 bg-primary-light min-h-screen lg:min-h-0 lg:h-full overflow-y-auto">
+      <div className="flex-1 bg-[#E6F4EA] min-h-screen   lg:h-screen overflow-y-auto">
         {/* Desktop toggle - shown only on large screens */}
         {showToggle && (
           <div className="hidden lg:flex justify-center pt-10 pb-6">
             <div className="inline-flex bg-white rounded-full p-1 shadow-sm">
               <Link
                 to="/login"
-                className={`px-8 py-2.5 rounded-full text-sm font-medium transition-all ${
-                  activeToggle === 'signin'
-                    ? 'bg-primary-dark text-white shadow-md'
-                    : 'text-neutral-600 hover:text-neutral-800'
-                }`}
+                className={`px-8 py-2.5 rounded-full text-sm font-medium transition-all ${activeToggle === 'signin'
+                  ? 'bg-primary-dark text-white shadow-md'
+                  : 'text-neutral-600 hover:text-neutral-800'
+                  }`}
               >
                 Sign In
               </Link>
               <Link
-                to="/signup4"
-                className={`px-8 py-2.5 rounded-full text-sm font-medium transition-all ${
-                  activeToggle === 'signup'
-                    ? 'bg-primary-dark text-white shadow-md'
-                    : 'text-neutral-600 hover:text-neutral-800'
-                }`}
+                to="#"
+                className={`px-8 py-2.5 rounded-full text-sm font-medium transition-all ${activeToggle === 'signup'
+                  ? 'bg-primary-dark text-white shadow-md'
+                  : 'text-neutral-600 hover:text-neutral-800'
+                  }`}
               >
                 Sign Up
               </Link>
