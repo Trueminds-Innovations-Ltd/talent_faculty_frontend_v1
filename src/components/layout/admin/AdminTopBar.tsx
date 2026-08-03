@@ -19,7 +19,7 @@ const AdminTopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) =>
             <Menu size={22} />
           </button>
           <div className="min-w-0">
-            {title && <h1 className="text-base sm:text-lg font-bold text-admin-primary truncate">{title}</h1>}
+            {title && <h1 className="text-base sm:text-lg font-bold text-primary truncate">{title}</h1>}
             {subtitle && <p className="text-xs sm:text-sm text-admin-ash-3 truncate">{subtitle}</p>}
           </div>
         </div>
