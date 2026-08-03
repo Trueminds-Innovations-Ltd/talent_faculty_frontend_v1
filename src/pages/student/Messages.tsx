@@ -23,11 +23,6 @@ export default function Messages() {
   const [activeChatId, setActiveChatId] = useState<number>(1);
   const [isMobileChatView, setIsMobileChatView] = useState<boolean>(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> 14957ae495bbe9b8aec11f89ee01b1d6e47b97b9
   const [messageSearchQuery, setMessageSearchQuery] = useState<string>("");
   const [messageInput, setMessageInput] = useState<string>("");
 

@@ -21,6 +21,10 @@ import Assignments from '../pages/student/Assignment.tsx'
 import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
+import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
+import AdminDashboard from '../pages/admin/Dashboard.tsx'
+import AdminCourses from '../pages/admin/Courses.tsx'
+import AdminUsers from '../pages/admin/Users.tsx'
 
 const AppRoutes = () => {
   return (
@@ -59,14 +63,19 @@ const AppRoutes = () => {
       <Route path="/profile" element={<MyProfile />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/help" element={<Help$Support />} />
-<<<<<<< HEAD
-=======
       <Route path="/progress" element={<Progress />} />
       <Route path="/certificates" element={<Certificates />} />
 
-
->>>>>>> 14957ae495bbe9b8aec11f89ee01b1d6e47b97b9
+      {/* Admin */}
+      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/courses" element={<AdminCourses />} />
+      <Route path="/admin/users" element={<AdminUsers />} />
+      {/* Instructor Dashboard */}
+      <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
+      <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
     </Routes>
   )
 }
 
+export default AppRoutes

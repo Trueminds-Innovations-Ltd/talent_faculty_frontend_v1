@@ -15,7 +15,7 @@ export default function Signup9() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    navigate('/welcome')
+    navigate('/signup10')
   }
 
   const eyeOpen = (
@@ -68,30 +68,27 @@ export default function Signup9() {
             Almost back in.
           </h1>
 
-          <p className="text-base hidden md:block text-white/60 italic leading-relaxed max-w-xs mb-10">
+          <p className="text-base  md:block text-white/60 italic leading-relaxed max-w-xs mb-10">
             Choose a password you'll actually remember.
           </p>
 
-          <div className="hidden md:flex flex-col gap-5">
+          <div className="flex  flex-col mb-8 gap-5">
+            {/* Step 1 - Account (active) */}
             <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#F2882F]" />
-              <span className="text-[#F2882F] font-semibold text-sm">
-                Request
-              </span>
+              <span className="w-3 h-3 rounded-full bg-[#F2882F] shrink-0" />
+              <span className="text-white font-semibold text-sm">Request</span>
             </div>
 
+            {/* Step 2 - Verify */}
             <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#F2882F]" />
-              <span className="text-[#F2882F] font-semibold text-sm">
-                Verify
-              </span>
+              <span className="w-3 h-3 rounded-full bg-[#F2882F] shrink-0" />
+              <span className="text-white font-medium text-sm">Verify</span>
             </div>
 
+            {/* Step 3 - Details */}
             <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#F2882F]" />
-              <span className="text-white font-semibold text-sm">
-                Reset
-              </span>
+              <span className="w-3 h-3 rounded-full bg-[#F2882F] shrink-0" />
+              <span className="text-white font-semibold text-sm">Reset</span>
             </div>
           </div>
         </div>

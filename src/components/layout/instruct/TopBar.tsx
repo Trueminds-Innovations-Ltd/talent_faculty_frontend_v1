@@ -18,10 +18,6 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
           <button onClick={onMenuClick} className="lg:hidden p-2 rounded-lg hover:bg-neutral-100 text-neutral-600">
             <Menu size={22} />
           </button>
-          <div>
-            {title && <h1 className="text-lg font-bold text-neutral-800">{title}</h1>}
-            {subtitle && <p className="text-sm text-neutral-400">{subtitle}</p>}
-          </div>
         </div>
 
         <div className="flex items-center gap-4">
@@ -46,9 +42,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
               className="flex items-center gap-2 hover:bg-neutral-50 rounded-full px-2 py-1 transition-colors"
             >
               <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
-                <span className="text-primary font-semibold text-xs">
-                  <img src="../rita.png" alt="" />
-                </span>
+                <span className="text-primary font-semibold text-xs">SJ</span>
               </div>
               <ChevronDown size={16} className="text-neutral-400 hidden sm:block" />
             </button>

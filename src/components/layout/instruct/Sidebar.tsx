@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, TrendingUp, ClipboardList,
-  FileText, Award, MessageSquare, User, Settings,
-  HelpCircle, LogOut, ChevronDown, ChevronUp, X,
+  FileText, MessageSquare, User,
+  LogOut, ChevronDown, ChevronUp, X,
   PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
 
@@ -14,20 +14,15 @@ interface SidebarProps {
 }
 
 const mainMenuItems = [
-  { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
-  { label: 'My Courses', icon: <BookOpen size={20} />, path: '/courses' },
-  { label: 'Progress', icon: <TrendingUp size={20} />, path: '/progress' },
-  { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/assessments' },
-  { label: 'Assignments', icon: <FileText size={20} />, path: '/assignments' },
-  { label: 'Certificates', icon: <Award size={20} />, path: '/certificates' },
-  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/messages' },
-  { label: 'Profile', icon: <User size={20} />, path: '/profile' },
+  { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/instructor/dashboard' },
+  { label: 'Courses', icon: <BookOpen size={20} />, path: '/instructor/courses' },
+  { label: 'Learners', icon: <TrendingUp size={20} />, path: '/instructor/learners' },
+  { label: 'Assignments', icon: <FileText size={20} />, path: '/instructor/assignments' },
+  { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/instructor/assessments' },
+  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/instructor/messages' },
+  { label: 'Reports', icon: <User size={20} />, path: '/instructor/reports' },
 ]
 
-const otherToolsItems = [
-  { label: 'Settings', icon: <Settings size={20} />, path: '/settings' },
-  { label: 'Help & Support', icon: <HelpCircle size={20} />, path: '/help' },
-]
 
 const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileClose }) => {
   const location = useLocation()
@@ -171,42 +166,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
 
           {toolsOpen && (
             <div className="space-y-1 mt-1">
-              {otherToolsItems.map((item) => {
-                const active = isActive(item.path)
-                return (
-                  <Link
-                    key={item.label}
-                    to={item.path}
-                    onClick={handleNavClick}
-                    className={`
-                      group relative flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium
-                      transition-all duration-200
-                      ${collapsed ? 'lg:justify-center lg:px-2' : ''}
-                      ${active
-                        ? 'bg-primary text-white shadow-sm'
-                        : 'text-neutral-600 hover:bg-primary/10 hover:text-primary'
-                      }
-                    `}
-                  >
-                    <span className="flex-shrink-0">{item.icon}</span>
-                    <span className={`whitespace-nowrap transition-all duration-300 ${collapsed ? 'lg:hidden' : ''}`}>
-                      {item.label}
-                    </span>
-                    {active && collapsed && (
-                      <span className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2">
-                        <span className="block w-1.5 h-6 bg-primary rounded-l-full" />
-                      </span>
-                    )}
-                    {collapsed && (
-                      <span className="hidden lg:group-hover:block absolute left-full ml-3 px-3 py-1.5 bg-neutral-800 text-white text-xs font-medium rounded-lg whitespace-nowrap z-50 shadow-lg">
-                        {item.label}
-                        <span className="absolute left-[-4px] top-1/2 -translate-y-1/2 w-2 h-2 bg-neutral-800 rotate-45" />
-                      </span>
-                    )}
-                  </Link>
-                )
-              })}
-
               <button
                 onClick={() => { onLogoutClick(); handleNavClick() }}
                 className={`
