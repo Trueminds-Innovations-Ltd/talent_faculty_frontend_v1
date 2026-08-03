@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, TrendingUp, ClipboardList,
-  FileText, Award, MessageSquare, User, Settings,
-  HelpCircle, LogOut, ChevronDown, ChevronUp, X,
+  FileText, MessageSquare, User,
+  LogOut, ChevronDown, ChevronUp, X,
   PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
 
@@ -14,19 +14,15 @@ interface SidebarProps {
 }
 
 const mainMenuItems = [
-  { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/intructordash' },
-  { label: 'Courses', icon: <BookOpen size={20} />, path: '/' },
-  { label: 'Learners', icon: <TrendingUp size={20} />, path: '/' },
-  { label: 'Assignments', icon: <FileText size={20} />, path: '/' },
-  { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/' },
-  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/' },
-  { label: 'Reports', icon: <User size={20} />, path: '/report' },
+  { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/instructor/dashboard' },
+  { label: 'Courses', icon: <BookOpen size={20} />, path: '/instructor/courses' },
+  { label: 'Learners', icon: <TrendingUp size={20} />, path: '/instructor/learners' },
+  { label: 'Assignments', icon: <FileText size={20} />, path: '/instructor/assignments' },
+  { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/instructor/assessments' },
+  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/instructor/messages' },
+  { label: 'Reports', icon: <User size={20} />, path: '/instructor/reports' },
 ]
 
-const otherToolsItems = [
-  { label: 'Settings', icon: <Settings size={20} />, path: '/settings' },
-  { label: 'Help & Support', icon: <HelpCircle size={20} />, path: '/help' },
-]
 
 const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileClose }) => {
   const location = useLocation()

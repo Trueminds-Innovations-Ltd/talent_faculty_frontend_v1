@@ -468,7 +468,7 @@ const SECTION_TITLES: Record<TabKey, string> = {
     reviews: "Pending Reviews",
 };
 
-export default function InstructorDashboard() {
+export default function Dashboard() {
     const [activeTab, setActiveTab] = useState<TabKey>("learners");
 
     return (
