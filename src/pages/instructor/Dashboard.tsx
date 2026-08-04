@@ -468,11 +468,11 @@ const SECTION_TITLES: Record<TabKey, string> = {
     reviews: "Pending Reviews",
 };
 
-export default function InstructorDashboard() {
+export default function Dashboard() {
     const [activeTab, setActiveTab] = useState<TabKey>("learners");
 
     return (
-        <DashboardLayout title="Good Morning, Samuel 👋" subtitle="Continue your learning journey and stay on track!">
+        <DashboardLayout>
             <div className="mx-auto max-w-7xl">
                 {/* Header */}
                 <div className="mb-6">

@@ -3,12 +3,10 @@ import { Search, Bell, ChevronDown, Menu } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 interface TopBarProps {
-  title?: string
-  subtitle?: string
   onMenuClick: () => void
 }
 
-const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
+const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const [profileOpen, setProfileOpen] = useState(false)
 
   return (
