@@ -6,11 +6,9 @@ import { LogOut } from 'lucide-react'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
-  title?: string
-  subtitle?: string
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, title, subtitle }) => {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
 
@@ -23,8 +21,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, title, subt
       />
       <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
         <TopBar
-          title={title}
-          subtitle={subtitle}
           onMenuClick={() => setMobileSidebarOpen(true)}
         />
         <main className="flex-1 p-6 overflow-y-auto">
