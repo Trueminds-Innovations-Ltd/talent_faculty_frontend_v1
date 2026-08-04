@@ -8,7 +8,7 @@ interface TopBarProps {
   onMenuClick: () => void
 }
 
-const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
+const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const [profileOpen, setProfileOpen] = useState(false)
 
   return (
