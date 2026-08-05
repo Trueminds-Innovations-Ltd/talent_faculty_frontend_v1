@@ -13,7 +13,7 @@ import Sidebar from '../../components/layout/instruct/Sidebar'
 import TopBar from '../../components/layout/instruct/TopBar'
 
 type CourseStatus = 'Published' | 'Draft' | 'Archive'
-
+//
 interface Course {
   id: string
   title: string
