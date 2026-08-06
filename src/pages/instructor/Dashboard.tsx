@@ -473,7 +473,7 @@ export default function Dashboard() {
 
     return (
         <DashboardLayout>
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-[1400px]">
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
