@@ -40,7 +40,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
     localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
   }, [collapsed])
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(`${path}/`)
 
   // Only close mobile sidebar on mobile viewport
   const handleNavClick = () => {
@@ -72,12 +73,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
         <div className={`flex items-center gap-2 px-5 py-5 ${collapsed ? 'lg:justify-center lg:px-3' : ''}`}>
           <div className="flex items-center gap-2 overflow-hidden">
             <img
-              src="../logo1.png"
+              src="../../logo1.png"
               alt="Talent-Flow Logo"
               className={`h-18 object-contain transition-all duration-300 ${collapsed ? 'lg:h-8' : ''}`}
             />
           </div>
-
+          
           {/* Collapse toggle — desktop only */}
           <button
             onClick={() => setCollapsed(!collapsed)}

@@ -22,6 +22,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
         <TopBar
           onMenuClick={() => setMobileSidebarOpen(true)}
+          onLogoutClick={() => setLogoutModalOpen(true)}
         />
         <main className="flex-1 p-6 overflow-y-auto">
           {children}
