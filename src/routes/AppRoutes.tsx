@@ -22,6 +22,7 @@ import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
 import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
+import CreateCourse from '../pages/instructor/CreateCourse.tsx'
 import AdminDashboard from '../pages/admin/Dashboard.tsx'
 import AdminCourses from '../pages/admin/Courses.tsx'
 import AdminUsers from '../pages/admin/Users.tsx'
@@ -77,6 +78,8 @@ const AppRoutes = () => {
       <Route path="/admin/users" element={<AdminUsers />} />
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
+      <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+      <Route path="/instructor/CreateCourse" element={<CreateCourse />} />
       <Route path="/instructor/dashboard" element={<InstructorDashboard />} />      
       <Route path="/instructor/courses" element={<InstructorCourses />} />
       <Route path="/instructor/courses/:courseId" element={<ManageCourse />} />
