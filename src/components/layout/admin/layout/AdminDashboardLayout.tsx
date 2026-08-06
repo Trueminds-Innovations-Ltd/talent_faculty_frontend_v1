@@ -26,6 +26,7 @@ const AdminDashboardLayout: React.FC<AdminDashboardLayoutProps> = ({ children, t
           title={title}
           subtitle={subtitle}
           onMenuClick={() => setMobileSidebarOpen(true)}
+          onLogoutClick={() => setLogoutModalOpen(true)}
         />
         <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-y-auto min-w-0">
           {children}

@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 
 interface TopBarProps {
   onMenuClick: () => void
+  onLogoutClick: () => void
 }
 
-const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+const TopBar: React.FC<TopBarProps> = ({ onMenuClick, onLogoutClick }) => {
   const [profileOpen, setProfileOpen] = useState(false)
 
   return (
@@ -55,7 +56,15 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                   <a className="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">Profile</a>
                   <a className="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">Settings</a>
                   <div className="border-t border-neutral-100 mt-1" />
-                  <button className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Log Out</button>
+                  <button
+                    onClick={() => {
+                      setProfileOpen(false)
+                      onLogoutClick()
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    Log Out
+                  </button>
                 </div>
               </>
             )}

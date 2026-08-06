@@ -5,8 +5,11 @@ import {
   GripVertical,
   Video,
   Plus,
-  Pencil
 } from 'lucide-react'
+import ModuleFormPanel from '../../ui/instructor/ModuleFormPanel'
+import CreateLessonPanel from '../../ui/instructor/CreateLessonPanel'
+import ModuleDetailsPanel from '../../ui/instructor/ModuleDetailsPanel'
+import SuccessToast from '../../ui/instructor/SuccessToast'
 
 interface Lesson {
   id: string
@@ -20,7 +23,7 @@ interface ModuleItem {
   lessons: Lesson[]
 }
 
-const MOCK_MODULES: ModuleItem[] = [
+const INITIAL_MODULES: ModuleItem[] = [
   {
     id: 1,
     title: 'UX Research Basics',
@@ -28,8 +31,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '1-1', title: 'What is UX Research' },
       { id: '1-2', title: 'Why It Matters' },
-      { id: '1-3', title: 'Research Roles' }
-    ]
+      { id: '1-3', title: 'Research Roles' },
+    ],
   },
   {
     id: 2,
@@ -38,8 +41,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '2-1', title: 'Empathy Mapping' },
       { id: '2-2', title: 'User Personas' },
-      { id: '2-3', title: 'Customer Journey Mapping' }
-    ]
+      { id: '2-3', title: 'Customer Journey Mapping' },
+    ],
   },
   {
     id: 3,
@@ -48,8 +51,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '3-1', title: 'Setting Research Goals' },
       { id: '3-2', title: 'Choosing Methodologies' },
-      { id: '3-3', title: 'Script Writing' }
-    ]
+      { id: '3-3', title: 'Script Writing' },
+    ],
   },
   {
     id: 4,
@@ -58,8 +61,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '4-1', title: 'Interview Preparation' },
       { id: '4-2', title: 'Asking Non-biased Questions' },
-      { id: '4-3', title: 'Synthesizing Notes' }
-    ]
+      { id: '4-3', title: 'Synthesizing Notes' },
+    ],
   },
   {
     id: 5,
@@ -68,8 +71,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '5-1', title: 'Survey Question Types' },
       { id: '5-2', title: 'Distribution Channels' },
-      { id: '5-3', title: 'Quantitative Data Cleaning' }
-    ]
+      { id: '5-3', title: 'Quantitative Data Cleaning' },
+    ],
   },
   {
     id: 6,
@@ -78,8 +81,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '6-1', title: 'Test Scenario Setup' },
       { id: '6-2', title: 'Moderating Sessions' },
-      { id: '6-3', title: 'Usability Metrics' }
-    ]
+      { id: '6-3', title: 'Usability Metrics' },
+    ],
   },
   {
     id: 7,
@@ -88,8 +91,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '7-1', title: 'Affinity Diagramming' },
       { id: '7-2', title: 'Identifying Patterns' },
-      { id: '7-3', title: 'Insight Extraction' }
-    ]
+      { id: '7-3', title: 'Insight Extraction' },
+    ],
   },
   {
     id: 8,
@@ -98,8 +101,8 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '8-1', title: 'Behavioral Archetypes' },
       { id: '8-2', title: 'Task Models' },
-      { id: '8-3', title: 'Mental Models' }
-    ]
+      { id: '8-3', title: 'Mental Models' },
+    ],
   },
   {
     id: 9,
@@ -108,126 +111,221 @@ const MOCK_MODULES: ModuleItem[] = [
     lessons: [
       { id: '9-1', title: 'Structuring Reports' },
       { id: '9-2', title: 'Presenting to Stakeholders' },
-      { id: '9-3', title: 'Actionable Recommendations' }
-    ]
-  }
+      { id: '9-3', title: 'Actionable Recommendations' },
+    ],
+  },
 ]
 
-export default function ModulesLessonsTab() {
-  const [expandedModuleId, setExpandedModuleId] = useState<number | null>(1)
-  const [selectedModuleId, setSelectedModuleId] = useState<number>(1)
+// What's currently shown on the right-hand panel.
+type RightPanel =
+  | { type: 'details'; moduleId: number }
+  | { type: 'edit-module'; moduleId: number }
+  | { type: 'add-module' }
+  | { type: 'add-lesson'; moduleId: number }
 
-  const selectedModule = MOCK_MODULES.find((m) => m.id === selectedModuleId) || MOCK_MODULES[0]
+export default function ModulesLessonsTab() {
+  const [modules, setModules] = useState<ModuleItem[]>(INITIAL_MODULES)
+  const [expandedModuleId, setExpandedModuleId] = useState<number | null>(1)
+  const [rightPanel, setRightPanel] = useState<RightPanel>({ type: 'details', moduleId: 1 })
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
+
+  const getModule = (id: number) => modules.find((m) => m.id === id)
 
   const toggleModuleAccordion = (id: number) => {
-    setExpandedModuleId(expandedModuleId === id ? null : id)
-    setSelectedModuleId(id)
+    setExpandedModuleId((current) => (current === id ? null : id))
+    // Browsing a module's lessons also brings its details up on the right,
+    // unless the right panel is already busy with an add/edit form for it.
+    setRightPanel((current) => {
+      const alreadyOnThisModule =
+        (current.type === 'edit-module' || current.type === 'add-lesson' || current.type === 'details') &&
+        current.moduleId === id
+      return alreadyOnThisModule ? current : { type: 'details', moduleId: id }
+    })
   }
 
+  const handleAddLessonClick = (moduleId: number) => {
+    setExpandedModuleId(moduleId)
+    setRightPanel({ type: 'add-lesson', moduleId })
+  }
+
+  const handleAddModuleClick = () => {
+    setRightPanel({ type: 'add-module' })
+  }
+
+  const handleEditModuleClick = (moduleId: number) => {
+    setRightPanel({ type: 'edit-module', moduleId })
+  }
+
+  const handleModuleCreated = (values: { name: string; description: string; lessonCount: string }) => {
+    const nextId = Math.max(...modules.map((m) => m.id)) + 1
+    setModules((prev) => [
+      ...prev,
+      { id: nextId, title: values.name, description: values.description, lessons: [] },
+    ])
+    setToastMessage(`"${values.name}" has been created`)
+  }
+
+  const handleModuleUpdated = (
+    moduleId: number,
+    values: { name: string; description: string; lessonCount: string }
+  ) => {
+    setModules((prev) =>
+      prev.map((m) => (m.id === moduleId ? { ...m, title: values.name, description: values.description } : m))
+    )
+    setToastMessage(`"${values.name}" has been updated`)
+    setRightPanel({ type: 'details', moduleId })
+  }
+
+  const handleLessonCreated = (moduleId: number, lessonName: string) => {
+    setModules((prev) =>
+      prev.map((m) =>
+        m.id === moduleId
+          ? { ...m, lessons: [...m.lessons, { id: `${moduleId}-${m.lessons.length + 1}`, title: lessonName }] }
+          : m
+      )
+    )
+    setToastMessage(`"${lessonName}" has been created`)
+  }
+
+  const editingModule = rightPanel.type === 'edit-module' ? getModule(rightPanel.moduleId) : undefined
+  const lessonModule = rightPanel.type === 'add-lesson' ? getModule(rightPanel.moduleId) : undefined
+  const detailsModule = rightPanel.type === 'details' ? getModule(rightPanel.moduleId) : undefined
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4 items-start">
-      <div className="lg:col-span-6 space-y-3">
-        <div className="border border-gray-200 rounded-2xl overflow-hidden divide-y divide-gray-100 bg-white">
-          {MOCK_MODULES.map((moduleItem) => {
-            const isExpanded = expandedModuleId === moduleItem.id
-            const isSelected = selectedModuleId === moduleItem.id
+    <div className="pt-4">
+      {toastMessage && (
+        <SuccessToast message={toastMessage} onDismiss={() => setToastMessage(null)} />
+      )}
 
-            return (
-              <div key={moduleItem.id} className="transition-colors">
-                <div
-                  onClick={() => toggleModuleAccordion(moduleItem.id)}
-                  className={`flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50/80 transition-colors max-md:flex-col ${
-                    isSelected ? 'bg-gray-50/50' : ''
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <GripVertical size={16} className="text-gray-300 hover:text-gray-500 cursor-grab shrink-0" />
-                    <span className="px-2.5 py-1 bg-emerald-100/70 text-emerald-800 text-[11px] font-bold rounded-md whitespace-nowrap">
-                      Module {moduleItem.id}
-                    </span>
-                    <span className="text-[14px] font-bold text-gray-800">
-                      {moduleItem.title}
-                    </span>
-                  </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="lg:col-span-6 space-y-3">
+          <div className="rounded-2xl border border-admin-ash-7 bg-white overflow-hidden divide-y divide-admin-ash-7">
+            {modules.map((moduleItem) => {
+              const isExpanded = expandedModuleId === moduleItem.id
+              const isSelected =
+                (rightPanel.type === 'details' ||
+                  rightPanel.type === 'edit-module' ||
+                  rightPanel.type === 'add-lesson') &&
+                rightPanel.moduleId === moduleItem.id
 
-                  <div className="flex items-center gap-3 shrink-0 max-md:ml-auto max-md:mt-2">
-                    <span className="text-[12px] text-gray-400 font-medium">
-                      {moduleItem.lessons.length} lessons
+              return (
+                <div key={moduleItem.id} className="transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => toggleModuleAccordion(moduleItem.id)}
+                    className={`flex w-full items-center justify-between gap-3 p-4 text-left hover:bg-admin-ash-7/20 transition-colors max-md:flex-col max-md:items-start ${
+                      isSelected ? 'bg-admin-ash-7/30' : ''
+                    }`}
+                  >
+                    <span className="flex items-center gap-3 min-w-0">
+                      <GripVertical size={16} className="text-admin-ash-5 shrink-0" />
+                      <span className="shrink-0 rounded-md bg-admin-primary-light px-2.5 py-1 text-xs font-bold text-admin-primary-dark whitespace-nowrap">
+                        Module {moduleItem.id}
+                      </span>
+                      <span className="text-sm font-bold text-admin-ink truncate">{moduleItem.title}</span>
                     </span>
-                    {isExpanded ? (
-                      <ChevronDown size={16} className="text-gray-400" />
-                    ) : (
-                      <ChevronRight size={16} className="text-gray-400" />
-                    )}
-                  </div>
-                </div>
 
-                {isExpanded && (
-                  <div className="bg-white px-4 pb-4 space-y-2 pt-1">
-                    {moduleItem.lessons.map((lesson, idx) => (
-                      <div
-                        key={lesson.id}
-                        className="flex items-center gap-3 pl-8 pr-4 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 text-[13px] font-medium transition-colors"
+                    <span className="flex items-center gap-3 shrink-0 max-md:ml-auto max-md:mt-2">
+                      <span className="text-xs font-medium text-admin-ash-3 whitespace-nowrap">
+                        {moduleItem.lessons.length} lessons
+                      </span>
+                      {isExpanded ? (
+                        <ChevronDown size={16} className="text-admin-ash-3" />
+                      ) : (
+                        <ChevronRight size={16} className="text-admin-ash-3" />
+                      )}
+                    </span>
+                  </button>
+
+                  {isExpanded && (
+                    <div className="bg-white px-4 pb-4 pt-1 space-y-1">
+                      {moduleItem.lessons.map((lesson, idx) => (
+                        <div
+                          key={lesson.id}
+                          className="flex items-center gap-3 rounded-xl py-2.5 pl-8 pr-4 text-sm font-medium text-admin-ash-1 hover:bg-admin-ash-7/20 transition-colors"
+                        >
+                          <span className="w-3 text-xs font-bold text-admin-ash-3">{idx + 1}</span>
+                          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-admin-info-light text-admin-info shrink-0">
+                            <Video size={13} />
+                          </span>
+                          <span className="flex-1 truncate">{lesson.title}</span>
+                        </div>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={() => handleAddLessonClick(moduleItem.id)}
+                        className="mt-2 flex items-center gap-2 pl-8 py-2 text-sm font-bold text-admin-primary hover:text-admin-primary-dark transition-colors"
                       >
-                        <span className="text-gray-400 font-bold text-[12px] w-3">
-                          {idx + 1}
-                        </span>
-                        <Video size={16} className="text-emerald-600 shrink-0" />
-                        <span className="flex-1 line-clamp-1">{lesson.title}</span>
-                      </div>
-                    ))}
+                        <Plus size={16} />
+                        Add lessons
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
 
-                    <button className="flex items-center gap-2 pl-8 py-2 text-[13px] font-bold text-emerald-700 hover:text-emerald-800 transition-colors mt-2">
-                      <Plus size={16} />
-                      Add lessons
-                    </button>
-                  </div>
-                )}
-              </div>
-            )
-          })}
-
-          <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 text-gray-500 transition-colors">
-            <div className="flex items-center gap-3">
-              <GripVertical size={16} className="text-gray-300 shrink-0" />
-              <Plus size={16} className="text-gray-400" />
-              <span className="text-[14px] font-bold text-gray-700">Add new module</span>
-            </div>
-            <ChevronRight size={16} className="text-gray-400" />
+            <button
+              type="button"
+              onClick={handleAddModuleClick}
+              className={`flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-admin-ash-7/20 ${
+                rightPanel.type === 'add-module' ? 'bg-admin-ash-7/30' : ''
+              }`}
+            >
+              <span className="flex items-center gap-3">
+                <GripVertical size={16} className="text-admin-ash-5 shrink-0" />
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-admin-primary-light text-admin-primary shrink-0">
+                  <Plus size={14} />
+                </span>
+                <span className="text-sm font-bold text-admin-ink">Add new module</span>
+              </span>
+              {rightPanel.type === 'add-module' ? (
+                <ChevronDown size={16} className="text-admin-ash-3" />
+              ) : (
+                <ChevronRight size={16} className="text-admin-ash-3" />
+              )}
+            </button>
           </div>
         </div>
 
-        <button className="flex items-center gap-2 text-[13px] font-bold text-emerald-700 hover:text-emerald-800 transition-colors pt-2 px-2">
-          <Plus size={16} />
-          Add lessons
-        </button>
-      </div>
+        <div className="lg:col-span-6">
+          {rightPanel.type === 'add-module' && (
+            <ModuleFormPanel
+              mode="create"
+              onCancel={() => setRightPanel({ type: 'details', moduleId: expandedModuleId ?? modules[0].id })}
+              onSubmit={handleModuleCreated}
+            />
+          )}
 
-      <div className="lg:col-span-6 border border-gray-200 rounded-2xl p-6 bg-white space-y-6 sticky top-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-[16px] font-bold text-gray-900">Module Details</h3>
-          <button className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
-            <Pencil size={16} />
-          </button>
-        </div>
+          {rightPanel.type === 'edit-module' && editingModule && (
+            <ModuleFormPanel
+              mode="edit"
+              initialName={editingModule.title}
+              initialDescription={editingModule.description}
+              initialLessonCount={editingModule.lessons.length}
+              onCancel={() => setRightPanel({ type: 'details', moduleId: editingModule.id })}
+              onSubmit={(values) => handleModuleUpdated(editingModule.id, values)}
+            />
+          )}
 
-        <div className="border border-gray-100 rounded-2xl p-6 bg-gray-50/30 space-y-3">
-          <div className="flex items-start gap-3">
-            <span className="text-[20px] font-bold text-gray-900 leading-none">
-              {selectedModule.id}
-            </span>
-            <div className="space-y-2">
-              <h4 className="text-[15px] font-bold text-gray-900 leading-tight">
-                {selectedModule.title}
-              </h4>
-              <p className="text-[13px] text-gray-400 leading-relaxed">
-                {selectedModule.description}
-              </p>
-              <div className="text-[12px] text-gray-400 font-medium pt-2">
-                {selectedModule.lessons.length} lessons
-              </div>
-            </div>
-          </div>
+          {rightPanel.type === 'add-lesson' && lessonModule && (
+            <CreateLessonPanel
+              moduleTitle={lessonModule.title}
+              onCancel={() => setRightPanel({ type: 'details', moduleId: lessonModule.id })}
+              onCreated={(lessonName) => handleLessonCreated(lessonModule.id, lessonName)}
+            />
+          )}
+
+          {rightPanel.type === 'details' && detailsModule && (
+            <ModuleDetailsPanel
+              moduleNumber={detailsModule.id}
+              title={detailsModule.title}
+              description={detailsModule.description}
+              lessonCount={detailsModule.lessons.length}
+              onEditClick={() => handleEditModuleClick(detailsModule.id)}
+            />
+          )}
         </div>
       </div>
     </div>
