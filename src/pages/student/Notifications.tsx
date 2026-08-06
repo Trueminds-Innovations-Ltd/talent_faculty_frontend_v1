@@ -99,6 +99,7 @@ export default function Notifications() {
           title="Notifications"
           subtitle="Stay updated with important activities."
           onMenuClick={() => setMobileSidebarOpen(true)}
+          onLogoutClick={handleLogout}
         />
 
         {/* Main Content Area */}

@@ -51,7 +51,6 @@ export default function ManageCourse() {
       />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-white">
-        <TopBar onMenuClick={() => setMobileOpen(true)} />
 
         <main className="p-6 lg:p-10 space-y-8 max-w-[1400px] w-full mx-auto">
           <button

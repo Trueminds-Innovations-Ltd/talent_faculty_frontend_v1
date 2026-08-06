@@ -4,24 +4,37 @@ import { courseBuilderModules } from './courseBuilderData'
 
 interface ModuleListProps {
   /** The module currently expanded (showing its lessons), if any */
-  expandedModuleId: string | null
+  expandedModuleId?: string | null
   /** Toggle a module's expanded/collapsed state */
-  onToggleModule: (moduleId: string) => void
+  onToggleModule?: (moduleId: string) => void
   /** "+ Add lessons" was clicked under a given (expanded) module */
-  onAddLessonClick: (moduleId: string) => void
+  onAddLessonClick?: (moduleId: string) => void
   /** "Add new module" trigger row was clicked */
-  onAddModuleClick: () => void
+  onAddModuleClick?: () => void
   /** Whether the "Add new module" row is the active target on the right panel */
-  isAddModuleActive: boolean
+  isAddModuleActive?: boolean
+  /** Mode preset for standalone pages */
+  mode?: 'add-module' | 'add-lesson' | 'default' | string
+  /** The active module ID for add-lesson mode */
+  activeModuleId?: string
 }
 
 const ModuleList: React.FC<ModuleListProps> = ({
-  expandedModuleId,
+  expandedModuleId: propExpandedModuleId,
   onToggleModule,
   onAddLessonClick,
   onAddModuleClick,
-  isAddModuleActive,
+  isAddModuleActive: propIsAddModuleActive,
+  mode = 'default',
+  activeModuleId,
 }) => {
+  const isAddModuleActive = propIsAddModuleActive ?? (mode === 'add-module')
+  const expandedModuleId =
+    propExpandedModuleId !== undefined
+      ? propExpandedModuleId
+      : mode === 'add-lesson'
+        ? (activeModuleId ?? courseBuilderModules[0]?.id ?? null)
+        : null
   return (
     <div className="rounded-2xl border border-admin-ash-7 bg-white overflow-hidden">
       {courseBuilderModules.map((module) => {
@@ -31,7 +44,7 @@ const ModuleList: React.FC<ModuleListProps> = ({
           <div key={module.id} className="border-b border-admin-ash-7 last:border-b-0">
             <button
               type="button"
-              onClick={() => onToggleModule(module.id)}
+              onClick={() => onToggleModule?.(module.id)}
               className={`flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors ${
                 isExpanded ? 'bg-admin-ash-7/40' : 'hover:bg-admin-ash-7/20'
               }`}
@@ -64,7 +77,7 @@ const ModuleList: React.FC<ModuleListProps> = ({
                 ))}
                 <button
                   type="button"
-                  onClick={() => onAddLessonClick(module.id)}
+                  onClick={() => onAddLessonClick?.(module.id)}
                   className="flex w-full items-center gap-3 px-4 py-2.5 pl-11 text-left hover:bg-admin-ash-7/20 transition-colors"
                 >
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-admin-primary-light text-admin-primary shrink-0">
@@ -81,7 +94,7 @@ const ModuleList: React.FC<ModuleListProps> = ({
       {/* Add new module trigger row */}
       <button
         type="button"
-        onClick={onAddModuleClick}
+        onClick={() => onAddModuleClick?.()}
         className={`flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors ${
           isAddModuleActive ? 'bg-admin-ash-7/40' : 'hover:bg-admin-ash-7/20'
         }`}

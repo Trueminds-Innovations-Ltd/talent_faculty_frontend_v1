@@ -6,7 +6,7 @@ interface TopBarProps {
   title?: string
   subtitle?: string
   onMenuClick: () => void
-  onLogoutClick: () => void
+  onLogoutClick?: () => void
 }
 
 const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick, onLogoutClick }) => {
@@ -67,7 +67,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick, onLogoutC
                   <button
                     onClick={() => {
                       setProfileOpen(false)
-                      onLogoutClick()
+                      onLogoutClick?.()
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   >
