@@ -40,7 +40,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
     localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
   }, [collapsed])
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(`${path}/`)
 
   // Only close mobile sidebar on mobile viewport
   const handleNavClick = () => {
