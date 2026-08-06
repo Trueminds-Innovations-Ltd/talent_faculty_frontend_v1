@@ -25,8 +25,10 @@ import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
 import AdminDashboard from '../pages/admin/Dashboard.tsx'
 import AdminCourses from '../pages/admin/Courses.tsx'
 import AdminUsers from '../pages/admin/Users.tsx'
-import InstructorCourses from '../pages/instructor/Courses.tsx'
-import ManageCourse from '../pages/instructor/ManageCourse.tsx'
+import InstructorCourses from '../pages/instructor/courses/Courses.tsx'
+import ManageCourse from '../pages/instructor/courses/ManageCourse.tsx'
+import Assignment from '../pages/instructor/courses/Assignment.tsx'
+import Quiz from '../pages/instructor/courses/Quiz.tsx'
 
 const AppRoutes = () => {
   return (
@@ -78,6 +80,8 @@ const AppRoutes = () => {
       <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
       <Route path="/instructor/courses" element={<InstructorCourses />} />
       <Route path="/instructor/courses/:courseId" element={<ManageCourse />} />
+      <Route path="/instructor/courses/assignment" element={<Assignment />} />
+      <Route path="/instructor/courses/quiz" element={<Quiz />} />
     </Routes>
   )
 }

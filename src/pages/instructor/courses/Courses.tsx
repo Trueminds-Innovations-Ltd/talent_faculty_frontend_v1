@@ -9,8 +9,8 @@ import {
   Clock,
   Plus
 } from 'lucide-react'
-import Sidebar from '../../components/layout/instruct/Sidebar'
-import TopBar from '../../components/layout/instruct/TopBar'
+import Sidebar from '../../../components/layout/instruct/Sidebar'
+import TopBar from '../../../components/layout/instruct/TopBar'
 
 type CourseStatus = 'Published' | 'Draft' | 'Archive'
 //
@@ -135,7 +135,7 @@ export default function InstructorCourses() {
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <TopBar onMenuClick={() => setMobileOpen(true)} />
 
-        <main className="p-6 lg:p-8 space-y-8 max-w-[1400px] w-full">
+        <main className="p-6 lg:p-8 space-y-8 max-w-[1400px] mx-auto w-full">
           <div className="space-y-1">
             <h1 className="text-2xl font-bold text-gray-900">Courses</h1>
             <p className="text-sm text-gray-400">
@@ -148,11 +148,10 @@ export default function InstructorCourses() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
-                  activeTab === tab
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${activeTab === tab
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
               >
                 {tab}
               </button>
@@ -197,7 +196,7 @@ export default function InstructorCourses() {
                   </span>
                 </div>
 
-                <Link 
+                <Link
                   to={`/instructor/courses/${course.id}`}
                   className="w-full block text-center py-2.5 rounded-xl border border-gray-200 text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
