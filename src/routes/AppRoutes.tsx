@@ -76,15 +76,19 @@ const AppRoutes = () => {
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/courses" element={<AdminCourses />} />
       <Route path="/admin/users" element={<AdminUsers />} />
+
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
       <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+      <Route path="/instructor/create-course" element={<CreateCourse />} />
       <Route path="/instructor/CreateCourse" element={<CreateCourse />} />
-      <Route path="/instructor/dashboard" element={<InstructorDashboard />} />      
       <Route path="/instructor/courses" element={<InstructorCourses />} />
       <Route path="/instructor/courses/:courseId" element={<ManageCourse />} />
       <Route path="/instructor/courses/assignment" element={<Assignment />} />
       <Route path="/instructor/courses/quiz" element={<Quiz />} />
+
+      {/* Catch-all route for unhandled paths */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

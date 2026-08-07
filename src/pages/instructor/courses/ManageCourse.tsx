@@ -233,7 +233,7 @@ export default function ManageCourse() {
                   <Plus size={24} />
                 </div>
                 <span className="font-bold text-[15px] text-gray-800">
-                  Create Course
+                  Create Resource
                 </span>
               </div>
             </div>

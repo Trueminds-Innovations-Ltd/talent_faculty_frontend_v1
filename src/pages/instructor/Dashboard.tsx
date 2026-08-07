@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../../components/layout/instruct/DashboardLayout";
 import {
     Users,
@@ -316,13 +317,17 @@ const QuickLink: React.FC<{
     label: string;
     icon: React.ReactNode;
     iconBg: string;
-}> = ({ label, icon, iconBg }) => (
-    <button className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-white py-6 shadow-sm transition hover:border-gray-200 hover:shadow-md">
+    to: string;
+}> = ({ label, icon, iconBg, to }) => (
+    <Link
+        to={to}
+        className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-white py-6 shadow-sm transition hover:border-gray-200 hover:shadow-md"
+    >
         <div className={`flex h-10 w-10 items-center justify-center rounded-full ${iconBg}`}>
             {icon}
         </div>
         <span className="text-sm font-medium text-gray-700">{label}</span>
-    </button>
+    </Link>
 );
 
 
@@ -526,16 +531,20 @@ export default function Dashboard() {
                             label="Create Course"
                             icon={<Plus size={18} className="text-violet-500" />}
                             iconBg="bg-violet-50"
+                            to="/instructor/createcourse"
                         />
+
                         <QuickLink
                             label="Grade Submissions"
                             icon={<ClipboardCheck size={18} className="text-sky-500" />}
                             iconBg="bg-sky-50"
+                            to="#"
                         />
                         <QuickLink
                             label="View Reports"
                             icon={<FileBarChart2 size={18} className="text-emerald-500" />}
                             iconBg="bg-emerald-50"
+                            to="#"
                         />
                     </div>
                 </div>

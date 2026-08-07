@@ -35,7 +35,7 @@ export default function CreateCourse() {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-[#FAFAFA] px-10 py-8">
+      <div className="min-h-screen px-10 ">
 
         {/* Back */}
 
@@ -49,11 +49,11 @@ export default function CreateCourse() {
 
         {/* Header */}
 
-        <h1 className="text-[42px] font-bold text-[#202020]">
+        <h1 className="text-xl font-bold text-[#202020]">
           Create a course
         </h1>
 
-        <p className="mt-2 mb-10 text-[17px] text-[#8A8A8A]">
+        <p className="mt-2 mb-10 text-sm text-[#8A8A8A]">
           Set up your course information to get started.
         </p>
 
@@ -61,11 +61,11 @@ export default function CreateCourse() {
 
         <div className="w-full max-w-[760px] rounded-xl bg-white">
 
-          <h2 className="text-[24px] font-semibold text-[#4D4D4D]">
+          <h2 className="text-xl font-semibold text-[#4D4D4D]">
             Course Details
           </h2>
 
-          <p className="mt-2 mb-8 text-[15px] text-[#8A8A8A]">
+          <p className="mt-2 mb-8 text-sm text-[#8A8A8A]">
             Provide essential information about your course.
           </p>
 
@@ -86,7 +86,7 @@ export default function CreateCourse() {
             />
 
           </div>
-                    {/* =========================
+          {/* =========================
               Course Description
           ========================= */}
 
@@ -150,20 +150,18 @@ export default function CreateCourse() {
             >
 
               <span
-                className={`text-[15px] ${
-                  courseDuration
-                    ? "text-[#202020]"
-                    : "text-[#B5B5B5]"
-                }`}
+                className={`text-[15px] ${courseDuration
+                  ? "text-[#202020]"
+                  : "text-[#B5B5B5]"
+                  }`}
               >
                 {courseDuration || "Select duration"}
               </span>
 
               <ChevronDown
                 size={18}
-                className={`transition-transform duration-300 ${
-                  showDropdown ? "rotate-180" : ""
-                }`}
+                className={`transition-transform duration-300 ${showDropdown ? "rotate-180" : ""
+                  }`}
               />
 
             </div>
@@ -193,7 +191,7 @@ export default function CreateCourse() {
             )}
 
           </div>
-                    {/* =========================
+          {/* =========================
               ACTION BUTTONS
           ========================= */}
 
@@ -225,10 +223,9 @@ export default function CreateCourse() {
                 }
               }}
               className={`h-14 w-[260px] rounded-lg text-[15px] font-semibold text-white transition
-                ${
-                  isValid
-                    ? "bg-[#17823B] hover:bg-[#116B2F] cursor-pointer"
-                    : "bg-[#D9D9D9] cursor-not-allowed"
+                ${isValid
+                  ? "bg-[#17823B] hover:bg-[#116B2F] cursor-pointer"
+                  : "bg-[#D9D9D9] cursor-not-allowed"
                 }`}
             >
               Create Course
@@ -237,74 +234,74 @@ export default function CreateCourse() {
           </div>
 
         </div>
-              {/* =========================
+        {/* =========================
           SUCCESS MODAL
        ========================= */}
 
-      {showSuccess && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        {showSuccess && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 
-          <div className="w-full max-w-[620px] rounded-3xl bg-white p-10 shadow-2xl">
+            <div className="w-full max-w-[620px] rounded-3xl bg-white p-10 shadow-2xl">
 
-            {/* Success Icon */}
+              {/* Success Icon */}
 
-            <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#17823B]">
+              <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#17823B]">
 
-              <Check
-                size={38}
-                strokeWidth={3}
-                className="text-[#17823B]"
-              />
+                <Check
+                  size={38}
+                  strokeWidth={3}
+                  className="text-[#17823B]"
+                />
 
-            </div>
+              </div>
 
-            {/* Heading */}
+              {/* Heading */}
 
-            <h2 className="text-center text-[32px] font-bold text-[#202020]">
-              Course Published
-            </h2>
+              <h2 className="text-center text-[32px] font-bold text-[#202020]">
+                Course Published
+              </h2>
 
-            {/* Description */}
+              {/* Description */}
 
-            <p className="mx-auto mt-4 max-w-[430px] text-center text-[16px] leading-7 text-[#8A8A8A]">
-              Your course has been successfully published.
-              You can now return to your dashboard or
-              continue building your course.
-            </p>
+              <p className="mx-auto mt-4 max-w-[430px] text-center text-[16px] leading-7 text-[#8A8A8A]">
+                Your course has been successfully published.
+                You can now return to your dashboard or
+                continue building your course.
+              </p>
 
-            {/* Buttons */}
+              {/* Buttons */}
 
-            <div className="mt-10 flex items-center justify-center gap-5">
+              <div className="mt-10 flex items-center justify-center gap-5">
 
-              <button
-                onClick={() => {
-                  setShowSuccess(false);
-                  navigate("/instructor/dashboard");
-                }}
-                className="h-14 w-[220px] rounded-lg border border-[#D9D9D9] bg-white text-[15px] font-semibold text-[#202020] transition hover:bg-gray-100"
-              >
-                Back to Dashboard
-              </button>
+                <button
+                  onClick={() => {
+                    setShowSuccess(false);
+                    navigate("/instructor/dashboard");
+                  }}
+                  className="h-14 w-[220px] rounded-lg border border-[#D9D9D9] bg-white text-[15px] font-semibold text-[#202020] transition hover:bg-gray-100"
+                >
+                  Back to Dashboard
+                </button>
 
-              <button
-                onClick={() => {
-                  navigate("/instructor/course-builder");
-                }}
-                className="h-14 w-[220px] rounded-lg bg-[#17823B] text-[15px] font-semibold text-white transition hover:bg-[#116B2F]"
-              >
-                Go to Course Builder
-              </button>
+                <button
+                  onClick={() => {
+                    navigate("/instructor/courses");
+                  }}
+                  className="h-14 w-[220px] rounded-lg bg-[#17823B] text-[15px] font-semibold text-white transition hover:bg-[#116B2F]"
+                >
+                  Go to Course Builder
+                </button>
+
+              </div>
 
             </div>
 
           </div>
+        )}
 
-        </div>
-      )}
+      </div>
 
-    </div>
+    </DashboardLayout>
 
-</DashboardLayout>
-    
- );
+  );
 }
