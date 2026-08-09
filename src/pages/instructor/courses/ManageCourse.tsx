@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft, Globe, Eye, Plus, Save, EyeOff } from 'lucide-react'
-import { Add, DocumentText, TaskSquare } from "iconsax-react";
+import { DocumentText, TaskSquare } from "iconsax-react";
 import Sidebar from '../../../components/layout/instruct/Sidebar'
-import TopBar from '../../../components/layout/instruct/TopBar'
 import CourseDetailsTab from '../../../components/common/instructor/CourseDetailsTab'
 import ModulesLessonsTab from '../../../components/common/instructor/ModulesLessonsTab'
 

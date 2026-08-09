@@ -32,7 +32,7 @@ import Assignment from '../pages/instructor/courses/Assignment.tsx'
 import Quiz from '../pages/instructor/courses/Quiz.tsx'
 import Pdf from '../pages/instructor/courses/Pdf.tsx'
 import LinkResource from '../pages/instructor/courses/Link.tsx'
-import VideoResource from '../pages/instructor/courses/video.tsx'
+import VideoResource from '../pages/instructor/courses/Video.tsx'
 
 const AppRoutes = () => {
   return (

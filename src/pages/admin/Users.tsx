@@ -112,6 +112,7 @@ export default function AdminUsers() {
           title="Users Management"
           subtitle="Continue to monitor the progress of Users"
           onMenuClick={() => setMobileOpen(true)}
+          onLogoutClick={handleLogout}
         />
 
         <main className="p-4 sm:p-6 lg:p-8 space-y-8 max-w-7xl mx-auto w-full">
