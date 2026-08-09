@@ -173,10 +173,6 @@ export default function QuizBuilder() {
         navigate("/instructor/activities");
     };
 
-    /* ------------------------------------------------------ */
-    /* Step 1 — Quiz questions / settings                      */
-    /* ------------------------------------------------------ */
-
     if (step === "settings") {
         return (
             <DashboardLayout>

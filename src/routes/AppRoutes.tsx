@@ -30,6 +30,9 @@ import InstructorCourses from '../pages/instructor/courses/Courses.tsx'
 import ManageCourse from '../pages/instructor/courses/ManageCourse.tsx'
 import Assignment from '../pages/instructor/courses/Assignment.tsx'
 import Quiz from '../pages/instructor/courses/Quiz.tsx'
+import Pdf from '../pages/instructor/courses/Pdf.tsx'
+import LinkResource from '../pages/instructor/courses/Link.tsx'
+import VideoResource from '../pages/instructor/courses/video.tsx'
 
 const AppRoutes = () => {
   return (
@@ -86,6 +89,11 @@ const AppRoutes = () => {
       <Route path="/instructor/courses/:courseId" element={<ManageCourse />} />
       <Route path="/instructor/courses/assignment" element={<Assignment />} />
       <Route path="/instructor/courses/quiz" element={<Quiz />} />
+      <Route path="/instructor/courses/pdf" element={<Pdf />} />
+      <Route path='/instructor/courses/link' element={<LinkResource />} />
+      <Route path='/instructor/courses/video' element={<VideoResource />} />
+
+
 
       {/* Catch-all route for unhandled paths */}
       <Route path="*" element={<Navigate to="/" replace />} />
