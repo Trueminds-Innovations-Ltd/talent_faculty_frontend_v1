@@ -114,11 +114,11 @@ export default function AdminUsers() {
           onMenuClick={() => setMobileOpen(true)}
         />
 
-        <main className="p-4 sm:p-6 lg:p-8 space-y-8 max-w-7xl mx-auto w-full">
+        <main className="p-4 sm:p-6 space-y-6 max-w-[1400px] mx-auto w-full">
           {/* Section 1: User Overview Cards */}
           <section className="space-y-4">
             <h2 className="text-lg font-bold text-gray-900">User Overview</h2>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Total Users */}
               <div className="bg-[#EEF2FF] p-5 rounded-2xl border border-blue-100/60 flex justify-between items-start">
@@ -227,11 +227,10 @@ export default function AdminUsers() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`pb-3 border-b-2 transition-colors ${
-                    activeTab === tab.id
-                      ? 'border-emerald-700 text-emerald-700 font-bold'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`pb-3 border-b-2 transition-colors ${activeTab === tab.id
+                    ? 'border-emerald-700 text-emerald-700 font-bold'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -369,7 +368,7 @@ export default function AdminUsers() {
               {/* Table Footer / Pagination */}
               <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t border-gray-100 gap-4 text-xs text-gray-500">
                 <span>Showing 1 to 5 of 2346</span>
-                
+
                 <div className="flex items-center gap-1">
                   <button className="p-1 rounded hover:bg-gray-100 text-gray-400">
                     <ChevronLeft size={16} />
