@@ -21,7 +21,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick, onLogoutC
           </button>
           <div>
             {title && <h1 className="text-lg font-bold text-neutral-800">{title}</h1>}
-            {subtitle && <p className="text-sm text-neutral-400">{subtitle}</p>}
+            {subtitle && <p className="text-sm text-neutral-400 hidden sm:block">{subtitle}</p>}
           </div>
         </div>
 

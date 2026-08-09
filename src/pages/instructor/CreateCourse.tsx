@@ -35,7 +35,7 @@ export default function CreateCourse() {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen px-10 ">
+      <div className="min-h-screen px-2 ">
 
         {/* Back */}
 

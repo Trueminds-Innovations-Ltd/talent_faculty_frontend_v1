@@ -158,7 +158,7 @@ export default function ReportsAnalytics({
                                 />
                                 <Tooltip
                                     cursor={{ fill: "#f3f4f6" }}
-                                    formatter={(value: number) => [`${value}%`, "Score"]}
+                                    formatter={(value: any) => [`${value}%`, "Score"]}
                                 />
                                 <Bar dataKey="score" fill="#16a34a" radius={[0, 4, 4, 0]} barSize={14} />
                             </BarChart>
@@ -202,7 +202,7 @@ export default function ReportsAnalytics({
                                         <Cell key={entry.label} fill={entry.color} stroke="none" />
                                     ))}
                                 </Pie>
-                                <Tooltip formatter={(value: number, name: string) => [`${value}%`, name]} />
+                                <Tooltip formatter={(value: any, name: any) => [`${value}%`, name]} />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
