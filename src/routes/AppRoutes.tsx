@@ -32,7 +32,9 @@ import Assignment from '../pages/instructor/courses/Assignment.tsx'
 import Quiz from '../pages/instructor/courses/Quiz.tsx'
 import Pdf from '../pages/instructor/courses/Pdf.tsx'
 import LinkResource from '../pages/instructor/courses/Link.tsx'
-import VideoResource from '../pages/instructor/courses/video.tsx'
+import VideoResource from '../pages/instructor/courses/Video.tsx'
+import ReportsAnalytics from '../pages/instructor/courses/Report.tsx'
+
 
 const AppRoutes = () => {
   return (
@@ -92,6 +94,7 @@ const AppRoutes = () => {
       <Route path="/instructor/courses/pdf" element={<Pdf />} />
       <Route path='/instructor/courses/link' element={<LinkResource />} />
       <Route path='/instructor/courses/video' element={<VideoResource />} />
+      <Route path='/instructor/report' element={<ReportsAnalytics />} />
 
 
 
