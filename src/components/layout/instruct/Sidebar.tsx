@@ -19,8 +19,7 @@ const mainMenuItems = [
   { label: 'Learners', icon: <TrendingUp size={20} />, path: '/instructor/learners' },
   { label: 'Assignments', icon: <FileText size={20} />, path: '/instructor/assignments' },
   { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/instructor/assessments' },
-  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/instructor/messages' },
-  { label: 'Reports', icon: <User size={20} />, path: '/instructor/reports' },
+  { label: 'Reports', icon: <User size={20} />, path: '/instructor/report' },
 ]
 
 
