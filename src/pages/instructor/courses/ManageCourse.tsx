@@ -7,7 +7,7 @@ import TopBar from '../../../components/layout/instruct/TopBar'
 import CourseDetailsTab from '../../../components/common/instructor/CourseDetailsTab'
 import ModulesLessonsTab from '../../../components/common/instructor/ModulesLessonsTab'
 
-type ActivityType = "assignment" | "quiz" | null;
+type ActivityType = "assignment" | "quiz" | "pdf" | "link" | "video" | null;
 
 export default function ManageCourse() {
 
@@ -27,6 +27,9 @@ export default function ManageCourse() {
     const routes: Record<Exclude<ActivityType, null>, string> = {
       assignment: "/instructor/courses/assignment",
       quiz: "/instructor/courses/quiz",
+      pdf: "/instructor/courses/pdf",
+      link: "/instructor/courses/link",
+      video: "/instructor/courses/video",
     };
     navigate(routes[selectedType]);
     closeModal();
@@ -228,14 +231,124 @@ export default function ManageCourse() {
 
           {activeTab === 'Resources' && (
             <div className="py-12 text-center text-gray-400 font-medium text-sm">
-              <div className="rounded-[20px] border-2 border-dashed border-gray-200 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 hover:border-purple-300 transition-colors min-h-[320px]">
+              <div
+                onClick={openModal}
+                className="rounded-[20px] border-2 border-dashed border-gray-200 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 hover:border-purple-300 transition-colors min-h-[320px]"
+              >
                 <div className="w-14 h-14 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-4 transition-transform hover:scale-105">
                   <Plus size={24} />
                 </div>
                 <span className="font-bold text-[15px] text-gray-800">
-                  Create Resource
+                  Create Resources
                 </span>
               </div>
+
+              {/* Modal overlay */}
+              {isOpen && (
+                <div
+                  className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px] px-4"
+                  onClick={closeModal}
+                >
+                  <div
+                    className="bg-white rounded-[24px] shadow-xl w-full max-w-xl px-8 py-12"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <h2 className="text-xl font-bold text-gray-900 text-center mb-1">
+                      Add Resource
+                    </h2>
+                    <p className="text-sm text-black text-center mb-6">
+                      Choose the type of  resource you want to add to this course.
+                    </p>
+
+                    <div className="flex flex-col gap-3 mb-6">
+                      {/* pdf option */}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedType("pdf")}
+                        className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-colors ${selectedType === "pdf"
+                          ? "border-green-600 bg-green-50/50"
+                          : "border-gray-200 hover:border-gray-300"
+                          }`}
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                          <DocumentText color='black' size={18} />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-gray-900">
+                            PDF
+                          </p>
+                          <p className="text-[13px] text-gray-500">
+                            Upload a document
+                          </p>
+                        </div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedType("link")}
+                        className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-colors ${selectedType === "link"
+                          ? "border-green-600 bg-green-50/50"
+                          : "border-gray-200 hover:border-gray-300"
+                          }`}
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                          <DocumentText color='black' size={18} />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-gray-900">
+                            Link
+                          </p>
+                          <p className="text-[13px] text-gray-500">
+                            Add an external link
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Video option */}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedType("video")}
+                        className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-colors ${selectedType === "video"
+                          ? "border-green-600 bg-green-50/50"
+                          : "border-gray-200 hover:border-gray-300"
+                          }`}
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-teal-50 text-teal-500 flex items-center justify-center shrink-0">
+                          <TaskSquare color='black' size={18} />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-gray-900">
+                            Additional Video
+                          </p>
+                          <p className="text-[13px] text-gray-500">
+                            Add a video resource
+                          </p>
+                        </div>
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleContinue}
+                      disabled={!selectedType}
+                      className={`w-full rounded-xl py-3 font-semibold text-[14px] text-white transition-colors mb-3 ${selectedType
+                        ? "bg-[#0F833C] hover:bg-primary-dark"
+                        : "bg-[#0F833C] cursor-not-allowed"
+                        }`}
+                    >
+                      Continue
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="w-full text-center text-[13px] font-medium text-gray-500 hover:text-gray-700"
+                    >
+                      Back to Courses
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </main>
