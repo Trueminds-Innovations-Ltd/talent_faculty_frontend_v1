@@ -17,7 +17,6 @@ const mainMenuItems = [
   { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/instructor/dashboard' },
   { label: 'Courses', icon: <BookOpen size={20} />, path: '/instructor/courses' },
   { label: 'Learners', icon: <TrendingUp size={20} />, path: '/instructor/learners' },
-  { label: 'Assignments', icon: <FileText size={20} />, path: '/instructor/assignments' },
   { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/instructor/assessments' },
   { label: 'Reports', icon: <User size={20} />, path: '/instructor/report' },
 ]
