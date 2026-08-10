@@ -18,7 +18,6 @@ import Help$Support from '../pages/student/Help & Support.tsx'
 import Welcome from '../pages/auth/Welcome.tsx'
 import PasswordReset from '../pages/auth/PasswordReset.tsx'
 import Assignments from '../pages/student/Assignment.tsx'
-import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
 import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
@@ -34,6 +33,8 @@ import Pdf from '../pages/instructor/courses/Pdf.tsx'
 import LinkResource from '../pages/instructor/courses/Link.tsx'
 import VideoResource from '../pages/instructor/courses/Video.tsx'
 import ReportsAnalytics from '../pages/instructor/courses/Report.tsx'
+import InstructorAssessments from '../pages/instructor/assessments/InstructorAssessments.tsx'
+import Assessments from '../pages/student/Assessment.tsx'
 
 
 const AppRoutes = () => {
@@ -95,6 +96,7 @@ const AppRoutes = () => {
       <Route path='/instructor/courses/link' element={<LinkResource />} />
       <Route path='/instructor/courses/video' element={<VideoResource />} />
       <Route path='/instructor/report' element={<ReportsAnalytics />} />
+      <Route path='/instructor/assessments' element={<InstructorAssessments />} />
 
 
 
