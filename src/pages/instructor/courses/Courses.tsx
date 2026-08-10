@@ -134,15 +134,8 @@ export default function InstructorCourses() {
   })
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden">
-      <Sidebar
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-        onLogoutClick={handleLogout}
-      />
-
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <TopBar onMenuClick={() => setMobileOpen(true)} onLogoutClick={handleLogout} />
+    <div className="h-screen">
+      <div className="min-w-0 overflow-y-auto">
 
         <main className="p-6 lg:p-8 space-y-8 max-w-[1400px] mx-auto w-full">
           <div className="space-y-1">
@@ -157,7 +150,7 @@ export default function InstructorCourses() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${activeTab === tab
+                className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${activeTab === tab
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-500 hover:text-gray-700'
                   }`}

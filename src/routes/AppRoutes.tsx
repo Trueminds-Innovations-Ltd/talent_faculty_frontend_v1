@@ -34,6 +34,8 @@ import Pdf from '../pages/instructor/courses/Pdf.tsx'
 import LinkResource from '../pages/instructor/courses/Link.tsx'
 import VideoResource from '../pages/instructor/courses/Video.tsx'
 import ReportsAnalytics from '../pages/instructor/courses/Report.tsx'
+import Assessment from '../pages/instructor/assessments/Assessment.tsx'
+import InstructorLayout from '../pages/instructor/InstructorLayout.tsx'
 
 
 const AppRoutes = () => {
@@ -83,20 +85,21 @@ const AppRoutes = () => {
       <Route path="/admin/users" element={<AdminUsers />} />
 
       {/* Instructor Dashboard */}
-      <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
-      <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
-      <Route path="/instructor/create-course" element={<CreateCourse />} />
-      <Route path="/instructor/CreateCourse" element={<CreateCourse />} />
-      <Route path="/instructor/courses" element={<InstructorCourses />} />
-      <Route path="/instructor/courses/:courseId" element={<ManageCourse />} />
-      <Route path="/instructor/courses/assignment" element={<Assignment />} />
-      <Route path="/instructor/courses/quiz" element={<Quiz />} />
-      <Route path="/instructor/courses/pdf" element={<Pdf />} />
-      <Route path='/instructor/courses/link' element={<LinkResource />} />
-      <Route path='/instructor/courses/video' element={<VideoResource />} />
-      <Route path='/instructor/report' element={<ReportsAnalytics />} />
-
-
+      <Route path='/instructor' element={<InstructorLayout/>}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<InstructorDashboard />} />
+        <Route path="create-course" element={<CreateCourse />} />
+        <Route path="CreateCourse" element={<CreateCourse />} />
+        <Route path="courses" element={<InstructorCourses />} />
+        <Route path="courses/:courseId" element={<ManageCourse />} />
+        <Route path="courses/assignment" element={<Assignment />} />
+        <Route path="courses/quiz" element={<Quiz />} />
+        <Route path="courses/pdf" element={<Pdf />} />
+        <Route path='courses/link' element={<LinkResource />} />
+        <Route path='courses/video' element={<VideoResource />} />
+        <Route path='report' element={<ReportsAnalytics />} />
+        <Route path='assessments' element={<Assessment />} />
+      </Route>
 
       {/* Catch-all route for unhandled paths */}
       <Route path="*" element={<Navigate to="/" replace />} />
