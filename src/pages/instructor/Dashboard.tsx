@@ -477,7 +477,7 @@ export default function Dashboard() {
     const [activeTab, setActiveTab] = useState<TabKey>("learners");
 
     return (
-
+        <DashboardLayout>
         <div className="mx-auto max-w-[1400px]">
             {/* Header */}
             <div className="mb-4 sm:mb-6">
@@ -584,6 +584,6 @@ export default function Dashboard() {
                 </div>
             </div>
         </div>
-
+        </DashboardLayout>
     );
 }
