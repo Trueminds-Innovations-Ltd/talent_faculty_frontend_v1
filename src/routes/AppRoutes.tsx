@@ -35,9 +35,10 @@ import Pdf from '../pages/instructor/courses/Pdf.tsx'
 import LinkResource from '../pages/instructor/courses/Link.tsx'
 import VideoResource from '../pages/instructor/courses/Video.tsx'
 import ReportsAnalytics from '../pages/instructor/courses/Report.tsx'
-import InstructorAssessments from '../pages/instructor/assessments/InstructorAssessments.tsx'
 import Learners from '../pages/instructor/learners/Learners.tsx'
 import LearnerProfile from '../pages/instructor/learners/LearnerProfile.tsx'
+import AssessmentManagement from '../pages/instructor/assessments/AssessmentManagement.tsx'
+import AssignmentGrading from '../pages/instructor/assessments/AssignmentGrading.tsx'
 
 
 const AppRoutes = () => {
@@ -86,8 +87,9 @@ const AppRoutes = () => {
       <Route path="/admin/courses" element={<AdminCourses />} />
       <Route path="/admin/users" element={<AdminUsers />} />
 
-      <Route path='/instructor/assessments' element={<InstructorAssessments />} />
       <Route path="/instructor" element={<InstructorLayout />}>
+        <Route path='/instructor/assessments' element={<AssessmentManagement />} />
+        <Route path="/instructor/assessments/:id" element={<AssignmentGrading />} />
         <Route index element={<Navigate to="/instructor/dashboard" replace />} />
         <Route path="dashboard" element={<InstructorDashboard />} />
         <Route path="create-course" element={<CreateCourse />} />
