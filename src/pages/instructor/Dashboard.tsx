@@ -301,15 +301,15 @@ const StatCard: React.FC<{
     iconBg: string;
     valueColor: string;
 }> = ({ label, value, caption, icon, iconBg, valueColor }) => (
-    <div className="flex-1 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-        <div className="mb-3 flex items-center justify-between">
-            <span className="text-sm text-gray-500">{label}</span>
-            <div className={`flex h-7 w-7 items-center justify-center rounded-lg ${iconBg}`}>
+    <div className="rounded-2xl border border-gray-100 bg-white p-3 sm:p-4 shadow-sm">
+        <div className="mb-2 sm:mb-3 flex items-center justify-between gap-1">
+            <span className="text-xs sm:text-sm text-gray-500 line-clamp-1">{label}</span>
+            <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${iconBg}`}>
                 {icon}
             </div>
         </div>
-        <div className={`text-2xl font-semibold ${valueColor}`}>{value}</div>
-        <div className="mt-1 text-xs text-gray-400">{caption}</div>
+        <div className={`text-xl sm:text-2xl font-semibold ${valueColor}`}>{value}</div>
+        <div className="mt-1 text-[11px] sm:text-xs text-gray-400 truncate">{caption}</div>
     </div>
 );
 
@@ -321,12 +321,12 @@ const QuickLink: React.FC<{
 }> = ({ label, icon, iconBg, to }) => (
     <Link
         to={to}
-        className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-white py-6 shadow-sm transition hover:border-gray-200 hover:shadow-md"
+        className="flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 rounded-2xl border border-gray-100 bg-white px-2.5 py-3.5 sm:py-5 shadow-sm transition hover:border-gray-200 hover:shadow-md text-center"
     >
-        <div className={`flex h-10 w-10 items-center justify-center rounded-full ${iconBg}`}>
+        <div className={`flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full ${iconBg}`}>
             {icon}
         </div>
-        <span className="text-sm font-medium text-gray-700">{label}</span>
+        <span className="text-xs sm:text-sm font-medium text-gray-700 leading-tight">{label}</span>
     </Link>
 );
 
@@ -434,20 +434,20 @@ const LearnerSupportTable: React.FC = () => (
 const PendingReviewsList: React.FC = () => (
     <div className="divide-y divide-gray-50">
         {pendingReviews.map((row, i) => (
-            <div key={i} className="flex items-center justify-between py-4">
-                <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-500">
+            <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 py-3.5 sm:py-4">
+                <div className="flex items-start sm:items-center gap-3 min-w-0">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-500 mt-0.5 sm:mt-0">
                         <ClipboardCheck size={16} />
                     </div>
-                    <div>
-                        <div className="text-sm font-medium text-gray-800">{row.module}</div>
-                        <div className="text-xs text-gray-400">
+                    <div className="min-w-0">
+                        <div className="text-xs sm:text-sm font-medium text-gray-800 truncate">{row.module}</div>
+                        <div className="text-xs text-gray-400 truncate">
                             {row.learnerName} · {row.submission}
                         </div>
-                        <div className="text-xs text-gray-400">{row.submitted}</div>
+                        <div className="text-[11px] sm:text-xs text-gray-400">{row.submitted}</div>
                     </div>
                 </div>
-                <button className="rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50">
+                <button className="self-end sm:self-auto shrink-0 rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50">
                     Review
                 </button>
             </div>
@@ -478,17 +478,17 @@ export default function Dashboard() {
 
     return (
         <DashboardLayout>
-            <div className="mx-auto max-w-[1400px]">
+            <div className="mx-auto md:max-w-[1400px]">
                 {/* Header */}
-                <div className="mb-6">
-                    <h1 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
+                <div className="mb-4 sm:mb-6">
+                    <h1 className="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-800">
                         Welcome, Sarah <span aria-hidden>👋</span>
                     </h1>
-                    <p className="text-sm text-gray-400">Ready to share your knowledge?</p>
+                    <p className="text-xs sm:text-sm text-gray-400">Ready to share your knowledge?</p>
                 </div>
 
                 {/* Stat cards */}
-                <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="mb-5 sm:mb-6 grid grid-cols-2 gap-2.5 sm:gap-4 sm:grid-cols-4">
                     <StatCard
                         label="Assigned learners"
                         value={89}
@@ -524,9 +524,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* Quick links */}
-                <div className="mb-8">
-                    <h2 className="mb-3 text-sm font-semibold text-gray-700">Quick links</h2>
-                    <div className="flex gap-3">
+                <div className="mb-6 sm:mb-8">
+                    <h2 className="mb-2.5 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-700">Quick links</h2>
+                    <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
                         <QuickLink
                             label="Create Course"
                             icon={<Plus size={18} className="text-violet-500" />}
@@ -550,13 +550,13 @@ export default function Dashboard() {
                 </div>
 
                 {/* Tabs + table card */}
-                <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                    <div className="mb-5 flex w-fit gap-1 rounded-full bg-gray-50 p-1 text-sm">
+                <div className="rounded-2xl border border-gray-100 bg-white p-3.5 sm:p-5 shadow-sm">
+                    <div className="mb-4 sm:mb-5 flex max-w-full overflow-x-auto gap-1 rounded-2xl sm:rounded-full bg-gray-50 p-1 text-xs sm:text-sm scrollbar-none">
                         {TABS.map((tab) => (
                             <button
                                 key={tab.key}
                                 onClick={() => setActiveTab(tab.key)}
-                                className={`whitespace-nowrap rounded-full px-4 py-1.5 font-medium transition ${activeTab === tab.key
+                                className={`whitespace-nowrap shrink-0 rounded-full px-3 sm:px-4 py-1.5 font-medium transition ${activeTab === tab.key
                                     ? "bg-white text-gray-800 shadow-sm"
                                     : "text-gray-400 hover:text-gray-600"
                                     }`}
@@ -567,7 +567,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="mb-3 flex items-center justify-between">
-                        <h3 className="text-sm font-semibold text-gray-800">
+                        <h3 className="text-xs sm:text-sm font-semibold text-gray-800">
                             {SECTION_TITLES[activeTab]}
                         </h3>
                         <button className="flex items-center gap-0.5 text-xs font-medium text-emerald-600 hover:text-emerald-700">
@@ -576,7 +576,7 @@ export default function Dashboard() {
                         </button>
                     </div>
 
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
                         {activeTab === "learners" && <AssignedLearnersTable />}
                         {activeTab === "assignments" && <AssignmentsTable />}
                         {activeTab === "support" && <LearnerSupportTable />}

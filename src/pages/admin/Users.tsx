@@ -90,7 +90,7 @@ const MOCK_USERS = [
 export default function AdminUsers() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'all' | 'learners' | 'instructors' | 'administrators'>('all')
-  
+
   // Filter States
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCohort, setSelectedCohort] = useState('')
@@ -128,7 +128,7 @@ export default function AdminUsers() {
         />
 
         <main className="p-4 sm:p-8 space-y-8 max-w-[1400px] mx-auto w-full bg-white">
-          
+
           {/* Top Action Buttons */}
           <div className="flex justify-end gap-4">
             <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-semibold text-gray-800 hover:bg-gray-50 transition-colors shadow-sm">
@@ -206,7 +206,7 @@ export default function AdminUsers() {
 
           {/* Section 2: Users Table & Filters */}
           <section className="space-y-6">
-            
+
             {/* Navigation Tabs */}
             <div className="flex border-b border-gray-200 space-x-8 text-sm font-semibold max-lg:overflow-x-auto">
               {[
@@ -354,7 +354,7 @@ export default function AdminUsers() {
                 </tbody>
               </table>
             </div>
-            
+
             {/* Table Footer / Pagination */}
             <div className="flex flex-col sm:flex-row items-center justify-between py-2 gap-4 text-sm text-gray-500">
               <span className="font-medium">Showing 1 to 5 of 2346 users</span>
@@ -370,7 +370,7 @@ export default function AdminUsers() {
                   <ChevronRight size={16} />
                 </button>
                 <button className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 font-medium ml-2">43</button>
-                
+
                 <div className="relative ml-1">
                   <select className="appearance-none bg-white border border-gray-200 rounded-lg pl-3 pr-8 py-1.5 text-sm font-medium text-gray-700 outline-none cursor-pointer hover:bg-gray-50">
                     <option>Last page</option>
