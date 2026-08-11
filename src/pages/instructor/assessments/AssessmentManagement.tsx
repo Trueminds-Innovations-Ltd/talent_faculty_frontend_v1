@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-// Mock Data representing the table in image_ba77db.png
 const ASSESSMENTS = [
   {
     id: "1",
