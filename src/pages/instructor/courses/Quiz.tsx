@@ -9,7 +9,6 @@ import {
     Copy,
     Check,
 } from "lucide-react";
-import DashboardLayout from "../../../components/layout/instruct/DashboardLayout";
 
 
 type QuestionType = "mcq" | "truefalse" | "short";
@@ -175,7 +174,6 @@ export default function QuizBuilder() {
 
     if (step === "settings") {
         return (
-            <DashboardLayout>
                 <div className="max-w-3xl w-full   px-6 py-8">
                     <button
                         type="button"
@@ -285,13 +283,11 @@ export default function QuizBuilder() {
                         </button>
                     </div>
                 </div>
-            </DashboardLayout>
         );
     }
 
 
     return (
-        <DashboardLayout>
             <div className="max-w-3xl bg-white  px-6 py-3">
                 <button
                     type="button"
@@ -521,6 +517,5 @@ export default function QuizBuilder() {
                     </button>
                 </div>
             </div>
-        </DashboardLayout>
     );
 }

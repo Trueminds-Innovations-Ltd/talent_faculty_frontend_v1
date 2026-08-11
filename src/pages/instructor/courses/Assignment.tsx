@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "../../../components/layout/instruct/DashboardLayout";
 import {
     ChevronLeft,
     Settings,
@@ -116,7 +115,6 @@ export default function Assignment() {
     };
 
     return (
-        <DashboardLayout>
             <div className=" min-h-screen bg-white">
                 {/* Toast notification */}
                 {toast && (
@@ -394,6 +392,5 @@ export default function Assignment() {
                     </div>
                 )}
             </div>
-        </DashboardLayout>
     );
 }

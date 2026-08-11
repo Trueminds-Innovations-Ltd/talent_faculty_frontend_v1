@@ -8,11 +8,7 @@ import {
   BookOpen,
   Clock,
   Plus,
-  LogOut,
 } from 'lucide-react'
-import Sidebar from '../../../components/layout/instruct/Sidebar'
-import TopBar from '../../../components/layout/instruct/TopBar'
-import Modal from '../../../components/common/Modal'
 
 type CourseStatus = 'Published' | 'Draft' | 'Archive'
 
@@ -117,15 +113,9 @@ const renderBadge = (status: CourseStatus) => {
 }
 
 export default function InstructorCourses() {
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('All')
-  const [logoutModalOpen, setLogoutModalOpen] = useState(false)
 
   const tabs = ['All', 'Published', 'Drafts', 'Archive']
-
-  const handleLogout = () => {
-    setLogoutModalOpen(true)
-  }
 
   const filteredCourses = MOCK_COURSES.filter((course) => {
     if (activeTab === 'All') return true
@@ -134,40 +124,30 @@ export default function InstructorCourses() {
   })
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden">
-      <Sidebar
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-        onLogoutClick={handleLogout}
-      />
+    <div className="space-y-8 max-w-[1400px] mx-auto w-full">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-admin-ink">Courses</h1>
+        <p className="text-sm text-admin-ash-3">
+          Manage your assigned courses, organize learning content, and keep course materials up to date.
+        </p>
+      </div>
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <TopBar onMenuClick={() => setMobileOpen(true)} onLogoutClick={handleLogout} />
+      <div className="flex items-center gap-2 bg-admin-ash-7/50 p-1.5 rounded-full w-max">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${activeTab === tab
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-500 hover:text-gray-700'
+              }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
 
-        <main className="p-6 lg:p-8 space-y-8 max-w-[1400px] mx-auto w-full">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-admin-ink">Courses</h1>
-            <p className="text-sm text-admin-ash-3">
-              Manage your assigned courses, organize learning content, and keep course materials up to date.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 bg-admin-ash-7/50 p-1.5 rounded-full w-max">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${activeTab === tab
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
-                  }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredCourses.map((course) => (
               <div
                 key={course.id}
@@ -224,38 +204,7 @@ export default function InstructorCourses() {
                 </span>
               </Link>
             </div>
-          </div>
-        </main>
       </div>
-
-      <Modal isOpen={logoutModalOpen} onClose={() => setLogoutModalOpen(false)}>
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-admin-danger-light">
-            <LogOut size={28} className="text-admin-danger" />
-          </div>
-          <h3 className="text-xl font-bold text-admin-ink mb-2">Log Out?</h3>
-          <p className="text-sm text-admin-ash-3 mb-6 max-w-xs mx-auto">
-            Are you sure you want to log out of your Talent Faculty account?
-          </p>
-          <div className="flex gap-3 justify-center">
-            <button
-              onClick={() => setLogoutModalOpen(false)}
-              className="px-6 py-2.5 rounded-xl border border-admin-ash-6 text-sm font-semibold text-admin-ash-1 hover:bg-admin-ash-7/50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                setLogoutModalOpen(false)
-                window.location.href = '/login'
-              }}
-              className="px-6 py-2.5 rounded-xl bg-admin-primary text-sm font-semibold text-white hover:bg-admin-primary-dark transition-colors"
-            >
-              Yes, Log Out
-            </button>
-          </div>
-        </div>
-      </Modal>
     </div>
   )
 }

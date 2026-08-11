@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import DashboardLayout from "../../../components/layout/instruct/DashboardLayout";
 import {
     ChevronLeft,
     UploadCloud,
@@ -132,7 +131,6 @@ export default function PdfSec() {
     };
 
     return (
-        <DashboardLayout>
             <div className="max-w-3xl w-full   px-6 py-8">
                 {showToast && (
                     <Toast
@@ -278,6 +276,5 @@ export default function PdfSec() {
                     </div>
                 </div>
             </div>
-        </DashboardLayout>
     );
 }
