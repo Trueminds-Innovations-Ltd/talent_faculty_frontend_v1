@@ -478,112 +478,112 @@ export default function Dashboard() {
 
     return (
         <DashboardLayout>
-        <div className="mx-auto max-w-[1400px]">
-            {/* Header */}
-            <div className="mb-4 sm:mb-6">
-                <h1 className="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-800">
-                    Welcome, Sarah <span aria-hidden>👋</span>
-                </h1>
-                <p className="text-xs sm:text-sm text-gray-400">Ready to share your knowledge?</p>
-            </div>
+            <div className="mx-auto max-w-[1400px]">
+                {/* Header */}
+                <div className="mb-4 sm:mb-6">
+                    <h1 className="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-800">
+                        Welcome, Sarah <span aria-hidden>👋</span>
+                    </h1>
+                    <p className="text-xs sm:text-sm text-gray-400">Ready to share your knowledge?</p>
+                </div>
 
-            {/* Stat cards */}
-            <div className="mb-5 sm:mb-6 grid grid-cols-2 gap-2.5 sm:gap-4 sm:grid-cols-4">
-                <StatCard
-                    label="Assigned learners"
-                    value={89}
-                    caption="Across all courses"
-                    icon={<Users size={14} className="text-emerald-500" />}
-                    iconBg="bg-emerald-50"
-                    valueColor="text-emerald-600"
-                />
-                <StatCard
-                    label="Learner Support"
-                    value={24}
-                    caption="Needs intervention"
-                    icon={<HeartHandshake size={14} className="text-rose-500" />}
-                    iconBg="bg-rose-50"
-                    valueColor="text-rose-500"
-                />
-                <StatCard
-                    label="Pending Reviews"
-                    value={12}
-                    caption="Awaiting grading"
-                    icon={<Inbox size={14} className="text-amber-500" />}
-                    iconBg="bg-amber-50"
-                    valueColor="text-amber-500"
-                />
-                <StatCard
-                    label="Active Courses"
-                    value={12}
-                    caption="Published"
-                    icon={<BookOpen size={14} className="text-sky-500" />}
-                    iconBg="bg-sky-50"
-                    valueColor="text-sky-500"
-                />
-            </div>
-
-            {/* Quick links */}
-            <div className="mb-6 sm:mb-8">
-                <h2 className="mb-2.5 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-700">Quick links</h2>
-                <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
-                    <QuickLink
-                        label="Create Course"
-                        icon={<Plus size={18} className="text-violet-500" />}
-                        iconBg="bg-violet-50"
-                        to="/instructor/createcourse"
-                    />
-
-                    <QuickLink
-                        label="Grade Submissions"
-                        icon={<ClipboardCheck size={18} className="text-sky-500" />}
-                        iconBg="bg-sky-50"
-                        to="/instructor/assessments"
-                    />
-                    <QuickLink
-                        label="View Reports"
-                        icon={<FileBarChart2 size={18} className="text-emerald-500" />}
+                {/* Stat cards */}
+                <div className="mb-5 sm:mb-6 grid grid-cols-2 gap-2.5 sm:gap-4 sm:grid-cols-4">
+                    <StatCard
+                        label="Assigned learners"
+                        value={89}
+                        caption="Across all courses"
+                        icon={<Users size={14} className="text-emerald-500" />}
                         iconBg="bg-emerald-50"
-                        to="#"
+                        valueColor="text-emerald-600"
+                    />
+                    <StatCard
+                        label="Learner Support"
+                        value={24}
+                        caption="Needs intervention"
+                        icon={<HeartHandshake size={14} className="text-rose-500" />}
+                        iconBg="bg-rose-50"
+                        valueColor="text-rose-500"
+                    />
+                    <StatCard
+                        label="Pending Reviews"
+                        value={12}
+                        caption="Awaiting grading"
+                        icon={<Inbox size={14} className="text-amber-500" />}
+                        iconBg="bg-amber-50"
+                        valueColor="text-amber-500"
+                    />
+                    <StatCard
+                        label="Active Courses"
+                        value={12}
+                        caption="Published"
+                        icon={<BookOpen size={14} className="text-sky-500" />}
+                        iconBg="bg-sky-50"
+                        valueColor="text-sky-500"
                     />
                 </div>
-            </div>
 
-            {/* Tabs + table card */}
-            <div className="rounded-2xl border border-gray-100 bg-white p-3.5 sm:p-5 shadow-sm">
-                <div className="mb-4 sm:mb-5 flex max-w-full overflow-x-auto gap-1 rounded-2xl sm:rounded-full bg-gray-50 p-1 text-xs sm:text-sm scrollbar-none">
-                    {TABS.map((tab) => (
-                        <button
-                            key={tab.key}
-                            onClick={() => setActiveTab(tab.key)}
-                            className={`whitespace-nowrap shrink-0 rounded-full px-3 sm:px-4 py-1.5 font-medium transition ${activeTab === tab.key
-                                ? "bg-white text-gray-800 shadow-sm"
-                                : "text-gray-400 hover:text-gray-600"
-                                }`}
-                        >
-                            {tab.label}
+                {/* Quick links */}
+                <div className="mb-6 sm:mb-8">
+                    <h2 className="mb-2.5 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-700">Quick links</h2>
+                    <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
+                        <QuickLink
+                            label="Create Course"
+                            icon={<Plus size={18} className="text-violet-500" />}
+                            iconBg="bg-violet-50"
+                            to="/instructor/createcourse"
+                        />
+
+                        <QuickLink
+                            label="Grade Submissions"
+                            icon={<ClipboardCheck size={18} className="text-sky-500" />}
+                            iconBg="bg-sky-50"
+                            to="/instructor/assessments"
+                        />
+                        <QuickLink
+                            label="View Reports"
+                            icon={<FileBarChart2 size={18} className="text-emerald-500" />}
+                            iconBg="bg-emerald-50"
+                            to="#"
+                        />
+                    </div>
+                </div>
+
+                {/* Tabs + table card */}
+                <div className="rounded-2xl border border-gray-100 bg-white p-3.5 sm:p-5 shadow-sm">
+                    <div className="mb-4 sm:mb-5 flex max-w-full overflow-x-auto gap-1 rounded-2xl sm:rounded-full bg-gray-50 p-1 text-xs sm:text-sm scrollbar-none">
+                        {TABS.map((tab) => (
+                            <button
+                                key={tab.key}
+                                onClick={() => setActiveTab(tab.key)}
+                                className={`whitespace-nowrap shrink-0 rounded-full px-3 sm:px-4 py-1.5 font-medium transition ${activeTab === tab.key
+                                    ? "bg-white text-gray-800 shadow-sm"
+                                    : "text-gray-400 hover:text-gray-600"
+                                    }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mb-3 flex items-center justify-between">
+                        <h3 className="text-xs sm:text-sm font-semibold text-gray-800">
+                            {SECTION_TITLES[activeTab]}
+                        </h3>
+                        <button className="flex items-center gap-0.5 text-xs font-medium text-primary hover:text-emerald-700">
+                            See all
+                            <ChevronRight size={14} />
                         </button>
-                    ))}
-                </div>
+                    </div>
 
-                <div className="mb-3 flex items-center justify-between">
-                    <h3 className="text-xs sm:text-sm font-semibold text-gray-800">
-                        {SECTION_TITLES[activeTab]}
-                    </h3>
-                    <button className="flex items-center gap-0.5 text-xs font-medium text-emerald-600 hover:text-emerald-700">
-                        See all
-                        <ChevronRight size={14} />
-                    </button>
-                </div>
-
-                <div className="overflow-x-auto -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
-                    {activeTab === "learners" && <AssignedLearnersTable />}
-                    {activeTab === "assignments" && <AssignmentsTable />}
-                    {activeTab === "support" && <LearnerSupportTable />}
-                    {activeTab === "reviews" && <PendingReviewsList />}
+                    <div className="overflow-x-auto -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
+                        {activeTab === "learners" && <AssignedLearnersTable />}
+                        {activeTab === "assignments" && <AssignmentsTable />}
+                        {activeTab === "support" && <LearnerSupportTable />}
+                        {activeTab === "reviews" && <PendingReviewsList />}
+                    </div>
                 </div>
             </div>
-        </div>
         </DashboardLayout>
     );
 }
