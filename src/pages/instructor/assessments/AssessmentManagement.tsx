@@ -140,7 +140,7 @@ export default function AssessmentManagement() {
   return (
     <div className="flex h-screen bg-white overflow-hidden">
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-white relative">
-        <main className="p-6 lg:p-10 max-w-[1400px] w-full mx-auto relative">
+        <main className="p-6 lg:p-2 max-w-[1400px] w-full mx-auto relative">
           {/* Header Section */}
           <div className="mb-8 space-y-2">
             <h1 className="text-2xl font-bold text-gray-900">
@@ -158,11 +158,10 @@ export default function AssessmentManagement() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-xl text-[13px] font-bold transition-all duration-200 ${
-                  activeTab === tab
-                    ? "bg-white text-gray-900 shadow-sm border border-gray-200/50"
-                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent"
-                }`}
+                className={`px-5 py-2 rounded-xl text-[13px] font-bold transition-all duration-200 ${activeTab === tab
+                  ? "bg-white text-gray-900 shadow-sm border border-gray-200/50"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent"
+                  }`}
               >
                 {tab}
               </button>
