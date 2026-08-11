@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import DashboardLayout from "../../components/layout/instruct/DashboardLayout";
 import {
     Users,
     HeartHandshake,
@@ -11,6 +10,7 @@ import {
     FileBarChart2,
     ChevronRight,
 } from "lucide-react";
+import DashboardLayout from "../../components/layout/instruct/DashboardLayout";
 
 type Status =
     | "At Risk"
@@ -478,7 +478,7 @@ export default function Dashboard() {
 
     return (
         <DashboardLayout>
-            <div className="mx-auto md:max-w-[1400px]">
+            <div className="mx-auto max-w-[1400px]">
                 {/* Header */}
                 <div className="mb-4 sm:mb-6">
                     <h1 className="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-800">
@@ -584,7 +584,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-
         </DashboardLayout>
     );
 }

@@ -1,7 +1,6 @@
 import { useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from "react";
 import { ChevronLeft, Check, Link2, UploadCloud } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "../../../components/layout/instruct/DashboardLayout";
 
 type VideoSource = "upload" | "link";
 
@@ -116,7 +115,6 @@ export default function VideoResource({
     };
 
     return (
-        <DashboardLayout>
             <div className="max-w-3xl w-full px-6 py-4">
                 <button
                     type="button"
@@ -320,6 +318,5 @@ export default function VideoResource({
                     </div>
                 </form>
             </div>
-        </DashboardLayout>
     );
 }

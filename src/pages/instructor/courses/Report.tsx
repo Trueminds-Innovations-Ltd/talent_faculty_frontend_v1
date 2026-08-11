@@ -1,6 +1,5 @@
 import type { ChangeEvent } from "react";
 import { ClipboardCheck, GraduationCap, Download, ChevronDown } from "lucide-react";
-import DashboardLayout from "../../../components/layout/instruct/DashboardLayout";
 
 import {
     Bar,
@@ -106,8 +105,7 @@ export default function ReportsAnalytics({
     onExport,
 }: ReportsAnalyticsProps) {
     return (
-        <DashboardLayout>
-            <div className=" w-full max-w-7xl px-6 py-2">
+            <div className=" w-full m-auto max-w-7xl px-6 py-2">
                 <h1 className="text-2xl font-semibold text-gray-900">Reports & analytics</h1>
                 <p className="mt-1 text-sm text-gray-500">
                     Review assessment and course performance across your classes.
@@ -265,6 +263,5 @@ export default function ReportsAnalytics({
                     </button>
                 </div>
             </div>
-        </DashboardLayout>
     );
 }

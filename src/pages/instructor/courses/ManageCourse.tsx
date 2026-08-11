@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft, Globe, Eye, Plus, Save, EyeOff } from 'lucide-react'
 import { DocumentText, TaskSquare } from "iconsax-react";
-import Sidebar from '../../../components/layout/instruct/Sidebar'
 import CourseDetailsTab from '../../../components/common/instructor/CourseDetailsTab'
 import ModulesLessonsTab from '../../../components/common/instructor/ModulesLessonsTab'
 
@@ -35,33 +34,19 @@ export default function ManageCourse() {
   };
 
 
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Course details')
 
   const tabs = ['Course details', 'Modules / lessons', 'Activities', 'Resources']
 
-  const handleLogout = () => {
-    console.log('Logging out...')
-  }
-
   return (
-    <div className="flex h-screen bg-white overflow-hidden">
-      <Sidebar
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-        onLogoutClick={handleLogout}
-      />
-
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-white">
-
-        <main className="p-6 lg:p-10 space-y-8 max-w-[1400px] w-full mx-auto">
-          <button
-            onClick={() => navigate('/instructor/courses')}
-            className="flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-emerald-700 transition-colors"
-          >
-            <ChevronLeft size={18} />
-            Back to Courses
-          </button>
+    <div className="space-y-8 max-w-[1400px] w-full mx-auto">
+      <button
+        onClick={() => navigate('/instructor/courses')}
+        className="flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-emerald-700 transition-colors"
+      >
+        <ChevronLeft size={18} />
+        Back to Courses
+      </button>
 
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
             <div className="space-y-3 flex-1">
@@ -350,8 +335,6 @@ export default function ManageCourse() {
               )}
             </div>
           )}
-        </main>
-      </div>
     </div>
   )
 }

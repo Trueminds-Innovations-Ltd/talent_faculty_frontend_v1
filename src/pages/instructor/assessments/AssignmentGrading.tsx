@@ -1,33 +1,94 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { 
-  ChevronLeft, 
-  RotateCw, 
+  ChevronLeft,
   AlertTriangle, 
   FileText, 
   Eye, 
   CheckCircle2,
   Send,
   Video,
-  ExternalLink
+  ExternalLink,
+  BellDot
 } from 'lucide-react'
-import Sidebar from '../../../components/layout/instruct/Sidebar'
-import TopBar from '../../../components/layout/instruct/TopBar'
 
-// Initial Mock Learners (Mix of Graded and Pending)
+// Initial Mock Learners with dynamic Rubric breakdowns
 const INITIAL_LEARNERS = [
-  { id: '1', name: 'Blake Nguyen', status: 'Graded', isLate: false, avatar: 'https://i.pravatar.cc/150?u=1', score: '88', feedback: 'Good work on user flows.' },
-  { id: '2', name: 'Morgan Diaz', status: 'Pending', isLate: true, avatar: 'https://i.pravatar.cc/150?u=2', score: '85', feedback: 'Strong research approach and clear documentation.' },
-  { id: '3', name: 'Juno Silva', status: 'Pending', isLate: false, avatar: 'https://i.pravatar.cc/150?u=3', score: '', feedback: '' },
-  { id: '4', name: 'Bilal Patel', status: 'Graded', isLate: false, avatar: 'https://i.pravatar.cc/150?u=4', score: '92', feedback: 'Excellent interview methodology.' },
-  { id: '5', name: 'Kai Rivera', status: 'Pending', isLate: false, avatar: 'https://i.pravatar.cc/150?u=5', score: '', feedback: '' },
-  { id: '6', name: 'Farid Okafor', status: 'Graded', isLate: false, avatar: 'https://i.pravatar.cc/150?u=6', score: '78', feedback: 'Needs deeper insights.' },
-  { id: '7', name: 'Elena Ford', status: 'Graded', isLate: false, avatar: 'https://i.pravatar.cc/150?u=7', score: '90', feedback: 'Good work on your user interviews.' },
-  { id: '8', name: 'Zion Chen', status: 'Graded', isLate: false, avatar: 'https://i.pravatar.cc/150?u=8', score: '85', feedback: 'Solid submission.' },
+  { 
+    id: '1', 
+    name: 'Blake Nguyen', 
+    status: 'Graded', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=1', 
+    rubric: { objectives: '18', targetUsers: '16', methods: '16', insights: '23', organization: '15' },
+    feedback: 'Good work on user flows.' 
+  },
+  { 
+    id: '2', 
+    name: 'Morgan Diaz', 
+    status: 'Pending', 
+    isLate: true, 
+    avatar: 'https://i.pravatar.cc/150?u=2', 
+    rubric: { objectives: '18', targetUsers: '16', methods: '16', insights: '22', organization: '13' },
+    feedback: 'Strong research approach and clear documentation.' 
+  },
+  { 
+    id: '3', 
+    name: 'Juno Silva', 
+    status: 'Pending', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=3', 
+    rubric: { objectives: '', targetUsers: '', methods: '', insights: '', organization: '' },
+    feedback: '' 
+  },
+  { 
+    id: '4', 
+    name: 'Bilal Patel', 
+    status: 'Graded', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=4', 
+    rubric: { objectives: '20', targetUsers: '18', methods: '19', insights: '22', organization: '13' },
+    feedback: 'Excellent interview methodology.' 
+  },
+  { 
+    id: '5', 
+    name: 'Kai Rivera', 
+    status: 'Pending', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=5', 
+    rubric: { objectives: '', targetUsers: '', methods: '', insights: '', organization: '' },
+    feedback: '' 
+  },
+  { 
+    id: '6', 
+    name: 'Farid Okafor', 
+    status: 'Graded', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=6', 
+    rubric: { objectives: '15', targetUsers: '14', methods: '15', insights: '20', organization: '14' },
+    feedback: 'Needs deeper insights.' 
+  },
+  { 
+    id: '7', 
+    name: 'Elena Ford', 
+    status: 'Graded', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=7', 
+    rubric: { objectives: '18', targetUsers: '18', methods: '18', insights: '22', organization: '14' },
+    feedback: 'Good work on your user interviews.' 
+  },
+  { 
+    id: '8', 
+    name: 'Zion Chen', 
+    status: 'Graded', 
+    isLate: false, 
+    avatar: 'https://i.pravatar.cc/150?u=8', 
+    rubric: { objectives: '17', targetUsers: '16', methods: '17', insights: '22', organization: '13' },
+    feedback: 'Solid submission.' 
+  },
 ]
 
-export default function InstructorAssessments() {
-  const [mobileOpen, setMobileOpen] = useState(false)
+export default function AssignmentGrading() {
   const [learners, setLearners] = useState(INITIAL_LEARNERS)
   const [selectedLearnerId, setSelectedLearnerId] = useState('2') // Morgan Diaz
   const [isReleased, setIsReleased] = useState(false)
@@ -41,9 +102,17 @@ export default function InstructorAssessments() {
   const selectedLearner = learners.find(l => l.id === selectedLearnerId) || learners[0]
 
   // Form State bound to selected learner
-  const [score, setScore] = useState(selectedLearner.score)
+  const [rubricScores, setRubricScores] = useState(selectedLearner.rubric)
   const [feedback, setFeedback] = useState(selectedLearner.feedback)
   const [notifyLearner, setNotifyLearner] = useState(true)
+
+  // Auto-calculated total score
+  const computedScore = 
+    (Number(rubricScores.objectives) || 0) +
+    (Number(rubricScores.targetUsers) || 0) +
+    (Number(rubricScores.methods) || 0) +
+    (Number(rubricScores.insights) || 0) +
+    (Number(rubricScores.organization) || 0)
 
   // Calculate Progression Metrics dynamically
   const totalSubmissions = learners.length
@@ -51,10 +120,32 @@ export default function InstructorAssessments() {
   const gradedCount = learners.filter(l => l.status === 'Graded' || l.status === 'Released').length
   const isAllGraded = pendingCount === 0
 
+  // Handle Rubric Score Change with strict limits
+  const handleRubricChange = (field: keyof typeof rubricScores, value: string) => {
+    const MAX_SCORES: Record<keyof typeof rubricScores, number> = {
+      objectives: 20,
+      targetUsers: 20,
+      methods: 20,
+      insights: 25,
+      organization: 15
+    }
+
+    if (value !== '') {
+      const numValue = Number(value)
+      // Block input if it exceeds the max allowed percentage or drops below 0
+      if (numValue > MAX_SCORES[field] || numValue < 0) return
+    }
+
+    setRubricScores(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
   // Handle Learner Switch
   const handleSelectLearner = (learner: typeof learners[0]) => {
     setSelectedLearnerId(learner.id)
-    setScore(learner.score)
+    setRubricScores(learner.rubric || { objectives: '', targetUsers: '', methods: '', insights: '', organization: '' })
     setFeedback(learner.feedback)
     setShowSaveToast(false)
   }
@@ -65,7 +156,8 @@ export default function InstructorAssessments() {
       if (l.id === selectedLearnerId) {
         return {
           ...l,
-          score,
+          rubric: rubricScores,
+          score: String(computedScore),
           feedback,
           status: isReleased ? 'Released' : 'Graded'
         }
@@ -100,18 +192,7 @@ export default function InstructorAssessments() {
 
   return (
     <div className="flex h-screen bg-white overflow-hidden">
-      <Sidebar
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-        onLogoutClick={() => console.log('Logout')}
-      />
-
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-white relative">
-        <TopBar 
-          onMenuClick={() => setMobileOpen(true)} 
-          onLogoutClick={() => console.log('Logout')} 
-        />
-
         <main className="p-6 lg:p-10 max-w-[1400px] w-full mx-auto relative">
           
           {/* Breadcrumb & Header */}
@@ -161,7 +242,7 @@ export default function InstructorAssessments() {
                       : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
                   }`}
                 >
-                  <RotateCw size={14} />
+                  <BellDot size={14} />
                   Send Reminders ({pendingCount})
                 </button>
               </div>
@@ -334,11 +415,11 @@ export default function InstructorAssessments() {
                       <div className="flex items-center gap-3 text-gray-400 text-lg font-medium">
                         <input 
                           type="number"
-                          value={score}
-                          onChange={(e) => setScore(e.target.value)}
+                          value={computedScore}
+                          readOnly
                           placeholder="0"
                           disabled={isReleased}
-                          className="w-20 px-4 py-2 border border-gray-200 rounded-lg text-center text-gray-900 font-bold outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all appearance-none disabled:bg-gray-50 disabled:text-gray-500"
+                          className="w-20 px-4 py-2 border border-gray-200 bg-gray-50 rounded-lg text-center text-gray-900 font-bold outline-none transition-all appearance-none disabled:bg-gray-50 disabled:text-gray-500 cursor-not-allowed"
                         />
                         <span>/ 100</span>
                       </div>
@@ -348,26 +429,86 @@ export default function InstructorAssessments() {
                     <div className="space-y-2">
                       <label className="text-[14px] font-bold text-gray-900">Rubric</label>
                       <div className={`border border-gray-200 bg-white rounded-xl p-6 relative ${isReleased ? 'opacity-80' : ''}`}>
-                        <ul className="text-[13px] text-gray-600 space-y-2 font-medium">
-                          <li className="flex items-center">
-                            <span className="w-80">&bull; Research Objectives (20%)</span>
-                            <span>18%</span>
+                        <ul className="text-[13px] text-gray-600 space-y-3 font-medium">
+                          <li className="flex items-center justify-between">
+                            <span>&bull; Research Objectives (20%)</span>
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="number"
+                                max="20"
+                                min="0"
+                                value={rubricScores.objectives}
+                                onChange={(e) => handleRubricChange('objectives', e.target.value)}
+                                disabled={isReleased}
+                                placeholder="0"
+                                className="w-16 px-2 py-1 border border-gray-200 rounded-md text-center text-gray-900 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all disabled:bg-gray-50"
+                              />
+                              <span className="text-gray-400">%</span>
+                            </div>
                           </li>
-                          <li className="flex items-center">
-                            <span className="w-80">&bull; Target Users & Participant Selection (20%)</span>
-                            <span>16%</span>
+                          <li className="flex items-center justify-between">
+                            <span>&bull; Target Users & Participant Selection (20%)</span>
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="number"
+                                max="20"
+                                min="0"
+                                value={rubricScores.targetUsers}
+                                onChange={(e) => handleRubricChange('targetUsers', e.target.value)}
+                                disabled={isReleased}
+                                placeholder="0"
+                                className="w-16 px-2 py-1 border border-gray-200 rounded-md text-center text-gray-900 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all disabled:bg-gray-50"
+                              />
+                              <span className="text-gray-400">%</span>
+                            </div>
                           </li>
-                          <li className="flex items-center">
-                            <span className="w-80">&bull; Research Methods & Interview Process (20%)</span>
-                            <span>16%</span>
+                          <li className="flex items-center justify-between">
+                            <span>&bull; Research Methods & Interview Process (20%)</span>
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="number"
+                                max="20"
+                                min="0"
+                                value={rubricScores.methods}
+                                onChange={(e) => handleRubricChange('methods', e.target.value)}
+                                disabled={isReleased}
+                                placeholder="0"
+                                className="w-16 px-2 py-1 border border-gray-200 rounded-md text-center text-gray-900 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all disabled:bg-gray-50"
+                              />
+                              <span className="text-gray-400">%</span>
+                            </div>
                           </li>
-                          <li className="flex items-center">
-                            <span className="w-80">&bull; Insights & Findings (25%)</span>
-                            <span>25%</span>
+                          <li className="flex items-center justify-between">
+                            <span>&bull; Insights & Findings (25%)</span>
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="number"
+                                max="25"
+                                min="0"
+                                value={rubricScores.insights}
+                                onChange={(e) => handleRubricChange('insights', e.target.value)}
+                                disabled={isReleased}
+                                placeholder="0"
+                                className="w-16 px-2 py-1 border border-gray-200 rounded-md text-center text-gray-900 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all disabled:bg-gray-50"
+                              />
+                              <span className="text-gray-400">%</span>
+                            </div>
                           </li>
-                          <li className="flex items-center">
-                            <span className="w-80">&bull; Organization & Clarity (15%)</span>
-                            <span>15%</span>
+                          <li className="flex items-center justify-between">
+                            <span>&bull; Organization & Clarity (15%)</span>
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="number"
+                                max="15"
+                                min="0"
+                                value={rubricScores.organization}
+                                onChange={(e) => handleRubricChange('organization', e.target.value)}
+                                disabled={isReleased}
+                                placeholder="0"
+                                className="w-16 px-2 py-1 border border-gray-200 rounded-md text-center text-gray-900 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all disabled:bg-gray-50"
+                              />
+                              <span className="text-gray-400">%</span>
+                            </div>
                           </li>
                         </ul>
                       </div>
