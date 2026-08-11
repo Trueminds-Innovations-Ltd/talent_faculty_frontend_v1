@@ -18,10 +18,12 @@ import Help$Support from '../pages/student/Help & Support.tsx'
 import Welcome from '../pages/auth/Welcome.tsx'
 import PasswordReset from '../pages/auth/PasswordReset.tsx'
 import Assignments from '../pages/student/Assignment.tsx'
+import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
 import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
 import CreateCourse from '../pages/instructor/CreateCourse.tsx'
+import InstructorLayout from '../components/layout/instruct/DashboardLayout.tsx'
 import AdminDashboard from '../pages/admin/Dashboard.tsx'
 import AdminCourses from '../pages/admin/Courses.tsx'
 import AdminUsers from '../pages/admin/Users.tsx'
@@ -34,7 +36,8 @@ import LinkResource from '../pages/instructor/courses/Link.tsx'
 import VideoResource from '../pages/instructor/courses/Video.tsx'
 import ReportsAnalytics from '../pages/instructor/courses/Report.tsx'
 import InstructorAssessments from '../pages/instructor/assessments/InstructorAssessments.tsx'
-import Assessments from '../pages/student/Assessment.tsx'
+import Learners from '../pages/instructor/learners/Learners.tsx'
+import LearnerProfile from '../pages/instructor/learners/LearnerProfile.tsx'
 
 
 const AppRoutes = () => {
@@ -83,25 +86,26 @@ const AppRoutes = () => {
       <Route path="/admin/courses" element={<AdminCourses />} />
       <Route path="/admin/users" element={<AdminUsers />} />
 
-      {/* Instructor Dashboard */}
-      <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
-      <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
-      <Route path="/instructor/create-course" element={<CreateCourse />} />
-      <Route path="/instructor/CreateCourse" element={<CreateCourse />} />
-      <Route path="/instructor/courses" element={<InstructorCourses />} />
-      <Route path="/instructor/courses/:courseId" element={<ManageCourse />} />
-      <Route path="/instructor/courses/assignment" element={<Assignment />} />
-      <Route path="/instructor/courses/quiz" element={<Quiz />} />
-      <Route path="/instructor/courses/pdf" element={<Pdf />} />
-      <Route path='/instructor/courses/link' element={<LinkResource />} />
-      <Route path='/instructor/courses/video' element={<VideoResource />} />
-      <Route path='/instructor/report' element={<ReportsAnalytics />} />
       <Route path='/instructor/assessments' element={<InstructorAssessments />} />
-
-
-
-      {/* Catch-all route for unhandled paths */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/instructor" element={<InstructorLayout />}>
+        <Route index element={<Navigate to="/instructor/dashboard" replace />} />
+        <Route path="dashboard" element={<InstructorDashboard />} />
+        <Route path="create-course" element={<CreateCourse />} />
+        <Route path="CreateCourse" element={<CreateCourse />} />
+        <Route path="courses" element={<InstructorCourses />} />
+        <Route path="courses/:courseId" element={<ManageCourse />} />
+        <Route path="courses/assignment" element={<Assignment />} />
+        <Route path="courses/quiz" element={<Quiz />} />
+        <Route path="courses/pdf" element={<Pdf />} />
+        <Route path="courses/link" element={<LinkResource />} />
+        <Route path="courses/video" element={<VideoResource />} />
+        <Route path="report" element={<ReportsAnalytics />} />
+        
+        
+        <Route path="learners" element={<Navigate to="/instructor/learners/all" replace />} />
+        <Route path="learners/:learnerId/:tab" element={<LearnerProfile />} />
+        <Route path="learners/:status" element={<Learners />} />
+      </Route>
     </Routes>
   )
 }

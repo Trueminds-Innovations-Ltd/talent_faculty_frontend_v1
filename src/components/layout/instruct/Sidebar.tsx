@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
-  LayoutDashboard, BookOpen, TrendingUp, ClipboardList,
-  FileText, User,
+  LayoutDashboard, BookOpen, TrendingUp, ClipboardList, User,
   LogOut, ChevronDown, ChevronUp, X,
   PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'

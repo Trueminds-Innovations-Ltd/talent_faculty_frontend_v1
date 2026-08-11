@@ -1,7 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { ChevronLeft, Link2, Check, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "../../../components/layout/instruct/DashboardLayout";
 
 interface LinkResourceForm {
     title: string;
@@ -71,7 +70,6 @@ export default function LinkResource({
     };
 
     return (
-        <DashboardLayout>
             <div className="max-w-3xl w-full  px-6 py-4">
                 <button
                     type="button"
@@ -183,6 +181,5 @@ export default function LinkResource({
                     </div>
                 </form>
             </div>
-        </DashboardLayout>
     );
 }

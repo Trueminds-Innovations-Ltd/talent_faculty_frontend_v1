@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import DashboardLayout from "../../components/layout/instruct/DashboardLayout";
 import {
     Users,
     HeartHandshake,
@@ -477,7 +476,6 @@ export default function Dashboard() {
     const [activeTab, setActiveTab] = useState<TabKey>("learners");
 
     return (
-        <DashboardLayout>
             <div className="mx-auto max-w-[1400px]">
                 {/* Header */}
                 <div className="mb-6">
@@ -585,6 +583,5 @@ export default function Dashboard() {
                 </div>
             </div>
 
-        </DashboardLayout>
     );
 }

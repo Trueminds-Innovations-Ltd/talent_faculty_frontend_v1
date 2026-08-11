@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronDown, Check } from "lucide-react";
-import DashboardLayout from "../../components/layout/instruct/DashboardLayout";
 
 export default function CreateCourse() {
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ export default function CreateCourse() {
     courseDuration !== "";
 
   return (
-    <DashboardLayout>
       <div className="min-h-screen px-2 ">
 
         {/* Back */}
@@ -301,7 +299,6 @@ export default function CreateCourse() {
 
       </div>
 
-    </DashboardLayout>
 
   );
 }
