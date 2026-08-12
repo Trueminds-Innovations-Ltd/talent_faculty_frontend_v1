@@ -96,9 +96,6 @@ const AppRoutes = () => {
 
 
       {/* Instructor Dashboard */}
-      <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
-      <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
-
       <Route path="/instructor" element={<InstructorLayout />}>
         <Route path='/instructor/assessments' element={<AssessmentManagement />} />
         <Route path="/instructor/assessments/:id" element={<AssignmentGrading />} />

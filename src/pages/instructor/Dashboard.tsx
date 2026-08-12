@@ -10,7 +10,6 @@ import {
     FileBarChart2,
     ChevronRight,
 } from "lucide-react";
-import DashboardLayout from "../../components/layout/instruct/DashboardLayout";
 
 type Status =
     | "At Risk"
