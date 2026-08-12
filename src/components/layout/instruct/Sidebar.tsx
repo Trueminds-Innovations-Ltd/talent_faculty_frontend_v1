@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
-  LayoutDashboard, BookOpen, TrendingUp, ClipboardList,
-  FileText, MessageSquare, User,
+  LayoutDashboard, BookOpen, TrendingUp, ClipboardList, User,
   LogOut, ChevronDown, ChevronUp, X,
   PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
@@ -17,10 +16,8 @@ const mainMenuItems = [
   { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/instructor/dashboard' },
   { label: 'Courses', icon: <BookOpen size={20} />, path: '/instructor/courses' },
   { label: 'Learners', icon: <TrendingUp size={20} />, path: '/instructor/learners' },
-  { label: 'Assignments', icon: <FileText size={20} />, path: '/instructor/assignments' },
   { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/instructor/assessments' },
-  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/instructor/messages' },
-  { label: 'Reports', icon: <User size={20} />, path: '/instructor/reports' },
+  { label: 'Reports', icon: <User size={20} />, path: '/instructor/report' },
 ]
 
 
@@ -40,7 +37,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
     localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
   }, [collapsed])
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(`${path}/`)
 
   // Only close mobile sidebar on mobile viewport
   const handleNavClick = () => {
@@ -72,7 +70,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
         <div className={`flex items-center gap-2 px-5 py-5 ${collapsed ? 'lg:justify-center lg:px-3' : ''}`}>
           <div className="flex items-center gap-2 overflow-hidden">
             <img
-              src="../logo1.png"
+              src="/logo1.png"
               alt="Talent-Flow Logo"
               className={`h-18 object-contain transition-all duration-300 ${collapsed ? 'lg:h-8' : ''}`}
             />

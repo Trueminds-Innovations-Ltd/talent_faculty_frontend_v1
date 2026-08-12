@@ -110,6 +110,7 @@ export default function Messages() {
           title="Messages"
           subtitle="Chat with instructors and support"
           onMenuClick={() => setMobileSidebarOpen(true)}
+          onLogoutClick={handleLogout}
         />
 
         {/* Main Content Area */}

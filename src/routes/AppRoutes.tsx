@@ -22,6 +22,8 @@ import Assessments from '../pages/student/Assessment.tsx'
 import Progress from '../pages/student/Progress.tsx'
 import Certificates from '../pages/student/Certificates.tsx'
 import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
+import CreateCourse from '../pages/instructor/CreateCourse.tsx'
+import InstructorLayout from '../components/layout/instruct/DashboardLayout.tsx'
 import AdminDashboard from '../pages/admin/Dashboard.tsx'
 import AdminCourses from '../pages/admin/Courses.tsx'
 import AdminUsers from '../pages/admin/Users.tsx'
@@ -29,6 +31,18 @@ import AdminNotifications from '../pages/admin/Notifications.tsx'
 import AdminAnnouncements from '../pages/admin/Announcement.tsx'
 import AdminCohorts from '../pages/admin/Cohorts.tsx'
 
+import InstructorCourses from '../pages/instructor/courses/Courses.tsx'
+import ManageCourse from '../pages/instructor/courses/ManageCourse.tsx'
+import Assignment from '../pages/instructor/courses/Assignment.tsx'
+import Quiz from '../pages/instructor/courses/Quiz.tsx'
+import Pdf from '../pages/instructor/courses/Pdf.tsx'
+import LinkResource from '../pages/instructor/courses/Link.tsx'
+import VideoResource from '../pages/instructor/courses/Video.tsx'
+import ReportsAnalytics from '../pages/instructor/courses/Report.tsx'
+import Learners from '../pages/instructor/learners/Learners.tsx'
+import LearnerProfile from '../pages/instructor/learners/LearnerProfile.tsx'
+import AssessmentManagement from '../pages/instructor/assessments/AssessmentManagement.tsx'
+import AssignmentGrading from '../pages/instructor/assessments/AssignmentGrading.tsx'
 
 
 const AppRoutes = () => {
@@ -84,6 +98,28 @@ const AppRoutes = () => {
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
       <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+
+      <Route path="/instructor" element={<InstructorLayout />}>
+        <Route path='/instructor/assessments' element={<AssessmentManagement />} />
+        <Route path="/instructor/assessments/:id" element={<AssignmentGrading />} />
+        <Route index element={<Navigate to="/instructor/dashboard" replace />} />
+        <Route path="dashboard" element={<InstructorDashboard />} />
+        <Route path="create-course" element={<CreateCourse />} />
+        <Route path="CreateCourse" element={<CreateCourse />} />
+        <Route path="courses" element={<InstructorCourses />} />
+        <Route path="courses/:courseId" element={<ManageCourse />} />
+        <Route path="courses/assignment" element={<Assignment />} />
+        <Route path="courses/quiz" element={<Quiz />} />
+        <Route path="courses/pdf" element={<Pdf />} />
+        <Route path="courses/link" element={<LinkResource />} />
+        <Route path="courses/video" element={<VideoResource />} />
+        <Route path="report" element={<ReportsAnalytics />} />
+        
+        
+        <Route path="learners" element={<Navigate to="/instructor/learners/all" replace />} />
+        <Route path="learners/:learnerId/:tab" element={<LearnerProfile />} />
+        <Route path="learners/:status" element={<Learners />} />
+      </Route>
     </Routes>
   )
 }

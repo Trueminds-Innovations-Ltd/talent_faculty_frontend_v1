@@ -6,9 +6,10 @@ interface TopBarProps {
   title?: string
   subtitle?: string
   onMenuClick: () => void
+  onLogoutClick?: () => void
 }
 
-const AdminTopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) => {
+const AdminTopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick, onLogoutClick }) => {
   const [profileOpen, setProfileOpen] = useState(false)
 
   return (
@@ -19,7 +20,7 @@ const AdminTopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) =>
             <Menu size={22} />
           </button>
           <div className="min-w-0">
-            {title && <h1 className="text-base sm:text-lg font-bold text-primary truncate">{title}</h1>}
+            {title && <h1 className="text-base sm:text-lg font-bold text-admin-primary truncate">{title}</h1>}
             {subtitle && <p className="text-xs sm:text-sm text-admin-ash-3 truncate">{subtitle}</p>}
           </div>
         </div>
@@ -68,7 +69,15 @@ const AdminTopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick }) =>
                   <Link to="/admin/profile" className="block px-4 py-2 text-sm text-admin-ash-2 hover:bg-admin-ash-7/40">Profile</Link>
                   <a className="block px-4 py-2 text-sm text-admin-ash-2 hover:bg-admin-ash-7/40">Settings</a>
                   <div className="border-t border-admin-ash-7 mt-1" />
-                  <button className="block w-full text-left px-4 py-2 text-sm text-admin-danger hover:bg-admin-danger-light">Log Out</button>
+                  <button
+                    onClick={() => {
+                      setProfileOpen(false)
+                      onLogoutClick?.()
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-admin-danger hover:bg-admin-danger-light"
+                  >
+                    Log Out
+                  </button>
                 </div>
               </>
             )}
