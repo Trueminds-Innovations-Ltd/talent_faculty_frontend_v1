@@ -25,6 +25,11 @@ import InstructorDashboard from '../pages/instructor/Dashboard.tsx'
 import AdminDashboard from '../pages/admin/Dashboard.tsx'
 import AdminCourses from '../pages/admin/Courses.tsx'
 import AdminUsers from '../pages/admin/Users.tsx'
+import AdminNotifications from '../pages/admin/Notifications.tsx'
+import AdminAnnouncements from '../pages/admin/Announcement.tsx'
+import AdminCohorts from '../pages/admin/Cohorts.tsx'
+
+
 
 const AppRoutes = () => {
   return (
@@ -71,6 +76,11 @@ const AppRoutes = () => {
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/courses" element={<AdminCourses />} />
       <Route path="/admin/users" element={<AdminUsers />} />
+      <Route path="/admin/notifications" element={<AdminNotifications />} />
+      <Route path="/admin/announcements" element={<AdminAnnouncements />} />
+      <Route path="/admin/cohorts" element={<AdminCohorts />} />
+
+
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<Navigate to="/instructor/dashboard" replace />} />
       <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
