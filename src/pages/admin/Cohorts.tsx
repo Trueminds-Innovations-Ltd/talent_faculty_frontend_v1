@@ -263,13 +263,22 @@ function Actions() {
         <Archive size={15} strokeWidth={1.8} />
       </button>
 
-      <button
+     <button
         type="button"
-        aria-label="Delete cohort"
-        className="text-[#ff4141] transition-opacity hover:opacity-60"
-      >
-        <Trash2 size={15} strokeWidth={1.8} />
-      </button>
+         aria-label="Delete cohort"
+          onClick={() => {
+          const confirmed = window.confirm(
+         "Are you sure you want to delete this cohort?"
+       );
+
+       if (confirmed) {
+       console.log("Cohort deleted");
+     }
+    }}
+    className="text-[#ff4141] transition-opacity hover:opacity-60"
+    >
+    <Trash2 size={15} strokeWidth={1.8} />
+   </button>
     </div>
   );
 }
