@@ -313,7 +313,7 @@ export default function Cohorts() {
 
       <div className="min-h-screen bg-white px-6 py-5">
 
-        <div className="mx-auto max-w-[1000px]">
+        <div className="mx-auto max-w-[1400px]">
 
 
           {/* ==================================================
@@ -339,7 +339,7 @@ export default function Cohorts() {
               HEADER ACTIONS
           ================================================== */}
 
-          <div className="mt-9 flex justify-end gap-5">
+          <div className="mt-5 flex justify-end gap-5">
 
             <button
               type="button"
@@ -377,12 +377,12 @@ export default function Cohorts() {
             </h2>
 
 
-            <div className="mt-5 flex justify-center gap-5">
+            <div className="mt-5 w-full flex justify-center gap-5">
 
 
               {/* TOTAL COHORT */}
 
-              <div className="h-[117px] w-[178px] rounded-[11px] border border-[#d6e4ff] bg-[#eaf2ff] p-4">
+              <div className="h-[117px] w-full rounded-[11px] border border-[#d6e4ff] bg-[#eaf2ff] p-4">
 
                 <div className="flex items-center gap-3">
 
@@ -415,7 +415,7 @@ export default function Cohorts() {
 
               {/* ACTIVE COHORTS */}
 
-              <div className="h-[117px] w-[178px] rounded-[11px] border border-[#d2e8da] bg-[#e8f5ee] p-4">
+              <div className="h-[117px] w-full rounded-[11px] border border-[#d2e8da] bg-[#e8f5ee] p-4">
 
                 <div className="flex items-center gap-3">
 
@@ -448,7 +448,7 @@ export default function Cohorts() {
 
               {/* UPCOMING COHORTS */}
 
-              <div className="h-[117px] w-[178px] rounded-[11px] border border-[#ffe2bf] bg-[#fff2e1] p-4">
+              <div className="h-[117px] w-full rounded-[11px] border border-[#ffe2bf] bg-[#fff2e1] p-4">
 
                 <div className="flex items-center gap-3">
 
@@ -481,7 +481,7 @@ export default function Cohorts() {
 
               {/* COMPLETED COHORTS */}
 
-              <div className="h-[117px] w-[178px] rounded-[11px] border border-[#f6d9df] bg-[#fdecef] p-4">
+              <div className="h-[117px] w-full rounded-[11px] border border-[#f6d9df] bg-[#fdecef] p-4">
 
                 <div className="flex items-center gap-3">
 
