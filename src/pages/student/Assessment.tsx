@@ -87,21 +87,21 @@ const Assessments: React.FC = () => {
           {assessments.map((assessment, index) => (
             <div
               key={index}
-              className="flex items-center justify-between rounded-2xl border border-neutral-200 bg-white px-6 py-6 transition hover:shadow-sm"
+              className="flex items-center justify-between rounded-2xl border border-neutral-200 bg-white px-6 py-4 transition hover:shadow-sm"
             >
               {/* Left */}
 
               <div>
 
-                <h3 className="text-xl font-medium text-neutral-800">
+                <h3 className="text-md font-medium text-neutral-800">
                   {assessment.title}
                 </h3>
 
-                <p className="mt-2 text-lg text-neutral-500">
+                <p className="mt-1 text-sm text-neutral-500">
                   {assessment.course}
                 </p>
 
-                <div className="mt-5 flex items-center gap-8 text-neutral-500">
+                <div className="mt-3 flex items-center gap-8 text-neutral-500">
 
                   <div className="flex items-center gap-2">
 
@@ -133,15 +133,15 @@ const Assessments: React.FC = () => {
 
                 {assessment.status === "upcoming" ? (
 
-                  <button className="rounded-2xl bg-green-700 px-8 py-4 text-lg font-medium text-white transition hover:bg-green-800">
+                  <button className="rounded-2xl bg-green-700 px-6 py-3 text-md font-medium text-white transition hover:bg-green-800">
                     Start Quiz
-                  </button>
+                  </button> 
 
                 ) : (
 
                   <div className="text-right">
-
-                    <h2 className="text-3xl font-small text-green-700">
+                    
+                    <h2 className="text-md font-small text-green-700">
                       {assessment.score}
                     </h2>
 
