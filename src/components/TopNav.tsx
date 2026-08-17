@@ -8,7 +8,7 @@ export default function TopNav() {
     { label: 'Home', href: '#' },
     { label: 'Programs', href: '#Footer' },
     { label: 'Features', href: '#' },
-    { label: 'Success Stories', href: '#' },
+    { label: 'Success Stories', href: '#test' },
     { label: 'Contact', href: '#footer' },
   ]
 

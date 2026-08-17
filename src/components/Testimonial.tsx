@@ -94,7 +94,7 @@ const TestimonialsSection = () => {
     const [big, topRight, bottomLeft, bottomRight] = testimonials;
 
     return (
-        <section className="w-full max-w-7xl mx-auto px-4 py-20">
+        <section id="test" className="w-full max-w-7xl mx-auto px-4 py-20">
             {/* Header */}
             <div className="text-center max-w-xl mx-auto mb-10">
                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
