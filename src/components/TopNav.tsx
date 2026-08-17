@@ -9,7 +9,7 @@ export default function TopNav() {
     { label: 'Programs', href: '#' },
     { label: 'Features', href: '#' },
     { label: 'Success Stories', href: '#' },
-    { label: 'Contact', href: '#' },
+    { label: 'Contact', href: '#footer' },
   ]
 
   return (
