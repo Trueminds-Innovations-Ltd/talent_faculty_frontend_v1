@@ -23,7 +23,7 @@ export default function Hero() {
                         <button className="p-3 flex bg-primary rounded-xl text-white"><Play size="22" color="#d9e3f0" />Start Learning</button>
                     </Link>
 
-                    <Link to='#'>
+                    <Link to='#Explore'>
                         <button className="border flex items-center justify-center border-gray-300 p-3 rounded-xl">  <ArrowRight size="22" color="#555555" />
                             Explore Program
                         </button>
