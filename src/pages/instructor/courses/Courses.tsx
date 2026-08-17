@@ -194,9 +194,9 @@ export default function InstructorCourses() {
               </div>
             ))}
 
-            <div className="rounded-[20px] border-2 border-dashed border-admin-ash-6 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-admin-ash-7/20 hover:border-admin-purple/40 transition-colors min-h-[320px]">
+            <div className="rounded-[20px] border-2 border-dashed border-primary-ash-6 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-primary-ash-7/20 hover:border-admin-primary/40 transition-colors min-h-[320px]">
               <Link to="/instructor/CreateCourse" className='w-full flex flex-col justify-center items-center'>
-                <div className="w-14 h-14 rounded-full bg-admin-purple-light text-admin-purple flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <div className="w-14 h-14 rounded-full bg-admin-primary-light text-admin-primary flex items-center justify-center mb-4 transition-transform hover:scale-105">
                   <Plus size={24} />
                 </div>
                 <span className="font-bold text-[15px] text-admin-ink">

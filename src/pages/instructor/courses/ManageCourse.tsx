@@ -115,9 +115,9 @@ export default function ManageCourse() {
             <div className="py-12 text-center text-gray-400 font-medium text-sm">
               <div
                 onClick={openModal}
-                className="rounded-[20px] border-2 border-dashed border-gray-200 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 hover:border-purple-300 transition-colors min-h-[320px]"
+                className="rounded-[20px] border-2 border-dashed border-primary p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 hover:border-purple-300 transition-colors min-h-[320px]"
               >
-                <div className="w-14 h-14 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <div className="w-14 h-14 rounded-full bg-primary-light text-primary flex items-center justify-center mb-4 transition-transform hover:scale-105">
                   <Plus size={24} />
                 </div>
                 <span className="font-bold text-[15px] text-gray-800">
@@ -217,9 +217,9 @@ export default function ManageCourse() {
             <div className="py-12 text-center text-gray-400 font-medium text-sm">
               <div
                 onClick={openModal}
-                className="rounded-[20px] border-2 border-dashed border-gray-200 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 hover:border-purple-300 transition-colors min-h-[320px]"
+                className="rounded-[20px] border-2 border-dashed border-primary p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 hover:border-primary-300 transition-colors min-h-[320px]"
               >
-                <div className="w-14 h-14 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <div className="w-14 h-14 rounded-full bg-primary-light text-primary flex items-center justify-center mb-4 transition-transform hover:scale-105">
                   <Plus size={24} />
                 </div>
                 <span className="font-bold text-[15px] text-gray-800">
