@@ -18,7 +18,7 @@ export default function Hero() {
                     <h2 className="text-center text-4xl  md:text-6xl font-semibold ">Learn Practical Skills, Build Real Projects, <span className="text-primary">Launch Your Career. </span></h2>
                     <p className="text-center text-md md:text-xl">Talent Faculty is a collaborative learning platform designed to help students and aspiring professionals gain real-world experience through expert-led courses, hands-on projects, mentorship, and measurable learning outcomes.</p>
                 </div>
-                <div className="flex items-center gap-5 ">
+                <div className="flex items-center gap-5 mb-5 ">
                     <Link to='/signup'>
                         <button className="p-3 flex bg-primary rounded-xl text-white"><Play size="22" color="#d9e3f0" />Start Learning</button>
                     </Link>
@@ -26,6 +26,19 @@ export default function Hero() {
                     <Link to='#Explore'>
                         <button className="border flex items-center justify-center border-gray-300 p-3 rounded-xl">  <ArrowRight size="22" color="#555555" />
                             Explore Program
+                        </button>
+                    </Link>
+
+                </div>
+
+                                <div className="flex items-center gap-5 ">
+                    <Link to='/admin/dashboard'>
+                        <button className="p-3 flex bg-primary rounded-xl text-white"><Play size="22" color="#d9e3f0" />Admin</button>
+                    </Link>
+
+                    <Link to='/instructor/dashboard'>
+                        <button className="border flex items-center justify-center border-gray-300 p-3 rounded-xl">  <ArrowRight size="22" color="#555555" />
+                            instuctor
                         </button>
                     </Link>
 
