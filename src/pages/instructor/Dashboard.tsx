@@ -446,12 +446,15 @@ const PendingReviewsList: React.FC = () => (
                         <div className="text-[11px] sm:text-xs text-gray-400">{row.submitted}</div>
                     </div>
                 </div>
-                <button className="self-end sm:self-auto shrink-0 rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50">
-                    Review
-                </button>
+                <Link to=''>
+                    <button className="self-end sm:self-auto shrink-0 rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50">
+                        Review
+                    </button>
+                </Link>
+
             </div>
         ))}
-    </div>
+    </div >
 );
 
 
@@ -538,11 +541,12 @@ export default function Dashboard() {
                         iconBg="bg-sky-50"
                         to="/instructor/assessments"
                     />
+
                     <QuickLink
                         label="View Reports"
                         icon={<FileBarChart2 size={18} className="text-emerald-500" />}
                         iconBg="bg-emerald-50"
-                        to="#"
+                        to="/instructor/report"
                     />
                 </div>
             </div>
