@@ -446,7 +446,7 @@ const PendingReviewsList: React.FC = () => (
                         <div className="text-[11px] sm:text-xs text-gray-400">{row.submitted}</div>
                     </div>
                 </div>
-                <Link to=''>
+                <Link to='/instructor/assessments/1'>
                     <button className="self-end sm:self-auto shrink-0 rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50">
                         Review
                     </button>
