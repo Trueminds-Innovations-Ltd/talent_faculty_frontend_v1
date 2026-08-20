@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, TrendingUp, ClipboardList, User,
-  LogOut, ChevronDown, ChevronUp, X,
+  ChevronDown, ChevronUp, X,
   PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
 
 interface SidebarProps {
-  onLogoutClick: () => void
+  onLogoutClick?: () => void
   mobileOpen: boolean
   onMobileClose: () => void
 }
@@ -21,9 +21,8 @@ const mainMenuItems = [
 ]
 
 
-const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
   const location = useLocation()
-  const [toolsOpen, setToolsOpen] = useState(true)
   const [menuOpen, setMenuOpen] = useState(true)
 
   // Persist collapsed state in localStorage
