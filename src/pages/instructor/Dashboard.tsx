@@ -572,10 +572,14 @@ export default function Dashboard() {
                     <h3 className="text-xs sm:text-sm font-semibold text-gray-800">
                         {SECTION_TITLES[activeTab]}
                     </h3>
-                    <button className="flex items-center gap-0.5 text-xs font-medium text-primary hover:text-emerald-700">
-                        See all
-                        <ChevronRight size={14} />
-                    </button>
+                    {activeTab === "learners" && (
+                        <Link to="/instructor/learners">
+                            <button className="flex items-center gap-0.5 text-xs font-medium text-primary hover:text-emerald-700">
+                                See all
+                                <ChevronRight size={14} />
+                            </button>
+                        </Link>
+                    )}
                 </div>
 
                 <div className="overflow-x-auto -mx-3.5 px-3.5 sm:mx-0 sm:px-0">

@@ -6,10 +6,9 @@ export default function TopNav() {
 
   const navLinks = [
     { label: 'Home', href: '#' },
-    { label: 'Programs', href: '#Footer' },
+    { label: 'Courses', href: '#footer' },
     { label: 'Features', href: '#' },
-    { label: 'Success Stories', href: '#test' },
-    { label: 'Contact', href: '#footer' },
+    { label: 'Meet The Team', href: '#test' },
   ]
 
   return (
