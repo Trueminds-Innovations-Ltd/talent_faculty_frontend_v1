@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 
+type AssignmentStatus = "Pending" | "Submitted" | "Graded" | "Overdue";
+
+interface Assignment {
+  title: string;
+  course: string;
+  due: string;
+  status: AssignmentStatus;
+  marks: string;
+}
 
 const tabs = [
   { name: "All", count: 12 },
@@ -10,28 +19,16 @@ const tabs = [
   { name: "Overdue", count: 1 },
 ];
 
-const assignments = [
-  {
-    title: "Wireframe Mobile Banking",
-    course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
-  },
- {
-    title: "Wireframe Mobile Banking",
-    course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
-  },
-  {
-    title: "Wireframe Mobile Banking",
-    course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
-  },
+/*
+  12 assignments total:
+  2 Pending
+  3 Submitted
+  6 Graded
+  1 Overdue
+*/
+
+const assignments: Assignment[] = [
+  // PENDING - 2
   {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
@@ -46,66 +43,93 @@ const assignments = [
     status: "Pending",
     marks: "--",
   },
-   {
+
+  // SUBMITTED - 3
+  {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
     due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
-  },
-   {
-    title: "Wireframe Mobile Banking",
-    course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
+    status: "Submitted",
     marks: "--",
   },
   {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
     due: "Tomorrow",
-    status: "Pending",
+    status: "Submitted",
     marks: "--",
   },
   {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
     due: "Tomorrow",
-    status: "Pending",
+    status: "Submitted",
     marks: "--",
+  },
+
+  // GRADED - 6
+  {
+    title: "Wireframe Mobile Banking",
+    course: "UX Design",
+    due: "Closed",
+    status: "Graded",
+    marks: "98%",
   },
   {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
-  }, 
-  {
-    title: "Wireframe Mobile Banking",
-    course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
+    due: "Closed",
+    status: "Graded",
+    marks: "98%",
   },
   {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
-    marks: "--",
+    due: "Closed",
+    status: "Graded",
+    marks: "98%",
   },
   {
     title: "Wireframe Mobile Banking",
     course: "UX Design",
-    due: "Tomorrow",
-    status: "Pending",
+    due: "Closed",
+    status: "Graded",
+    marks: "98%",
+  },
+  {
+    title: "Wireframe Mobile Banking",
+    course: "UX Design",
+    due: "Closed",
+    status: "Graded",
+    marks: "98%",
+  },
+  {
+    title: "Wireframe Mobile Banking",
+    course: "UX Design",
+    due: "Closed",
+    status: "Graded",
+    marks: "98%",
+  },
+
+  // OVERDUE - 1
+  {
+    title: "Wireframe Mobile Banking",
+    course: "UX Design",
+    due: "Yesterday",
+    status: "Overdue",
     marks: "--",
   },
 ];
 
 const Assignments: React.FC = () => {
   const [activeTab, setActiveTab] = useState("All");
+
+  const filteredAssignments =
+    activeTab === "All"
+      ? assignments
+      : assignments.filter(
+          (assignment) => assignment.status === activeTab
+        );
 
   return (
     <DashboardLayout
@@ -114,39 +138,38 @@ const Assignments: React.FC = () => {
     >
       <div className="space-y-6">
 
-        {/* Header */}
+        {/* TABS */}
+        <div className="flex items-center gap-8 border-b border-neutral-100">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.name;
 
-      
+            return (
+              <button
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                className={`relative pb-4 text-sm font-medium transition ${
+                  isActive
+                    ? "text-green-700"
+                    : "text-neutral-400 hover:text-neutral-600"
+                }`}
+              >
+                {tab.name} ({tab.count})
 
-        {/* Tabs */}
-
-        <div className="flex gap-3">
-
-          {tabs.map((tab) => (
-
-            <button
-              key={tab.name}
-              onClick={() => setActiveTab(tab.name)}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-                activeTab === tab.name
-                  ? "bg-primary text-white"
-                  : "bg-white border border-neutral-200 text-neutral-600"
-              }`}
-            >
-              {tab.name} ({tab.count})
-            </button>
-
-          ))}
-
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-green-700" />
+                )}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Table */}
+        {/* TABLE */}
+        <div className="w-full overflow-hidden">
 
-        <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+          {/* TABLE HEADER */}
+          <div className="grid grid-cols-6 items-center px-2 py-4 text-xs font-medium text-neutral-700">
 
-          <div className="grid grid-cols-6 border-b border-neutral-100 bg-neutral-50 px-8 py-4 text-sm font-semibold text-neutral-500">
-
-            <div>Assignment</div>
+            <div>Assignments</div>
 
             <div>Course</div>
 
@@ -156,66 +179,88 @@ const Assignments: React.FC = () => {
 
             <div>Marks</div>
 
-            <div className="text-center">Action</div>
+            <div>Actions</div>
 
           </div>
-                    {assignments.map((assignment, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-6 items-center border-b border-neutral-100 px-8 py-5 hover:bg-neutral-50"
-            >
-              <div>
-                <h3 className="text-sm font-semibold text-neutral-800">
-                  {assignment.title}
-                </h3>
 
-              </div>
+          {/* TABLE ROWS */}
+          <div>
+            {filteredAssignments.map((assignment, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-6 items-center px-2 py-4"
+              >
 
-              <div className="text-sm text-neutral-600">
-                {assignment.course}
-              </div>
+                {/* ASSIGNMENT */}
+                <div>
+                  <p className="text-sm font-normal text-neutral-700">
+                    {assignment.title}
+                  </p>
+                </div>
 
-              <div className="text-sm text-neutral-600">
-                {assignment.due}
-              </div>
+                {/* COURSE */}
+                <div className="text-sm text-neutral-600">
+                  {assignment.course}
+                </div>
 
-              <div>
-                <span
-                  className={`rounded-full px-4 py-2 text-xs font-semibold
-                  ${
-                    assignment.status === "Pending"
-                      ? "bg-orange-100 text-orange-600"
-                      : assignment.status === "Submitted"
-                      ? "bg-blue-100 text-blue-600"
-                      : assignment.status === "Graded"
-                      ? "bg-green-100 text-green-600"
-                      : "bg-red-100 text-red-600"
+                {/* DUE DATE */}
+                <div
+                  className={`text-sm ${
+                    assignment.status === "Graded"
+                      ? "text-red-500"
+                      : "text-neutral-700"
                   }`}
                 >
-                  {assignment.status}
-                </span>
+                  {assignment.due}
+                </div>
+
+                {/* STATUS */}
+                <div>
+                  <span
+                    className={`inline-flex rounded-full px-4 py-2 text-xs font-medium ${
+                      assignment.status === "Pending"
+                        ? "bg-orange-50 text-orange-500"
+                        : assignment.status === "Submitted"
+                        ? "bg-green-50 text-green-500"
+                        : assignment.status === "Graded"
+                        ? "bg-green-50 text-green-500"
+                        : "bg-red-50 text-red-500"
+                    }`}
+                  >
+                    {assignment.status === "Graded"
+                      ? "Passed"
+                      : assignment.status}
+                  </span>
+                </div>
+
+                {/* MARKS */}
+                <div className="text-sm text-neutral-700">
+                  {assignment.marks}
+                </div>
+
+                {/* ACTION */}
+                <div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      console.log(
+                        `Viewing ${assignment.title}`
+                      )
+                    }
+                    className="text-sm font-medium text-green-700 transition hover:text-green-800"
+                  >
+                    ...
+                  </button>
+                </div>
+
               </div>
-
-              <div className="font-semibold text-neutral-700">
-                {assignment.marks}
-              </div>
-
-             <div className="flex justify-center">
-               <button className="text-sm font-medium text-green-600 hover:text-green-700">
-                 View
-              </button>
-             </div>
-
-            </div>
-          ))}
+            ))}
+          </div>
 
         </div>
 
-
       </div>
-
     </DashboardLayout>
-
   );
 };
 
