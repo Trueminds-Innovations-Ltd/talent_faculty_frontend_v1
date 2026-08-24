@@ -267,7 +267,7 @@ function NotificationsTab() {
 
             <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div>
-                    <h2 className="text-sm font-semibold text-bhgreen-600">Email Notifications</h2>
+                    <h2 className="text-sm font-semibold text-primary-dark">Email Notifications</h2>
                     <div className="mt-3 divide-y divide-gray-100 rounded-2xl border border-gray-100 bg-white shadow-sm">
                         <ToggleRow
                             icon={<BookOpen size={18} />}
@@ -308,7 +308,7 @@ function NotificationsTab() {
                 </div>
 
                 <div>
-                    <h2 className="text-sm font-semibold text-bhgreen-600">Website Notifications</h2>
+                    <h2 className="text-sm font-semibold text-primary-dark">Website Notifications</h2>
                     <div className="mt-3 divide-y divide-gray-100 rounded-2xl border border-gray-100 bg-white shadow-sm">
                         <ToggleRow
                             icon={<Bell size={18} />}
