@@ -366,7 +366,7 @@ function SegmentedControl<T extends string>({
                         type="button"
                         onClick={() => onChange(opt)}
                         className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${active
-                            ? "border-bhgreen-200 bg-bhgreen-50 text-bhgreen-700"
+                            ? "border-primary bg-primary text-bhgreen-700"
                             : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
                             }`}
                     >
