@@ -447,11 +447,11 @@ export default function GenerateCertificatesReport() {
               </div>
 
               {/* Bottom Action Controls */}
-              <div className="flex items-center justify-between pt-4 pb-12">
+              <div className="md:flex items-center justify-between pt-4 pb-12">
                 <button 
                   type="button"
                   onClick={handleCancel}
-                  className="text-sm font-bold text-gray-800 hover:underline"
+                  className="text-sm font-bold text-gray-800 hover:underline max-md:mb-5"
                 >
                   Back to Certificates
                 </button>
