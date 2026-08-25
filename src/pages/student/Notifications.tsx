@@ -1,186 +1,212 @@
-import { useState } from "react";
-import { ThemeColors } from "../../components/ThemeColors";
-import Sidebar from "../../components/layout/Sidebar";
-import TopBar from "../../components/layout/TopBar";
+import React, { useState } from 'react'
+import { AlertTriangle, Bell } from 'lucide-react'
+import DashboardLayout from '../../components/layout/DashboardLayout'
+import Modal from '../../components/common/Modal'
+
+type TabKey = 'all' | 'unread'
 
 interface NotificationItem {
-  id: number;
-  title: string;
-  description: string;
-  time: string;
-  category: "Assignments" | "Courses" | "Messages" | "System";
-  unread: boolean;
+  id: number
+  title: string
+  description: string
+  time: string
+  unread: boolean
 }
 
+const INITIAL_NOTIFICATIONS: NotificationItem[] = [
+  {
+    id: 1,
+    title: 'Assignment Due Tomorrow',
+    description: 'Wireframe Mobile Banking is due tomorrow',
+    time: '10:05 AM',
+    unread: true,
+  },
+  {
+    id: 2,
+    title: 'New Announcement',
+    description: 'UI/UX Design Workshop on Friday at 5 PM',
+    time: 'Yesterday',
+    unread: true,
+  },
+  {
+    id: 3,
+    title: 'Quiz Released',
+    description: 'Design Thinking Quiz is now available',
+    time: '2nd May, 2024',
+    unread: true,
+  },
+  {
+    id: 4,
+    title: 'New Message',
+    description: 'Grace Johnson sent you a message',
+    time: '2nd May, 2024',
+    unread: true,
+  },
+  {
+    id: 5,
+    title: 'Certificate Ready',
+    description: "You're eligible for a new certificate",
+    time: '1st May, 2024',
+    unread: true,
+  },
+  {
+    id: 6,
+    title: 'Assignment Graded',
+    description: 'Your UX Research Plan has been graded',
+    time: '29th Apr, 2024',
+    unread: false,
+  },
+  {
+    id: 7,
+    title: 'New Announcement',
+    description: 'Platform will undergo maintenance this weekend',
+    time: '27th Apr, 2024',
+    unread: false,
+  },
+  {
+    id: 8,
+    title: 'Quiz Released',
+    description: 'User Research Basics Quiz is now available',
+    time: '25th Apr, 2024',
+    unread: false,
+  },
+  {
+    id: 9,
+    title: 'New Message',
+    description: 'Grace Johnson replied to your question',
+    time: '22nd Apr, 2024',
+    unread: false,
+  },
+  {
+    id: 10,
+    title: 'Certificate Ready',
+    description: "You're eligible for the Data Analysis certificate",
+    time: '18th Apr, 2024',
+    unread: false,
+  },
+]
+
+const EmptyState: React.FC<{ message: string }> = ({ message }) => (
+  <div className="flex flex-col items-center justify-center text-center py-16">
+    <Bell size={32} className="text-neutral-300 mb-3" />
+    <p className="text-sm text-neutral-400 max-w-xs">{message}</p>
+  </div>
+)
+
 export default function Notifications() {
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>("Unread");
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS)
+  const [activeTab, setActiveTab] = useState<TabKey>('all')
+  const [confirmMarkAllOpen, setConfirmMarkAllOpen] = useState(false)
 
-  const notificationsList: NotificationItem[] = [
-    {
-      id: 1,
-      title: "Assignment Due Tomorrow",
-      description: "Wireframe Mobile Banking is due tomorrow",
-      time: "10:05 AM",
-      category: "Assignments",
-      unread: true,
-    },
-    {
-      id: 2,
-      title: "New Announcement",
-      description: "UI/UX Design Workshop on Friday at 5 PM",
-      time: "Yesterday",
-      category: "System",
-      unread: true,
-    },
-    {
-      id: 3,
-      title: "Quiz Released",
-      description: "Design Thinking Quiz is now available",
-      time: "2nd May, 2024",
-      category: "Courses",
-      unread: true,
-    },
-    {
-      id: 4,
-      title: "New Message",
-      description: "Grace Johnson sent you a message",
-      time: "2nd May, 2024",
-      category: "Messages",
-      unread: true,
-    },
-    {
-      id: 5,
-      title: "Certificate Ready",
-      description: "You're eligible for a new certificate",
-      time: "1st May, 2024",
-      category: "System",
-      unread: true,
-    },
-  ];
+  const unreadCount = notifications.filter((n) => n.unread).length
 
-  const unreadCount = notificationsList.filter((n) => n.unread).length;
+  const visibleNotifications =
+    activeTab === 'unread' ? notifications.filter((n) => n.unread) : notifications
 
-  const filteredNotifications = notificationsList.filter((item) => {
-    if (activeTab === "Unread" && !item.unread) return false;
-    if (activeTab === "Assignments" && item.category !== "Assignments") return false;
-    if (activeTab === "Courses" && item.category !== "Courses") return false;
-    if (activeTab === "Messages" && item.category !== "Messages") return false;
-    if (activeTab === "System" && item.category !== "System") return false;
+  const tabs: { key: TabKey; label: string }[] = [
+    { key: 'all', label: `All (${notifications.length})` },
+    { key: 'unread', label: `Unread (${unreadCount})` },
+  ]
 
-    if (searchQuery.trim() !== "") {
-      const query = searchQuery.toLowerCase();
-      return (
-        item.title.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query)
-      );
-    }
+  const handleMarkOneAsRead = (id: number) => {
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, unread: false } : n)))
+  }
 
-    return true;
-  });
-
-  const handleLogout = () => {
-    console.log("Logging out...");
-  };
+  const handleConfirmMarkAllAsRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })))
+    setConfirmMarkAllOpen(false)
+  }
 
   return (
-    <div className="flex h-screen w-full bg-[#F8F9FA] font-sans overflow-hidden">
-      {/* Sidebar Component */}
-      <Sidebar
-        mobileOpen={mobileSidebarOpen}
-        onMobileClose={() => setMobileSidebarOpen(false)}
-        onLogoutClick={handleLogout}
-      />
+    <DashboardLayout title="Notifications" subtitle="Stay updated with important activities.">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex gap-6 border-b border-neutral-100 flex-1">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`pb-3 text-sm font-medium transition-colors relative ${
+                  activeTab === tab.key
+                    ? 'text-primary'
+                    : 'text-neutral-400 hover:text-neutral-600'
+                }`}
+              >
+                {tab.label}
 
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-white min-w-0">
-        {/* Top Header */}
-        <TopBar
-          title="Notifications"
-          subtitle="Stay updated with important activities."
-          onMenuClick={() => setMobileSidebarOpen(true)}
-          onLogoutClick={handleLogout}
-        />
-
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col overflow-y-auto px-4 sm:px-6 py-6 bg-white">
-
-          {/* Search Bar */}
-          <div className="relative mb-4 shrink-0">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </span>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search notifications"
-              style={{ color: ThemeColors.neutralCoalblack }}
-              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-neutral-900 focus:outline-none focus:ring-1 focus:ring-[#057834]"
-            />
+                {activeTab === tab.key && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                )}
+              </button>
+            ))}
           </div>
 
-          <div className="flex items-center gap-6 sm:gap-8 border-b border-gray-100 mb-6 text-sm overflow-x-auto no-scrollbar whitespace-nowrap shrink-0">
-            {["All", `Unread (${unreadCount})`, "Assignments", "Courses", "Messages", "System"].map((tab) => {
-              const tabName = tab.split(" ")[0];
-              const isActive = activeTab === tabName || (activeTab === "Unread" && tab.startsWith("Unread"));
-
-              return (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tabName)}
-                  style={{
-                    color: isActive ? ThemeColors.primaryGreen : undefined,
-                  }}
-                  className={`pb-3 font-medium transition-colors relative shrink-0 ${isActive
-                      ? "text-[#057834]"
-                      : "text-gray-500 hover:text-gray-800"
-                    }`}
-                >
-                  {tab}
-                  {isActive && (
-                    <span
-                      style={{ backgroundColor: ThemeColors.primaryGreen }}
-                      className="absolute bottom-0 left-0 w-full h-[2px] bg-[#057834]"
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Notifications Cards Container */}
-          <div className="space-y-4">
-            {filteredNotifications.length > 0 ? (
-              filteredNotifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-gray-300 transition-all"
-                >
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-semibold text-gray-900 text-sm sm:text-base mb-1 truncate">
-                      {notification.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-500 break-words">
-                      {notification.description}
-                    </p>
-                  </div>
-                  <span className="text-[11px] sm:text-xs text-gray-400 shrink-0 font-medium self-end sm:self-auto">
-                    {notification.time}
-                  </span>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-                <p className="text-sm">No notifications found.</p>
-              </div>
-            )}
-          </div>
-
+          <button
+            onClick={() => setConfirmMarkAllOpen(true)}
+            disabled={unreadCount === 0}
+            className={`px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors ${
+              unreadCount === 0
+                ? 'bg-primary/30 text-white cursor-not-allowed'
+                : 'bg-primary text-white hover:bg-primary-dark'
+            }`}
+          >
+            Mark All as Read
+          </button>
         </div>
-      </main>
-    </div>
-  );
+
+        <div className="space-y-3">
+          {visibleNotifications.length > 0 ? (
+            visibleNotifications.map((notification) => (
+              <button
+                key={notification.id}
+                onClick={() => handleMarkOneAsRead(notification.id)}
+                className={`w-full flex items-center justify-between gap-4 text-left px-6 py-5 rounded-xl transition-colors ${
+                  notification.unread ? 'bg-neutral-50 hover:bg-neutral-100' : 'hover:bg-neutral-50'
+                }`}
+              >
+                <div className="min-w-0">
+                  <h3 className="text-sm sm:text-base font-semibold text-neutral-900 truncate">
+                    {notification.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-neutral-500 mt-0.5 truncate">
+                    {notification.description}
+                  </p>
+                </div>
+                <span className="text-xs text-neutral-400 font-medium shrink-0">
+                  {notification.time}
+                </span>
+              </button>
+            ))
+          ) : (
+            <EmptyState message="You're all caught up. New notifications will show up here." />
+          )}
+        </div>
+      </div>
+
+      {/* Mark All as Read confirmation */}
+      <Modal isOpen={confirmMarkAllOpen} onClose={() => setConfirmMarkAllOpen(false)}>
+        <div className="text-center">
+          <h3 className="text-2xl font-extrabold text-neutral-900 mb-3">Mark All as Read?</h3>
+          <p className="text-sm text-neutral-500 mb-6 leading-relaxed px-2 flex items-start gap-2 justify-center">
+            <AlertTriangle size={16} className="text-secondary shrink-0 mt-0.5" />
+            <span>This action is permanent and you won&apos;t be able to restore the notifications to their unread state.</span>
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setConfirmMarkAllOpen(false)}
+              className="flex-1 px-4 py-3 rounded-xl border border-neutral-200 text-neutral-700 text-sm font-semibold hover:bg-neutral-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleConfirmMarkAllAsRead}
+              className="flex-1 px-4 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+            >
+              Mark All as Read
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </DashboardLayout>
+  )
 }

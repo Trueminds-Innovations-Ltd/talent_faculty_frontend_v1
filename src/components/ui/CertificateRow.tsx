@@ -4,12 +4,14 @@ import type { Certificate } from '../../pages/student/Certificates'
 
 interface CertificateRowProps {
   certificate: Certificate
-  onDownload: (certificate: Certificate) => void
-  onShare: (certificate: Certificate) => void
+  locked?: boolean
+  onDownload?: (certificate: Certificate) => void
+  onShare?: (certificate: Certificate) => void
 }
 
 const CertificateRow: React.FC<CertificateRowProps> = ({
   certificate,
+  locked = false,
   onDownload,
   onShare,
 }) => {
@@ -18,7 +20,7 @@ const CertificateRow: React.FC<CertificateRowProps> = ({
       <div className="flex items-center gap-4 flex-1 min-w-0">
         <div className="h-16 w-16 rounded-lg bg-neutral-100 flex-shrink-0 overflow-hidden">
           <img
-            src="./course-image.jpg"
+            src="/course-image.jpg"
             alt={certificate.title}
             className="h-full w-full object-cover"
           />
@@ -37,16 +39,26 @@ const CertificateRow: React.FC<CertificateRowProps> = ({
 
       <div className="flex flex-col sm:flex-row gap-2.5 sm:flex-shrink-0">
         <button
-          onClick={() => onDownload(certificate)}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary-dark transition-colors"
+          onClick={locked ? undefined : () => onDownload?.(certificate)}
+          disabled={locked}
+          className={`flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap ${
+            locked
+              ? 'bg-primary/30 text-white cursor-not-allowed'
+              : 'bg-primary text-white hover:bg-primary-dark'
+          }`}
         >
           <Download size={16} />
           Download Certificate
         </button>
 
         <button
-          onClick={() => onShare(certificate)}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-neutral-200 text-neutral-700 text-sm font-semibold rounded-xl hover:bg-neutral-50 transition-colors"
+          onClick={locked ? undefined : () => onShare?.(certificate)}
+          disabled={locked}
+          className={`flex items-center justify-center gap-2 px-4 py-2.5 border text-sm font-semibold rounded-xl transition-colors whitespace-nowrap ${
+            locked
+              ? 'border-neutral-200 text-neutral-300 cursor-not-allowed'
+              : 'border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+          }`}
         >
           <Share2 size={16} />
           Share Certificate
