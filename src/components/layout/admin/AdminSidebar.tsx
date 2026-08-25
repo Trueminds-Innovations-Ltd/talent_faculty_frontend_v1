@@ -18,6 +18,7 @@ const mainMenuItems = [
   { label: 'Courses', icon: <Bookmark size={20} />, path: '/admin/courses' },
   { label: 'Cohorts', icon: <UsersRound size={20} />, path: '/admin/cohorts' },
   { label: 'Reports', icon: <TrendingUp size={20} />, path: '/admin/reports' },
+  { label: 'Messages', icon: <MessageSquare size={20} />, path: '/admin/messages' },
   { label: 'Certificates', icon: <Award size={20} />, path: '/admin/certificates' },
   { label: 'Announcements', icon: <MessageSquare size={20} />, path: '/admin/announcements' },
   { label: 'Notifications', icon: <Bell size={20} />, path: '/admin/notifications' },
