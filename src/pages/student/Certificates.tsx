@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Award, BookOpen, Clock } from 'lucide-react'
+import { Award, Download } from 'lucide-react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import CertificateRow from '../../components/ui/CertificateRow'
-import ProgressBar from '../../components/ui/ProgressBar'
+import Modal from '../../components/common/Modal'
+import SuccessToast from '../../components/ui/SuccessToast'
 
-type TabKey = 'earned' | 'eligible' | 'inProgress'
+type TabKey = 'earned' | 'inProgress'
 
 export interface Certificate {
   title: string
@@ -18,53 +19,28 @@ const earned: Certificate[] = [
   },
 ]
 
-const eligible = [
+const inProgress: Certificate[] = [
   {
     title: 'Data Analysis Bootcamp',
     instructor: 'Grace Johnson',
-    note: 'Final assessment required',
   },
   {
     title: 'Advanced JavaScript Patterns',
     instructor: 'Grace Johnson',
-    note: 'Final assessment required',
   },
-]
-
-const inProgress = [
   {
     title: 'Product Management Essentials',
     instructor: 'Grace Johnson',
-    progress: 62,
   },
   {
     title: 'Public Speaking for Educators',
     instructor: 'Grace Johnson',
-    progress: 40,
-  },
-  {
-    title: 'Intro to Machine Learning',
-    instructor: 'Grace Johnson',
-    progress: 18,
   },
 ]
 
 const tabs = [
-  {
-    key: 'earned' as const,
-    label: 'Earned',
-    count: earned.length,
-  },
-  {
-    key: 'eligible' as const,
-    label: 'Eligible',
-    count: eligible.length,
-  },
-  {
-    key: 'inProgress' as const,
-    label: 'In Progress',
-    count: inProgress.length,
-  },
+  { key: 'earned' as const, label: 'Earned', count: earned.length },
+  { key: 'inProgress' as const, label: 'In Progress', count: inProgress.length },
 ]
 
 const EmptyState: React.FC<{ message: string }> = ({ message }) => (
@@ -77,8 +53,16 @@ const EmptyState: React.FC<{ message: string }> = ({ message }) => (
 const Certificates: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('earned')
 
-  const handleDownload = (certificate: Certificate) => {
-    console.log('Download certificate:', certificate)
+  const [pendingCertificate, setPendingCertificate] = useState<Certificate | null>(null)
+  const [downloadedCertificate, setDownloadedCertificate] = useState<Certificate | null>(null)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
+
+  const handleDownloadClick = (certificate: Certificate) => {
+    setPendingCertificate(certificate)
+  }
+
+  const handleConfirmDownload = () => {
+    const certificate = pendingCertificate
 
     /**
      * Backend Integration
@@ -86,11 +70,12 @@ const Certificates: React.FC = () => {
      * const file = await certificateService.downloadCertificate(certificate.id)
      * saveAs(file)
      */
+
+    setPendingCertificate(null)
+    setDownloadedCertificate(certificate)
   }
 
   const handleShare = async (certificate: Certificate) => {
-    console.log('Share certificate:', certificate)
-
     /**
      * Backend Integration
      *
@@ -116,8 +101,7 @@ const Certificates: React.FC = () => {
     }
 
     await navigator.clipboard.writeText(shareUrl)
-
-    alert('Certificate link copied to clipboard.')
+    setToastMessage('Certificate link copied to clipboard.')
   }
 
   return (
@@ -125,7 +109,13 @@ const Certificates: React.FC = () => {
       title="Certificates"
       subtitle="View and download your earned certificates."
     >
-      <div className="space-y-6">
+      <div className="space-y-6 relative">
+        {toastMessage && (
+          <div className="absolute top-0 right-0 z-20">
+            <SuccessToast message={toastMessage} onDismiss={() => setToastMessage(null)} />
+          </div>
+        )}
+
         <div className="flex gap-6 border-b border-neutral-100">
           {tabs.map((tab) => (
             <button
@@ -153,7 +143,7 @@ const Certificates: React.FC = () => {
                 <CertificateRow
                   key={certificate.title}
                   certificate={certificate}
-                  onDownload={handleDownload}
+                  onDownload={handleDownloadClick}
                   onShare={handleShare}
                 />
               ))
@@ -161,75 +151,61 @@ const Certificates: React.FC = () => {
               <EmptyState message="Complete a course to earn your first certificate." />
             ))}
 
-          {activeTab === 'eligible' &&
-            (eligible.length > 0 ? (
-              eligible.map((course) => (
-                <div
-                  key={course.title}
-                  className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 border-b border-neutral-50 last:border-0"
-                >
-                  <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <div className="h-16 w-16 rounded-lg bg-secondary-light/20 flex-shrink-0 flex items-center justify-center text-secondary">
-                      <BookOpen size={24} />
-                    </div>
-
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-semibold text-neutral-800 truncate">
-                        {course.title}
-                      </h4>
-
-                      <p className="text-xs text-neutral-400 mt-0.5">
-                        {course.note}
-                      </p>
-                    </div>
-                  </div>
-
-                  <button className="px-4 py-2.5 border border-neutral-200 text-neutral-700 text-sm font-semibold rounded-xl hover:bg-neutral-50 transition-colors">
-                    Take Assessment
-                  </button>
-                </div>
-              ))
-            ) : (
-              <EmptyState message="Finish a course's coursework to unlock its certificate." />
-            ))}
-
           {activeTab === 'inProgress' &&
             (inProgress.length > 0 ? (
-              inProgress.map((course) => (
-                <div
-                  key={course.title}
-                  className="flex items-center gap-4 py-4 border-b border-neutral-50 last:border-0"
-                >
-                  <div className="h-16 w-16 rounded-lg bg-neutral-50 flex-shrink-0 flex items-center justify-center text-neutral-400">
-                    <Clock size={24} />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-neutral-800 truncate">
-                      {course.title}
-                    </h4>
-
-                    <p className="text-xs text-neutral-400 mb-2">
-                      {course.instructor}
-                    </p>
-
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 max-w-[200px] sm:max-w-[300px]">
-                        <ProgressBar progress={course.progress} size="sm" />
-                      </div>
-
-                      <span className="text-xs font-medium text-neutral-600 whitespace-nowrap">
-                        {course.progress}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              inProgress.map((certificate) => (
+                <CertificateRow key={certificate.title} certificate={certificate} locked />
               ))
             ) : (
               <EmptyState message="Courses you're actively working through will show up here." />
             ))}
         </div>
       </div>
+
+      {/* Your certificate is ready! */}
+      <Modal isOpen={!!pendingCertificate} onClose={() => setPendingCertificate(null)}>
+        <div className="text-center">
+          <h3 className="text-2xl font-extrabold text-neutral-900 mb-3">
+            Your certificate is ready!
+          </h3>
+          <p className="text-sm text-neutral-500 mb-6 leading-relaxed px-2">
+            You&apos;ve successfully completed this course. Download your certificate to save,
+            share, or add to your professional portfolio.
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setPendingCertificate(null)}
+              className="flex-1 px-4 py-3 rounded-xl border border-neutral-200 text-neutral-700 text-sm font-semibold hover:bg-neutral-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleConfirmDownload}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+            >
+              <Download size={16} />
+              Download Certificate
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Download Success! */}
+      <Modal isOpen={!!downloadedCertificate} onClose={() => setDownloadedCertificate(null)}>
+        <div className="text-center">
+          <h3 className="text-2xl font-extrabold text-neutral-900 mb-3">Download Success!</h3>
+          <p className="text-sm text-neutral-500 mb-6 leading-relaxed px-2">
+            Your course completion certificate is now saved to your device. You can access it
+            anytime from your downloads or your Talent Faculty profile.
+          </p>
+          <button
+            onClick={() => setDownloadedCertificate(null)}
+            className="w-full px-4 py-3.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+          >
+            Done
+          </button>
+        </div>
+      </Modal>
     </DashboardLayout>
   )
 }
