@@ -24,12 +24,7 @@ export default function App() {
       <TestimonialsSection />
       <PricingSection />
       <FaqSection />
-
       <Footer />
-
-
-
-
     </div>
   )
 }
