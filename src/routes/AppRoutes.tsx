@@ -43,6 +43,8 @@ import Learners from '../pages/instructor/learners/Learners.tsx'
 import LearnerProfile from '../pages/instructor/learners/LearnerProfile.tsx'
 import AssessmentManagement from '../pages/instructor/assessments/AssessmentManagement.tsx'
 import AssignmentGrading from '../pages/instructor/assessments/AssignmentGrading.tsx'
+import MeetTheTeam from '../pages/MeetTheTeam'
+
 import TakeQuiz from '../components/common/instructor/learners/TakeQuiz.tsx'
 import AdminCertificates from '../pages/admin/Certificates.tsx'
 import EditCertificate from '../components/layout/admin/EditCertificate.tsx'
@@ -53,6 +55,8 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/team" element={<MeetTheTeam />} />
+      <Route path="/meet-the-team" element={<MeetTheTeam />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup-email" element={<Signupemail />} />
 

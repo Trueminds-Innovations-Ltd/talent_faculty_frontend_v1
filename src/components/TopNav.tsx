@@ -5,10 +5,10 @@ export default function TopNav() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navLinks = [
-    { label: 'Home', href: '#' },
+    { label: 'Home', href: '/' },
     { label: 'Courses', href: '#footer' },
     { label: 'Features', href: '#' },
-    { label: 'Meet The Team', href: '#test' },
+    { label: 'Meet The Team', href: '/meet-the-team' },
   ]
 
   return (
@@ -26,19 +26,35 @@ export default function TopNav() {
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black  group"
-              >
-                <span className="relative z-10 flex items-center gap-1.5">
-                  {link.label}
-
-                </span>
-                <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isRouterLink = link.href.startsWith('/');
+              if (isRouterLink) {
+                return (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black group"
+                  >
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      {link.label}
+                    </span>
+                    <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
+                  </Link>
+                );
+              }
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black group"
+                >
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    {link.label}
+                  </span>
+                  <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
+                </a>
+              );
+            })}
           </div>
 
           {/* Action Buttons (Desktop) */}
@@ -86,18 +102,31 @@ export default function TopNav() {
       {isOpen && (
         <div className="lg:hidden border-t border-white/5 bg-white/20 backdrop-blur-lg" id="mobile-menu">
           <div className="space-y-1.5 px-4 py-4.5">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-black"
-              >
-                <span>{link.label}</span>
-
-
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isRouterLink = link.href.startsWith('/');
+              if (isRouterLink) {
+                return (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-black"
+                  >
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              }
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-black"
+                >
+                  <span>{link.label}</span>
+                </a>
+              );
+            })}
             <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/5 pt-5">
               <Link
                 to="/login"
