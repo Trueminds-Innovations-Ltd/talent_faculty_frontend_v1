@@ -45,6 +45,11 @@ import AssessmentManagement from '../pages/instructor/assessments/AssessmentMana
 import AssignmentGrading from '../pages/instructor/assessments/AssignmentGrading.tsx'
 import MeetTheTeam from '../pages/MeetTheTeam'
 
+import TakeQuiz from '../components/common/instructor/learners/TakeQuiz.tsx'
+import AdminCertificates from '../pages/admin/Certificates.tsx'
+import EditCertificate from '../components/layout/admin/EditCertificate.tsx'
+import GenerateCertificate from '../components/layout/admin/GenerateCertificate.tsx'
+import GenerateCertificatesReport from '../components/layout/admin/GenerateCertificatesReport.tsx'
 
 const AppRoutes = () => {
   return (
@@ -80,6 +85,7 @@ const AppRoutes = () => {
       <Route path="/courses" element={<MyCourses />} />
       <Route path="/assignments" element={<Assignments />} />
       <Route path="/assessments" element={<Assessments />} />
+      <Route path="assessments/:id/take" element={<TakeQuiz />} />
       <Route path="/messages" element={<Messages />} />
       <Route path="/notifications" element={<Notifications />} />
       <Route path="/profile" element={<MyProfile />} />
@@ -96,7 +102,10 @@ const AppRoutes = () => {
       <Route path="/admin/notifications" element={<AdminNotifications />} />
       <Route path="/admin/announcements" element={<AdminAnnouncements />} />
       <Route path="/admin/cohorts" element={<AdminCohorts />} />
-
+      <Route path="/admin/certificates" element={<AdminCertificates />} />
+      <Route path="/admin/certificates/:id/edit" element={<EditCertificate />} />
+      <Route path="/admin/certificates/generate" element={<GenerateCertificate />} />
+      <Route path="/admin/certificates/reports" element={<GenerateCertificatesReport />} />
 
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<InstructorLayout />}>

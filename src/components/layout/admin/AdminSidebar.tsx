@@ -39,7 +39,13 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
     localStorage.setItem('admin-sidebar-collapsed', JSON.stringify(collapsed))
   }, [collapsed])
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) => {
+    if (location.pathname === path) return true
+    if (path === '/admin/certificates' && location.pathname.startsWith('/admin/certificates')) {
+      return true
+    }
+    return false
+  }
 
   // Only close mobile sidebar on mobile viewport
   const handleNavClick = () => {
