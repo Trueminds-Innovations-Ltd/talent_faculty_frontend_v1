@@ -1,6 +1,5 @@
 import { useState } from 'react'
-// import { PlayCricle } from 'iconsax-react'
-import { ChevronLeft, Minimize2, Play, Download, NotebookPen, Share2, ChevronDown, CheckCircle2, PlayCircle, Circle, Pause } from 'lucide-react'
+import { ChevronLeft, Minimize2, Play, Download, NotebookPen, Share2, CheckCircle2, Circle, Pause } from 'lucide-react'
 interface CourseViewProps {
   course: {
     title: string
@@ -55,7 +54,6 @@ function CourseView({ course }: CourseViewProps) {
   const [showNotes, setShowNotes] = useState(false)
   const [noteText, setNoteText] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
-  const [playStatus, setPlayStatus] = useState('play')
   return (
     <div className=" w-full ">
       <div className="relative h-[363px] w-full">

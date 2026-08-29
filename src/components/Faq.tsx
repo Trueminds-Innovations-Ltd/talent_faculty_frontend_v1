@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Add, Minus } from 'iconsax-react';
+import Reveal from './common/Reveal';
 
 interface FaqItem {
     id: string;
@@ -60,69 +61,79 @@ const FaqSection = () => {
     };
 
     return (
-        <section className="w-full max-w-6xl mx-auto px-4 py-20">
+        <section className="w-full max-w-6xl mx-auto px-4 py-16 overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_1.4fr] gap-10">
                 {/* Left column */}
-                <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
-                        Got Questions? We've Got Answers.
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-4 leading-relaxed">
-                        Find answers to the most common questions about our programs,
-                        learning experience, mentorship, certificates, and enrollment
-                        process. Still need help? Our support team is always ready to
-                        assist you.
-                    </p>
-                </div>
+                <Reveal animation="slide-left" delay={100}>
+                    <div>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+                            Got Questions? We've Got <span className="text-primary">Answers.</span>
+                        </h2>
+                        <p className="text-sm sm:text-base text-gray-500 mt-4 leading-relaxed">
+                            Find answers to the most common questions about our programs,
+                            learning experience, mentorship, certificates, and enrollment
+                            process. Still need help? Our support team is always ready to
+                            assist you.
+                        </p>
+                    </div>
+                </Reveal>
 
                 {/* Right column: accordion */}
-                <div className="space-y-3">
-                    {faqs.map((faq) => {
+                <div className="space-y-3.5">
+                    {faqs.map((faq, idx) => {
                         const isOpen = openId === faq.id;
 
                         return (
-                            <div
+                            <Reveal
                                 key={faq.id}
-                                className={`rounded-xl transition-colors duration-200 ${isOpen
-                                    ? 'border border-primary bg-white'
-                                    : 'border border-transparent bg-gray-50'
-                                    }`}
+                                animation="slide-right"
+                                delay={idx * 70}
                             >
-                                <button
-                                    type="button"
-                                    onClick={() => toggleFaq(faq.id)}
-                                    aria-expanded={isOpen}
-                                    className="w-full flex items-start justify-between gap-4 text-left px-5 py-4"
+                                <div
+                                    className={`rounded-2xl transition-all duration-300 ${
+                                        isOpen
+                                            ? 'border-2 border-primary bg-white shadow-md'
+                                            : 'border border-gray-100 bg-gray-50/80 hover:bg-gray-50'
+                                    }`}
                                 >
-                                    <span
-                                        className={`text-sm font-semibold ${isOpen ? 'text-primary' : 'text-gray-900'
-                                            }`}
+                                    <button
+                                        type="button"
+                                        onClick={() => toggleFaq(faq.id)}
+                                        aria-expanded={isOpen}
+                                        className="w-full flex items-start justify-between gap-4 text-left px-6 py-4.5 cursor-pointer"
                                     >
-                                        {faq.question}
-                                    </span>
-
-                                    <span
-                                        className={`shrink-0 w-6 h-6 rounded-full border flex items-center justify-center mt-0.5 transition-colors ${isOpen
-                                            ? 'border-primary text-primary'
-                                            : 'border-gray-300 text-gray-500'
+                                        <span
+                                            className={`text-sm sm:text-base font-bold transition-colors ${
+                                                isOpen ? 'text-primary' : 'text-gray-900'
                                             }`}
-                                    >
-                                        {isOpen ? (
-                                            <Minus color='black' size={14} variant="Linear" />
-                                        ) : (
-                                            <Add color='black' size={14} variant="Linear" />
-                                        )}
-                                    </span>
-                                </button>
+                                        >
+                                            {faq.question}
+                                        </span>
 
-                                {isOpen && (
-                                    <div className="px-5 pb-4">
-                                        <p className="text-sm text-gray-500 leading-relaxed">
-                                            {faq.answer}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
+                                        <span
+                                            className={`shrink-0 w-7 h-7 rounded-full border flex items-center justify-center mt-0.5 transition-transform duration-200 ${
+                                                isOpen
+                                                    ? 'border-primary bg-primary text-white rotate-180'
+                                                    : 'border-gray-300 text-gray-500'
+                                            }`}
+                                        >
+                                            {isOpen ? (
+                                                <Minus color='white' size={14} variant="Linear" />
+                                            ) : (
+                                                <Add color='black' size={14} variant="Linear" />
+                                            )}
+                                        </span>
+                                    </button>
+
+                                    {isOpen && (
+                                        <div className="px-6 pb-5 pt-1 animate-fade-in">
+                                            <p className="text-sm sm:text-base text-gray-600 leading-relaxed border-t border-neutral-100 pt-3">
+                                                {faq.answer}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </Reveal>
                         );
                     })}
                 </div>
@@ -131,4 +142,4 @@ const FaqSection = () => {
     );
 };
 
-export default FaqSection;
+export default FaqSection;
