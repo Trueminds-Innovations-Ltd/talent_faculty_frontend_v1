@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function TopNav() {
   const [isOpen, setIsOpen] = useState(false)
+  const { pathname } = useLocation()
 
   const navLinks = [
     { label: 'Home', href: '/' },
@@ -10,6 +11,8 @@ export default function TopNav() {
     { label: 'Features', href: '#' },
     { label: 'Meet The Team', href: '/meet-the-team' },
   ]
+
+  const isActive = (href: string) => pathname === href
 
   return (
     <nav className=" top-0 fixed z-100 w-full p-2   bg-white backdrop-blur-md">
@@ -28,17 +31,24 @@ export default function TopNav() {
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const isRouterLink = link.href.startsWith('/');
+              const active = isActive(link.href);
               if (isRouterLink) {
                 return (
                   <Link
                     key={link.label}
                     to={link.href}
-                    className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black group"
+                    className={`relative rounded-full px-3.5 py-1.5 text-md font-medium transition-all duration-200 group
+                      ${active
+                        ? 'text-primary border border-primary'
+                        : 'text-black border border-transparent hover:text-primary'
+                      }`}
                   >
                     <span className="relative z-10 flex items-center gap-1.5">
                       {link.label}
                     </span>
-                    <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
+                    {!active && (
+                      <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
+                    )}
                   </Link>
                 );
               }
@@ -46,7 +56,7 @@ export default function TopNav() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black group"
+                  className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black group border border-transparent"
                 >
                   <span className="relative z-10 flex items-center gap-1.5">
                     {link.label}
@@ -104,13 +114,18 @@ export default function TopNav() {
           <div className="space-y-1.5 px-4 py-4.5">
             {navLinks.map((link) => {
               const isRouterLink = link.href.startsWith('/');
+              const active = isActive(link.href);
               if (isRouterLink) {
                 return (
                   <Link
                     key={link.label}
                     to={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-black"
+                    className={`flex items-center justify-between rounded-full px-3 py-2.5 text-base font-medium transition-all duration-200
+                      ${active
+                        ? 'text-primary border border-primary'
+                        : 'text-black border border-transparent'
+                      }`}
                   >
                     <span>{link.label}</span>
                   </Link>
@@ -149,3 +164,4 @@ export default function TopNav() {
     </nav>
   )
 }
+

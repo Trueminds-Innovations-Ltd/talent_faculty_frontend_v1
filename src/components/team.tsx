@@ -121,7 +121,7 @@ const Team = () => {
         {
             id: 'prince-obi',
             title: 'Prince Egenti Obi',
-            img: "/prince obi.jpg",
+            img: "/prince obi.png",
             name: 'Frontend Developer',
             socials: {
                 github: 'https://github.com/prince-obiajulu-dev',
@@ -238,10 +238,10 @@ const Team = () => {
         <section className="w-full max-w-7xl mx-auto rounded-2xl   bg-white md:px-3 px-3">
             <div className="flex w-full items-center text-center justify-center gap-4 mb-20 md:px-5">
                 <div className=' max-w-3xl'>
-                    <h2 className="text-3xl font-bold text-gray-900">
+                    <h2 className="md:text-3xl text-2xl font-bold text-gray-900">
                         The People Behind the Project
                     </h2>
-                    <p className="text-lg text-gray-500 mt-1">
+                    <p className="md:text-lg text-md text-gray-500 mt-1">
                         From the first wireframe to the final line of code, every part of Talent Faculty has been shaped by a team committed to learning, creating and building better.
                     </p>
                 </div>
@@ -260,9 +260,9 @@ const Team = () => {
                     <article
                         key={path.id}
                         data-card
-                        className="shrink-0 w-[280px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        className="shrink-0 w-full md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.7 transition-all duration-400 cursor-pointer"
                     >
-                        <div className="h-[400px] w-full relative overflow-hidden inset-0 bg-gray-100">
+                        <div className="h-[550px] md:h-[450px]   w-full relative overflow-hidden inset-0 bg-gray-100">
                             <img
                                 src={path.img}
                                 alt={path.title}
@@ -342,14 +342,14 @@ const Team = () => {
                     <article
                         key={path.id}
                         data-card
-                        className="shrink-0 w-[280px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        className="shrink-0 w-[320px]  md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                     >
-                        <div className="h-[400px] w-full relative overflow-hidden inset-0 bg-gray-100">
+                        <div className="h-[550px] md:h-[450px]  w-full relative overflow-hidden inset-0 bg-gray-100">
                             <img
                                 src={path.img}
                                 alt={path.title}
                                 loading="lazy"
-                                className="w-full h-full absolute top-0 left-0 object-cover"
+                                className="w-full h-full absolute  top-0 left-0 object-cover"
                             />
 
                             {/* bottom gradient so white text/icons stay readable over any photo */}
@@ -424,9 +424,9 @@ const Team = () => {
                     <article
                         key={path.id}
                         data-card
-                        className="shrink-0 w-[280px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        className="shrink-0 w-[320px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                     >
-                        <div className="h-[400px] w-full relative overflow-hidden inset-0 bg-gray-100">
+                        <div className="h-[550px] md:h-[450px] w-full relative overflow-hidden inset-0 bg-gray-100">
                             <img
                                 src={path.img}
                                 alt={path.title}
@@ -506,9 +506,9 @@ const Team = () => {
                     <article
                         key={path.id}
                         data-card
-                        className="shrink-0 w-[280px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        className="shrink-0 w-[320px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                     >
-                        <div className="h-[400px] w-full relative overflow-hidden inset-0 bg-gray-100">
+                        <div className="h-[550px] md:h-[450px] w-full relative overflow-hidden inset-0 bg-gray-100">
                             <img
                                 src={path.img}
                                 alt={path.title}

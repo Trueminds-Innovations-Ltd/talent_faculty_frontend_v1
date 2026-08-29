@@ -1,4 +1,5 @@
 import { ArrowRight, Play } from "iconsax-react"
+import { Link } from "react-router-dom"
 
 const CalltoAction = () => {
     return (
@@ -19,8 +20,12 @@ const CalltoAction = () => {
                         <p className='mt-4'>Stay organized with a personalized dashboard that keeps your courses, assignments, assessments, certificates, and progress in one place.</p>
 
                         <div className=" flex flex-col  gap-4 mt-10">
-                            <button className="bg-white flex justify-center items-center gap-2 text-primary px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition duration-300"><ArrowRight size="22" color="#34C759" />See Dashboard</button>
-                            <button className="border-2 flex justify-center items-center gap-2 border-white text-white px-8 py-3 rounded-xl font-bold hover:bg-white/10 transition duration-300"><Play size="22" color="white" />Start Learning</button>
+                            <Link to='/login'>
+                                <button className="bg-white flex justify-center items-center gap-2 text-primary px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition duration-300"><ArrowRight size="22" color="#34C759" />See Dashboard</button>
+                            </Link>
+                            <Link to='/signup'>
+                                <button className="border-2 flex justify-center items-center gap-2 border-white text-white px-8 py-3 rounded-xl font-bold hover:bg-white/10 transition duration-300"><Play size="22" color="white" />Start Learning</button>
+                            </Link>
                         </div>
 
                     </div>
