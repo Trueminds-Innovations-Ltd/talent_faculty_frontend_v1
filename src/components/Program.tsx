@@ -1,4 +1,5 @@
 import { TickCircle, ArrowRight2 } from 'iconsax-react';
+import Reveal from './common/Reveal';
 
 interface PricingPlan {
     id: string;
@@ -11,6 +12,7 @@ interface PricingPlan {
     cta: string;
     highlighted?: boolean;
     badge?: string;
+    animation: 'slide-right' | 'zoom-in' | 'slide-left';
 }
 
 const plans: PricingPlan[] = [
@@ -29,6 +31,7 @@ const plans: PricingPlan[] = [
             'Completion certificate',
         ],
         cta: 'Get Started',
+        animation: 'slide-right',
     },
     {
         id: 'professional',
@@ -46,6 +49,7 @@ const plans: PricingPlan[] = [
         cta: 'Enroll Now',
         highlighted: true,
         badge: 'Popular',
+        animation: 'zoom-in',
     },
     {
         id: 'enterprise',
@@ -61,97 +65,112 @@ const plans: PricingPlan[] = [
             'Custom learning paths',
         ],
         cta: 'Contact Sales',
+        animation: 'slide-left',
     },
 ];
 
 const PricingSection = () => {
     return (
-        <section className="w-full max-w-5xl mx-auto px-4 py-20">
+        <section className="w-full max-w-6xl mx-auto px-4 py-16 overflow-hidden">
             {/* Header */}
-            <div className="text-center max-w-2xl mx-auto mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    Find the Program That's Right for You
-                </h2>
-                <p className="text-sm text-gray-500 mt-3 leading-relaxed">
-                    Whether you're just starting your career or looking to upskill, Talent
-                    Faculty offers structured, mentor-led programs designed to help you
-                    gain practical experience and grow with confidence.
-                </p>
-            </div>
+            <Reveal animation="slide-down" delay={100}>
+                <div className="text-center max-w-2xl mx-auto mb-12">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                        Find the Program That's <span className="text-primary">Right for You</span>
+                    </h2>
+                    <p className="text-sm sm:text-base text-gray-500 mt-3 leading-relaxed">
+                        Whether you're just starting your career or looking to upskill, Talent
+                        Faculty offers structured, mentor-led programs designed to help you
+                        gain practical experience and grow with confidence.
+                    </p>
+                </div>
+            </Reveal>
 
             {/* Pricing Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                {plans.map((plan) => {
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+                {plans.map((plan, idx) => {
                     const isHighlighted = plan.highlighted;
 
                     return (
-                        <div
+                        <Reveal
                             key={plan.id}
-                            className={`relative rounded-2xl p-6 flex flex-col h-full transition-transform duration-200 ${isHighlighted
-                                ? 'bg-primary text-white shadow-xl md:-translate-y-3'
-                                : 'bg-white text-gray-900 border border-gray-200'
-                                }`}
+                            animation={plan.animation}
+                            delay={idx * 150}
+                            className="h-full"
                         >
-                            {plan.badge && (
-                                <span className="absolute top-6 right-6 bg-white text-primary text-xs font-semibold px-3 py-1 rounded-full">
-                                    {plan.badge}
-                                </span>
-                            )}
-
-                            {/* Name & tagline */}
-                            <h3 className="font-bold text-lg">{plan.name}</h3>
-                            <p
-                                className={`text-sm mt-1 ${isHighlighted ? 'text-white/80' : 'text-gray-500'
-                                    }`}
+                            <div
+                                className={`relative rounded-3xl p-8 flex flex-col justify-between h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
+                                    isHighlighted
+                                        ? 'bg-primary text-white shadow-xl ring-2 ring-primary-dark/20'
+                                        : 'bg-white text-gray-900 border border-gray-100 shadow-sm'
+                                }`}
                             >
-                                {plan.tagline}
-                            </p>
+                                {plan.badge && (
+                                    <span className="absolute top-6 right-6 bg-white text-primary text-xs font-bold px-3.5 py-1 rounded-full shadow-sm animate-pulse-subtle">
+                                        {plan.badge}
+                                    </span>
+                                )}
 
-                            {/* Price */}
-                            <div className="flex items-baseline gap-2 mt-6 mb-6">
-                                <span className="text-2xl font-bold">{plan.price}</span>
-                                <span
-                                    className={`text-sm ${isHighlighted ? 'text-white/70' : 'text-gray-400'
+                                <div>
+                                    {/* Name & tagline */}
+                                    <h3 className="font-bold text-xl">{plan.name}</h3>
+                                    <p
+                                        className={`text-sm mt-1 ${
+                                            isHighlighted ? 'text-white/80' : 'text-gray-500'
                                         }`}
-                                >
-                                    {plan.priceLabel}
-                                </span>
-                            </div>
+                                    >
+                                        {plan.tagline}
+                                    </p>
 
-                            {/* Features */}
-                            <ul className="space-y-3 flex-1">
-                                {plan.features.map((feature, index) => (
-                                    <li key={index} className="flex items-center gap-2 text-sm">
-                                        <TickCircle
-                                            size={18}
-                                            variant="Bold"
-                                            className={
-                                                isHighlighted ? 'text-white' : 'text-primary'
-                                            }
-                                        />
+                                    {/* Price */}
+                                    <div className="flex items-baseline gap-2 mt-6 mb-6">
+                                        <span className="text-3xl font-extrabold">{plan.price}</span>
                                         <span
-                                            className={
-                                                isHighlighted ? 'text-white/90' : 'text-gray-700'
-                                            }
+                                            className={`text-sm font-medium ${
+                                                isHighlighted ? 'text-white/80' : 'text-gray-400'
+                                            }`}
                                         >
-                                            {feature}
+                                            {plan.priceLabel}
                                         </span>
-                                    </li>
-                                ))}
-                            </ul>
+                                    </div>
 
-                            {/* CTA */}
-                            <button
-                                type="button"
-                                className={`mt-8 w-full flex items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors duration-200 ${isHighlighted
-                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                                    : 'border border-gray-300 hover:border-bhgreen hover:text-bhgreen text-gray-700'
+                                    {/* Features */}
+                                    <ul className="space-y-3.5 mb-8">
+                                        {plan.features.map((feature, index) => (
+                                            <li key={index} className="flex items-center gap-2.5 text-sm">
+                                                <TickCircle
+                                                    size={18}
+                                                    variant="Bold"
+                                                    className={
+                                                        isHighlighted ? 'text-white' : 'text-primary'
+                                                    }
+                                                />
+                                                <span
+                                                    className={
+                                                        isHighlighted ? 'text-white/95' : 'text-gray-700'
+                                                    }
+                                                >
+                                                    {feature}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                {/* CTA */}
+                                <button
+                                    type="button"
+                                    className={`w-full flex items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold transition-all duration-200 hover:scale-102 active:scale-98 cursor-pointer ${
+                                        isHighlighted
+                                            ? 'bg-neutral-900 hover:bg-black text-white shadow-lg'
+                                            : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
                                     }`}
-                            >
-                                {plan.cta}
-                                <ArrowRight2 size={16} variant="Linear" />
-                            </button>
-                        </div>
+                                >
+                                    <span>{plan.cta}</span>
+                                    <ArrowRight2 size={16} variant="Linear" />
+                                </button>
+                            </div>
+                        </Reveal>
                     );
                 })}
             </div>
@@ -159,4 +178,4 @@ const PricingSection = () => {
     );
 };
 
-export default PricingSection;
+export default PricingSection;

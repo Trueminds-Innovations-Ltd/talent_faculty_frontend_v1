@@ -1,5 +1,6 @@
 
 import { useRef } from 'react';
+import Reveal from './common/Reveal';
 
 const Github = ({ size = 18, className = "" }: { size?: number; className?: string }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -235,358 +236,376 @@ const Team = () => {
     ];
 
     return (
-        <section className="w-full max-w-7xl mx-auto rounded-2xl   bg-white md:px-3 px-3">
-            <div className="flex w-full items-center text-center justify-center gap-4 mb-20 md:px-5">
-                <div className=' max-w-3xl'>
-                    <h2 className="md:text-3xl text-2xl font-bold text-gray-900">
-                        The People Behind the Project
-                    </h2>
-                    <p className="md:text-lg text-md text-gray-500 mt-1">
-                        From the first wireframe to the final line of code, every part of Talent Faculty has been shaped by a team committed to learning, creating and building better.
-                    </p>
+        <section className="w-full max-w-7xl mx-auto rounded-2xl bg-white px-4 sm:px-6 py-12 overflow-hidden">
+            {/* Header */}
+            <Reveal animation="slide-down" delay={100}>
+                <div className="flex w-full items-center text-center justify-center gap-4 mb-16 md:px-5">
+                    <div className="max-w-3xl">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                            The People Behind the <span className="text-primary">Project</span>
+                        </h2>
+                        <p className="text-sm sm:text-base text-gray-500 mt-2 leading-relaxed">
+                            From the first wireframe to the final line of code, every part of Talent Faculty has been shaped by a team committed to learning, creating and building better.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </Reveal>
 
-            <div className='mb-5' >
-                <h2 className="text-xl font-bold text-primary">Graphics Designers</h2>
-            </div>
+            {/* Graphics Designers */}
+            <div className="mb-14">
+                <Reveal animation="slide-left" delay={150}>
+                    <div className="mb-5 flex items-center gap-3">
+                        <span className="w-2.5 h-6 rounded-full bg-primary inline-block"></span>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Graphics Designers</h2>
+                    </div>
+                </Reveal>
 
-            {/* Cards */}
-            <div
-                ref={scrollRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
-            >
-                {name.map((path) => (
-                    <article
-                        key={path.id}
-                        data-card
-                        className="shrink-0 w-full md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.7 transition-all duration-400 cursor-pointer"
+                <Reveal animation="slide-up" delay={250}>
+                    <div
+                        ref={scrollRef}
+                        className="flex gap-5 overflow-x-auto scroll-smooth py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     >
-                        <div className="h-[550px] md:h-[450px]   w-full relative overflow-hidden inset-0 bg-gray-100">
-                            <img
-                                src={path.img}
-                                alt={path.title}
-                                loading="lazy"
-                                className="w-full h-full absolute top-0 left-0 object-cover"
-                            />
+                        {name.map((path) => (
+                            <article
+                                key={path.id}
+                                data-card
+                                className="shrink-0 w-[280px] sm:w-[320px] rounded-2xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
+                            >
+                                <div className="h-[460px] w-full relative overflow-hidden bg-gray-100">
+                                    <img
+                                        src={path.img}
+                                        alt={path.title}
+                                        loading="lazy"
+                                        className="w-full h-full absolute top-0 left-0 object-cover group-hover:scale-108 transition-transform duration-500"
+                                    />
 
-                            {/* bottom gradient so white text/icons stay readable over any photo */}
-                            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                                    {/* bottom gradient */}
+                                    <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                            <div className="p-3 flex items-end justify-between absolute bottom-0 inset-x-0">
-                                <div className="flex flex-col">
-                                    <h3 className="font-semibold text-white text-md">
-                                        {path.title}
-                                    </h3>
-                                    <p className="text-sm text-orange-400 font-medium mt-1">
-                                        {path.name}
-                                    </p>
-                                </div>
+                                    <div className="p-4 flex items-end justify-between absolute bottom-0 inset-x-0">
+                                        <div className="flex flex-col">
+                                            <h3 className="font-bold text-white text-base sm:text-lg group-hover:text-emerald-300 transition-colors">
+                                                {path.title}
+                                            </h3>
+                                            <p className="text-xs sm:text-sm text-emerald-400 font-medium mt-0.5">
+                                                {path.name}
+                                            </p>
+                                        </div>
 
-                                {path.socials && (
-                                    <div className="flex items-center gap-2.5 shrink-0">
-                                        {path.socials.github && (
-                                            <a
-                                                href={path.socials.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on GitHub`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Behance size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.linkedin && (
-                                            <a
-                                                href={path.socials.linkedin}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on LinkedIn`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Linkedin size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.instagram && (
-                                            <a
-                                                href={path.socials.instagram}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on Instagram`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Instagram size={18} />
-                                            </a>
+                                        {path.socials && (
+                                            <div className="flex items-center gap-2.5 shrink-0">
+                                                {path.socials.github && (
+                                                    <a
+                                                        href={path.socials.github}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on GitHub`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Behance size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.linkedin && (
+                                                    <a
+                                                        href={path.socials.linkedin}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on LinkedIn`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Linkedin size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.instagram && (
+                                                    <a
+                                                        href={path.socials.instagram}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on Instagram`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Instagram size={18} />
+                                                    </a>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    </article>
-                ))}
-            </div>
-
-            <div className='mb-5' >
-                <h2 className="text-xl font-bold text-primary">UI/UX Designers</h2>
-            </div>
-
-            {/* Cards */}
-            <div
-                ref={scrollRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
-            >
-                {uiux.map((path) => (
-                    <article
-                        key={path.id}
-                        data-card
-                        className="shrink-0 w-[320px]  md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                    >
-                        <div className="h-[550px] md:h-[450px]  w-full relative overflow-hidden inset-0 bg-gray-100">
-                            <img
-                                src={path.img}
-                                alt={path.title}
-                                loading="lazy"
-                                className="w-full h-full absolute  top-0 left-0 object-cover"
-                            />
-
-                            {/* bottom gradient so white text/icons stay readable over any photo */}
-                            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                            <div className="p-3 flex items-end justify-between absolute bottom-0 inset-x-0">
-                                <div className="flex flex-col">
-                                    <h3 className="font-semibold text-white text-md">
-                                        {path.title}
-                                    </h3>
-                                    <p className="text-sm text-orange-400 font-medium mt-1">
-                                        {path.name}
-                                    </p>
                                 </div>
+                            </article>
+                        ))}
+                    </div>
+                </Reveal>
+            </div>
 
-                                {path.socials && (
-                                    <div className="flex items-center gap-2.5 shrink-0">
-                                        {path.socials.github && (
-                                            <a
-                                                href={path.socials.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on GitHub`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Behance size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.linkedin && (
-                                            <a
-                                                href={path.socials.linkedin}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on LinkedIn`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Linkedin size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.instagram && (
-                                            <a
-                                                href={path.socials.instagram}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on Instagram`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Instagram size={18} />
-                                            </a>
+            {/* UI/UX Designers */}
+            <div className="mb-14">
+                <Reveal animation="slide-left" delay={150}>
+                    <div className="mb-5 flex items-center gap-3">
+                        <span className="w-2.5 h-6 rounded-full bg-primary inline-block"></span>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">UI/UX Designers</h2>
+                    </div>
+                </Reveal>
+
+                <Reveal animation="slide-up" delay={250}>
+                    <div
+                        className="flex gap-5 overflow-x-auto scroll-smooth py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        {uiux.map((path) => (
+                            <article
+                                key={path.id}
+                                data-card
+                                className="shrink-0 w-[280px] sm:w-[320px] rounded-2xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
+                            >
+                                <div className="h-[460px] w-full relative overflow-hidden bg-gray-100">
+                                    <img
+                                        src={path.img}
+                                        alt={path.title}
+                                        loading="lazy"
+                                        className="w-full h-full absolute top-0 left-0 object-cover group-hover:scale-108 transition-transform duration-500"
+                                    />
+
+                                    {/* bottom gradient */}
+                                    <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+
+                                    <div className="p-4 flex items-end justify-between absolute bottom-0 inset-x-0">
+                                        <div className="flex flex-col">
+                                            <h3 className="font-bold text-white text-base sm:text-lg group-hover:text-emerald-300 transition-colors">
+                                                {path.title}
+                                            </h3>
+                                            <p className="text-xs sm:text-sm text-emerald-400 font-medium mt-0.5">
+                                                {path.name}
+                                            </p>
+                                        </div>
+
+                                        {path.socials && (
+                                            <div className="flex items-center gap-2.5 shrink-0">
+                                                {path.socials.github && (
+                                                    <a
+                                                        href={path.socials.github}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on GitHub`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Behance size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.linkedin && (
+                                                    <a
+                                                        href={path.socials.linkedin}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on LinkedIn`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Linkedin size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.instagram && (
+                                                    <a
+                                                        href={path.socials.instagram}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on Instagram`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Instagram size={18} />
+                                                    </a>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    </article>
-                ))}
-            </div>
-
-            {/* Cards */}
-            <div className='mb-5' >
-                <h2 className="text-xl font-bold text-primary">Frontend Developers</h2>
-            </div>
-
-            <div
-                ref={scrollRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
-            >
-                {frontend.map((path) => (
-                    <article
-                        key={path.id}
-                        data-card
-                        className="shrink-0 w-[320px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                    >
-                        <div className="h-[550px] md:h-[450px] w-full relative overflow-hidden inset-0 bg-gray-100">
-                            <img
-                                src={path.img}
-                                alt={path.title}
-                                loading="lazy"
-                                className="w-full h-full absolute top-0 left-0 object-cover"
-                            />
-
-                            {/* bottom gradient so white text/icons stay readable over any photo */}
-                            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                            <div className="p-3 flex items-end justify-between absolute bottom-0 inset-x-0">
-                                <div className="flex flex-col">
-                                    <h3 className="font-semibold text-white text-md">
-                                        {path.title}
-                                    </h3>
-                                    <p className="text-sm text-orange-400 font-medium mt-1">
-                                        {path.name}
-                                    </p>
                                 </div>
+                            </article>
+                        ))}
+                    </div>
+                </Reveal>
+            </div>
 
-                                {path.socials && (
-                                    <div className="flex items-center gap-2.5 shrink-0">
-                                        {path.socials.github && (
-                                            <a
-                                                href={path.socials.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on GitHub`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Github size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.linkedin && (
-                                            <a
-                                                href={path.socials.linkedin}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on LinkedIn`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Linkedin size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.instagram && (
-                                            <a
-                                                href={path.socials.instagram}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on Instagram`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Folder size={18} />
-                                            </a>
+            {/* Frontend Developers */}
+            <div className="mb-14">
+                <Reveal animation="slide-left" delay={150}>
+                    <div className="mb-5 flex items-center gap-3">
+                        <span className="w-2.5 h-6 rounded-full bg-primary inline-block"></span>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Frontend Developers</h2>
+                    </div>
+                </Reveal>
+
+                <Reveal animation="slide-up" delay={250}>
+                    <div
+                        className="flex gap-5 overflow-x-auto scroll-smooth py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        {frontend.map((path) => (
+                            <article
+                                key={path.id}
+                                data-card
+                                className="shrink-0 w-[280px] sm:w-[320px] rounded-2xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
+                            >
+                                <div className="h-[460px] w-full relative overflow-hidden bg-gray-100">
+                                    <img
+                                        src={path.img}
+                                        alt={path.title}
+                                        loading="lazy"
+                                        className="w-full h-full absolute top-0 left-0 object-cover group-hover:scale-108 transition-transform duration-500"
+                                    />
+
+                                    {/* bottom gradient */}
+                                    <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+
+                                    <div className="p-4 flex items-end justify-between absolute bottom-0 inset-x-0">
+                                        <div className="flex flex-col">
+                                            <h3 className="font-bold text-white text-base sm:text-lg group-hover:text-emerald-300 transition-colors">
+                                                {path.title}
+                                            </h3>
+                                            <p className="text-xs sm:text-sm text-emerald-400 font-medium mt-0.5">
+                                                {path.name}
+                                            </p>
+                                        </div>
+
+                                        {path.socials && (
+                                            <div className="flex items-center gap-2.5 shrink-0">
+                                                {path.socials.github && (
+                                                    <a
+                                                        href={path.socials.github}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on GitHub`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Github size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.linkedin && (
+                                                    <a
+                                                        href={path.socials.linkedin}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on LinkedIn`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Linkedin size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.instagram && (
+                                                    <a
+                                                        href={path.socials.instagram}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on Instagram`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Folder size={18} />
+                                                    </a>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    </article>
-                ))}
-            </div>
-
-            {/* Cards */}
-            <div className="mb-5">
-                <h2 className="text-xl font-bold text-primary">Backend Developers</h2>
-            </div>
-
-            <div
-                ref={scrollRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
-            >
-                {backend.map((path) => (
-                    <article
-                        key={path.id}
-                        data-card
-                        className="shrink-0 w-[320px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                    >
-                        <div className="h-[550px] md:h-[450px] w-full relative overflow-hidden inset-0 bg-gray-100">
-                            <img
-                                src={path.img}
-                                alt={path.title}
-                                loading="lazy"
-                                className="w-full h-full absolute top-0 left-0 object-cover"
-                            />
-
-                            {/* bottom gradient so white text/icons stay readable over any photo */}
-                            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                            <div className="p-3 flex items-end justify-between absolute bottom-0 inset-x-0">
-                                <div className="flex flex-col">
-                                    <h3 className="font-semibold text-white text-md">
-                                        {path.title}
-                                    </h3>
-                                    <p className="text-sm text-orange-400 font-medium mt-1">
-                                        {path.name}
-                                    </p>
                                 </div>
+                            </article>
+                        ))}
+                    </div>
+                </Reveal>
+            </div>
 
-                                {path.socials && (
-                                    <div className="flex items-center gap-2.5 shrink-0">
-                                        {path.socials.github && (
-                                            <a
-                                                href={path.socials.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on GitHub`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Github size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.linkedin && (
-                                            <a
-                                                href={path.socials.linkedin}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on LinkedIn`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Linkedin size={18} />
-                                            </a>
-                                        )}
-                                        {path.socials.instagram && (
-                                            <a
-                                                href={path.socials.instagram}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                aria-label={`${path.title} on Instagram`}
-                                                className="text-white/90 hover:text-white transition-colors"
-                                            >
-                                                <Instagram size={18} />
-                                            </a>
+            {/* Backend Developers */}
+            <div className="mb-14">
+                <Reveal animation="slide-left" delay={150}>
+                    <div className="mb-5 flex items-center gap-3">
+                        <span className="w-2.5 h-6 rounded-full bg-primary inline-block"></span>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Backend Developers</h2>
+                    </div>
+                </Reveal>
+
+                <Reveal animation="slide-up" delay={250}>
+                    <div
+                        className="flex gap-5 overflow-x-auto scroll-smooth py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        {backend.map((path) => (
+                            <article
+                                key={path.id}
+                                data-card
+                                className="shrink-0 w-[280px] sm:w-[320px] rounded-2xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
+                            >
+                                <div className="h-[460px] w-full relative overflow-hidden bg-gray-100">
+                                    <img
+                                        src={path.img}
+                                        alt={path.title}
+                                        loading="lazy"
+                                        className="w-full h-full absolute top-0 left-0 object-cover group-hover:scale-108 transition-transform duration-500"
+                                    />
+
+                                    {/* bottom gradient */}
+                                    <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+
+                                    <div className="p-4 flex items-end justify-between absolute bottom-0 inset-x-0">
+                                        <div className="flex flex-col">
+                                            <h3 className="font-bold text-white text-base sm:text-lg group-hover:text-emerald-300 transition-colors">
+                                                {path.title}
+                                            </h3>
+                                            <p className="text-xs sm:text-sm text-emerald-400 font-medium mt-0.5">
+                                                {path.name}
+                                            </p>
+                                        </div>
+
+                                        {path.socials && (
+                                            <div className="flex items-center gap-2.5 shrink-0">
+                                                {path.socials.github && (
+                                                    <a
+                                                        href={path.socials.github}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on GitHub`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Github size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.linkedin && (
+                                                    <a
+                                                        href={path.socials.linkedin}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on LinkedIn`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Linkedin size={18} />
+                                                    </a>
+                                                )}
+                                                {path.socials.instagram && (
+                                                    <a
+                                                        href={path.socials.instagram}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        aria-label={`${path.title} on Instagram`}
+                                                        className="text-white/80 hover:text-white hover:scale-120 transition-all p-1"
+                                                    >
+                                                        <Instagram size={18} />
+                                                    </a>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    </article>
-                ))}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </Reveal>
             </div>
-
-
-
-
-
-
-        </section >
+        </section>
     );
 };
 
 export default Team;
-
-
-
-
 
