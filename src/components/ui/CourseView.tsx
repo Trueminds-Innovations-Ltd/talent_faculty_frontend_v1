@@ -55,10 +55,10 @@ function CourseView({ course }: CourseViewProps) {
   const [showNotes, setShowNotes] = useState(false)
   const [noteText, setNoteText] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
-  const [playStatus, setPlayStatus] =useState('play')
+  const [playStatus, setPlayStatus] = useState('play')
   return (
-    <div className="w-[1097px] space-y-6">
-      <div className="relative h-[363px] w-[1097px]">
+    <div className=" w-full ">
+      <div className="relative h-[363px] w-full">
         <img src="./course-image.jpg" className=" h-[363px] w-full object-cover rounded-[16px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
           <img src="./Ellipse 1.png" className="w-[80px] h-[80px]" />

@@ -73,9 +73,8 @@ const MyCourses: React.FC = () => {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`pb-3 text-sm font-medium transition-colors relative ${
-                activeTab === tab.key ? 'text-primary' : 'text-neutral-400 hover:text-neutral-600'
-              }`}
+              className={`pb-3 text-sm font-medium transition-colors relative ${activeTab === tab.key ? 'text-primary' : 'text-neutral-400 hover:text-neutral-600'
+                }`}
             >
               {tab.label} ({tab.count})
               {activeTab === tab.key && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />}
@@ -85,7 +84,7 @@ const MyCourses: React.FC = () => {
 
         <div className="bg-white rounded-2xl border border-neutral-100 px-5">
           {selectedCourse ? (
-            <CourseView course={selectedCourse}/>
+            <CourseView course={selectedCourse} />
           ) : filteredCourses.length > 0 ? (
             filteredCourses.map((course) => (
               <CourseListItem
@@ -93,7 +92,7 @@ const MyCourses: React.FC = () => {
                 title={course.title}
                 instructor={course.instructor}
                 progress={course.progress}
-                onResume = {()=>setSelectedCourse(course)}
+                onResume={() => setSelectedCourse(course)}
                 totalLectures={course.totalLectures}
                 completedLectures={course.completedLectures}
               />
@@ -101,11 +100,11 @@ const MyCourses: React.FC = () => {
           ) : (
             <div className="py-12 text-center">
               <p className="text-sm text-neutral-400">No courses found.</p>
-  </div>
-)}
+            </div>
+          )}
 
         </div>
-        
+
       </div>
     </DashboardLayout>
   )
