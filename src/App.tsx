@@ -9,7 +9,6 @@ import FaqSection from './components/Faq'
 import TestimonialsSection from './components/Testimonial'
 import CalltoAction from './components/CalltoAction'
 import Name from './components/names'
-
 export default function App() {
 
 

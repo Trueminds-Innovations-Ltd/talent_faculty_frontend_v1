@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import CourseListItem from '../../components/ui/CourseListItem'
+import CourseView from '../../components/ui/CourseView'
 
 type TabKey = 'all' | 'active' | 'completed' | 'bookmarked'
 
@@ -17,11 +18,11 @@ interface Course {
 
 const allCourses: Course[] = [
   { id: 1, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 100, totalLectures: 38, completedLectures: 38, status: 'completed' },
-  { id: 2, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 18, totalLectures: 38, completedLectures: 5, status: 'active' },
+  { id: 2, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 100, totalLectures: 38, completedLectures: 5, status: 'active' },
   { id: 3, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 74, totalLectures: 40, completedLectures: 30, status: 'active' },
   { id: 4, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 52, totalLectures: 38, completedLectures: 15, status: 'active' },
-  { id: 5, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 35, totalLectures: 31, completedLectures: 6, status: 'active' },
-  { id: 6, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, totalLectures: 38, completedLectures: 24, status: 'bookmarked' },
+  { id: 5, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 0, totalLectures: 31, completedLectures: 6, status: 'active' },
+  { id: 6, title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 0, totalLectures: 38, completedLectures: 24, status: 'bookmarked' },
 ]
 
 const tabs: { key: TabKey; label: string; count: number }[] = [
@@ -34,7 +35,7 @@ const tabs: { key: TabKey; label: string; count: number }[] = [
 const MyCourses: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('all')
   const [searchQuery, setSearchQuery] = useState('')
-
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const filteredCourses = allCourses.filter((course) => {
     const matchesTab = activeTab === 'all' || course.status === activeTab
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -67,7 +68,7 @@ const MyCourses: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex gap-6 border-b border-neutral-100">
+        {!selectedCourse && <div className="flex gap-6 border-b border-neutral-100">
           {tabs.map((tab) => (
             <button
               key={tab.key}
@@ -80,16 +81,19 @@ const MyCourses: React.FC = () => {
               {activeTab === tab.key && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />}
             </button>
           ))}
-        </div>
+        </div>}
 
         <div className="bg-white rounded-2xl border border-neutral-100 px-5">
-          {filteredCourses.length > 0 ? (
+          {selectedCourse ? (
+            <CourseView course={selectedCourse}/>
+          ) : filteredCourses.length > 0 ? (
             filteredCourses.map((course) => (
               <CourseListItem
                 key={course.id}
                 title={course.title}
                 instructor={course.instructor}
                 progress={course.progress}
+                onResume = {()=>setSelectedCourse(course)}
                 totalLectures={course.totalLectures}
                 completedLectures={course.completedLectures}
               />
@@ -97,9 +101,11 @@ const MyCourses: React.FC = () => {
           ) : (
             <div className="py-12 text-center">
               <p className="text-sm text-neutral-400">No courses found.</p>
-            </div>
-          )}
+  </div>
+)}
+
         </div>
+        
       </div>
     </DashboardLayout>
   )

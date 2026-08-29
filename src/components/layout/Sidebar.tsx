@@ -127,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
                       transition-all duration-200
                       ${collapsed ? 'lg:justify-center lg:px-2' : ''}
                       ${active
-                        ? 'bg-primary text-white shadow-sm'
+                        ? 'bg-[#057834] text-white shadow-sm'
                         : 'text-neutral-600 hover:bg-primary/10 hover:text-primary'
                       }
                     `}
