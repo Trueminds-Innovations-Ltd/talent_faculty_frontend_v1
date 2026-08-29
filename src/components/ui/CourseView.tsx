@@ -5,7 +5,6 @@ interface CourseViewProps {
   course: {
     title: string
     instructor: string
-
   }
 }
 interface LectureItem {
@@ -57,8 +56,8 @@ function CourseView({ course }: CourseViewProps) {
   const [activeTab, setActiveTab] = useState('overview')
   const [playStatus, setPlayStatus] =useState('play')
   return (
-    <div className="w-[1097px] space-y-6">
-      <div className="relative h-[363px] w-[1097px]">
+    <div className="w-full space-y-6">
+      <div className="relative h-[363px] w-full">
         <img src="./course-image.jpg" className=" h-[363px] w-full object-cover rounded-[16px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
           <img src="./Ellipse 1.png" className="w-[80px] h-[80px]" />
@@ -117,7 +116,7 @@ function CourseView({ course }: CourseViewProps) {
           </button>
         </div>
         {showNotes && (
-          <div className="w-[1097px] p-4">
+          <div className="w-full p-4">
             <textarea
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
@@ -140,7 +139,7 @@ function CourseView({ course }: CourseViewProps) {
         ))}
       </div>
       {/* Conditionally render tab content */}
-      <div className="w-[1097px] ">
+      <div className="w-full ">
         {activeTab === 'overview' && (
           <p className="font-[400] text-[16px] text-black h-[72px] ">
             Learn how to use animation and motion to create engaging, intuitive, and memorable digital experiences. This course covers micro-interactions, transitions, motion principles, and practical techniques for bringing UI designs to life while maintaining usability and consistency.
@@ -169,7 +168,7 @@ function CourseView({ course }: CourseViewProps) {
           </div>
         )}
       </div>
-      <div className="w-[1097px] flex flex-col">
+      <div className="w-full flex flex-col">
         {lectures.map((lecture) => {
           const isPlaying = lecture.status === 'playing'
           const isCompleted = lecture.status === 'completed'
@@ -177,7 +176,7 @@ function CourseView({ course }: CourseViewProps) {
           return (
             <div
               key={lecture.id}
-              className={`w-[1097px] h-[94px] px-6 flex items-center justify-between    transition-colors rounded-[16px] ${isPlaying ? 'bg-[#EBF5EE]' : 'bg-white'
+              className={`w-full h-[94px] px-6 flex items-center justify-between    transition-colors rounded-[16px] ${isPlaying ? 'bg-[#EBF5EE]' : 'bg-white'
                 }`}
             >
               {/* Left Content Area: Status Circle and Details */}
