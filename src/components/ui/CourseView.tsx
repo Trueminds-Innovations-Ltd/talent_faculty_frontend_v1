@@ -185,7 +185,7 @@ function CourseView({ course }: CourseViewProps) {
                 {/* Conditional status icons mapping perfectly */}
                 {isCompleted && <CheckCircle2 size={24} className="text-white fill-[#057834]" />}
                 {isPlaying && <div className="w-[24px] h-[24px] rounded-full bg-[#057834] flex items-center justify-center pl-[2px]">
-                  <Stop size={12} className="text-white fill-white" />
+                  <Pause size={12} className="text-white fill-white" />
                 </div>}
                 {!isCompleted && !isPlaying && <Circle className="text-neutral-300" size={24} />}
 
