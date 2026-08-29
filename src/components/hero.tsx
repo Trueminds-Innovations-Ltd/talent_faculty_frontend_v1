@@ -31,7 +31,7 @@ export default function Hero() {
 
                 </div>
 
-                                <div className="flex items-center gap-5 ">
+                <div className="flex items-center gap-5 ">
                     <Link to='/admin/dashboard'>
                         <button className="p-3 flex bg-primary rounded-xl text-white"><Play size="22" color="#d9e3f0" />Admin</button>
                     </Link>
@@ -45,10 +45,16 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="bg-white text-center text-black  px-5  ">
-                <div className="  justify-center flex flex-col items-center text-center gap-5">
+            <div className="bg-white text-center text-black px-5">
+                <div className="justify-center flex flex-col items-center text-center gap-5">
                     <h1 className="text-xl text-gray-600">Trusted by ambitious learners and forward-thinking organizations</h1>
-                    <img src="./supon.png" />
+                    <div className="w-full max-w-5xl overflow-hidden relative"
+                        style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+                        <div className="animate-marquee flex items-center gap-16 w-max">
+                            <img src="./supon.png" alt="Our partners" className="h-9 object-contain" />
+                            <img src="./supon.png" alt="Our partners" className="h-9 object-contain" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
