@@ -50,14 +50,14 @@ export default function Hero() {
 
                     <Reveal animation="fade" delay={500}>
                         <div className="flex items-center gap-3 pt-2">
-                            <Link to='/admin/dashboard'>
+                            <Link to='/admin/signin'>
                                 <button className="px-4 py-2 flex items-center gap-1.5 bg-neutral-100 hover:bg-neutral-200 rounded-lg text-xs font-semibold text-neutral-700 transition hover:scale-105">
                                     <Play size="14" color="#057834" />
                                     Admin Demo
                                 </button>
                             </Link>
 
-                            <Link to='/instructor/dashboard'>
+                            <Link to='/instructor/signin'>
                                 <button className="px-4 py-2 flex items-center gap-1.5 border border-neutral-200 hover:border-neutral-300 rounded-lg text-xs font-semibold text-neutral-700 transition hover:scale-105">
                                     <ArrowRight size="14" color="#057834" />
                                     Instructor Demo

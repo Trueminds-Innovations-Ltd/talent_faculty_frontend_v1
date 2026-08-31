@@ -102,14 +102,14 @@ function SelectRow({ icon, title, description, value, options, onChange }: Selec
                 <IconBadge>{icon}</IconBadge>
                 <div>
                     <p className="text-sm font-medium text-gray-900">{title}</p>
-                    <p className="mt-0.5 text-sm text-gray-500">{description}</p>
+                    <p className="mt-0.5 text-xs text-gray-500">{description}</p>
                 </div>
             </div>
             <div className="relative">
                 <select
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
-                    className="cursor-pointer appearance-none rounded-full border border-gray-200 bg-white py-2 pl-4 pr-9 text-sm font-medium text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-bhgreen-500"
+                    className="cursor-pointer appearance-none rounded-full border border-gray-200 bg-white py-2 md:pl-4 pl-3 pr-5 md:pr-9 text-xs md:text-sm font-medium text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-bhgreen-500"
                 >
                     {options.map((opt) => (
                         <option key={opt} value={opt}>
@@ -450,9 +450,9 @@ function AccessibilityTab() {
                 <div className="flex items-center justify-between gap-4 px-6 py-4">
                     <div>
                         <p className="text-sm font-medium text-gray-900">Theme</p>
-                        <p className="mt-0.5 text-sm text-gray-500">Choose how the platform looks</p>
+                        <p className="mt-0.5 text-xs md:text-sm text-gray-500">Choose how the platform looks</p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="grid grid-cols-1 w-full md:grid-cols-2 items-center gap-2">
                         {(["Light", "Dark", "System Default"] as Theme[]).map((opt) => {
                             const active = opt === theme;
                             return (
@@ -460,7 +460,7 @@ function AccessibilityTab() {
                                     key={opt}
                                     type="button"
                                     onClick={() => setTheme(opt)}
-                                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${active
+                                    className={`flex items-center gap-1.5 rounded-full border px-1.5 md:px-3 py-1.5 text-xs md:text-sm font-medium transition-colors ${active
                                         ? "border-primary bg-primary text-white"
                                         : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
                                         }`}

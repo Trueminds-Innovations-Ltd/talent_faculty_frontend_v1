@@ -97,7 +97,7 @@ const Courses: React.FC = () => {
 
   return (
     <AdminDashboardLayout title="Course Management" subtitle="Continue to monitor the courses">
-      <div className="space-y-6 max-w-[1400px]">
+      <div className="space-y-6 max-w-[1400px] mx-auto">
         {/* Header actions */}
         <div className="flex justify-end gap-3 flex-wrap">
           <PageActionButton icon={<ChartColumnBig size={16} />} variant="outline">

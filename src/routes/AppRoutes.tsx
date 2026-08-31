@@ -50,6 +50,15 @@ import AdminCertificates from '../pages/admin/Certificates.tsx'
 import EditCertificate from '../components/layout/admin/EditCertificate.tsx'
 import GenerateCertificate from '../components/layout/admin/GenerateCertificate.tsx'
 import GenerateCertificatesReport from '../components/layout/admin/GenerateCertificatesReport.tsx'
+import AdminSignin from '../pages/auth/admin/signin.tsx'
+import SignupAdminDetails from '../pages/auth/admin/signup.tsx'
+import InstructorSignin from '../pages/auth/instructor/signin.tsx'
+import SignupInstructorDetails from '../pages/auth/instructor/signup.tsx'
+
+import Cohorts from "../pages/admin/Cohorts";
+import CohortDetail from "../pages/admin/CohortDetail";
+import CohortForm from "../pages/admin/CohortForm";
+import GenerateCohortReport from "../pages/admin/GenerateCohortReport";
 
 const AppRoutes = () => {
   return (
@@ -107,6 +116,26 @@ const AppRoutes = () => {
       <Route path="/admin/certificates/generate" element={<GenerateCertificate />} />
       <Route path="/admin/certificates/reports" element={<GenerateCertificatesReport />} />
 
+      {/* Admin sign in flow */}
+      <Route path="/admin/signin" element={<AdminSignin />} />
+
+      {/* Admin Sign Up flow */}
+      <Route path="/admin/signup" element={<SignupAdminDetails />} />
+
+      {/* Instructor sign in flow */}
+      <Route path="/instructor/signin" element={<InstructorSignin />} />
+
+      {/* Instructor Sign Up flow */}
+      <Route path="/instructor/signup" element={<SignupInstructorDetails />} />
+
+      <Route path="/admin/cohorts" element={<Cohorts />} />
+      <Route path="/admin/cohorts/new" element={<CohortForm />} />
+      <Route path="/admin/cohorts/report" element={<GenerateCohortReport />} />
+      <Route path="/admin/cohorts/:id" element={<CohortDetail />} />
+      <Route path="/admin/cohorts/:id/edit" element={<CohortForm />} />
+
+
+
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<InstructorLayout />}>
         <Route path='/instructor/assessments' element={<AssessmentManagement />} />
@@ -123,8 +152,8 @@ const AppRoutes = () => {
         <Route path="courses/link" element={<LinkResource />} />
         <Route path="courses/video" element={<VideoResource />} />
         <Route path="report" element={<ReportsAnalytics />} />
-        
-        
+
+
         <Route path="learners" element={<Navigate to="/instructor/learners/all" replace />} />
         <Route path="learners/:learnerId/:tab" element={<LearnerProfile />} />
         <Route path="learners/:status" element={<Learners />} />

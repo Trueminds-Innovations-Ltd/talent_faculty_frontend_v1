@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
       title={`${getGreeting()}, ${adminName} \uD83D\uDC4B`}
       subtitle="Continue to monitor the progress of the users and instructors!"
     >
-      <div className="space-y-6 max-w-[1400px]">
+      <div className="space-y-6 max-w-[1400px] mx-auto">
         {/* Platform Overview */}
         <section>
           <h2 className="text-base font-bold text-black mb-3">Platform Overview</h2>

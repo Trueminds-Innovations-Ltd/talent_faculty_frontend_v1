@@ -52,7 +52,7 @@ const AdminDashboardLayout: React.FC<AdminDashboardLayoutProps> = ({ children, t
             <button
               onClick={() => {
                 setLogoutModalOpen(false)
-                window.location.href = '/login'
+                window.location.href = '/admin/signin'
               }}
               className="px-6 py-2.5 rounded-xl bg-admin-primary text-sm font-semibold text-white hover:bg-admin-primary-dark transition-colors"
             >

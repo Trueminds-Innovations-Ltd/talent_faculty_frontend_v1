@@ -52,7 +52,7 @@ const AdminTopBar: React.FC<TopBarProps> = ({ title, subtitle, onMenuClick, onLo
               className="flex items-center gap-1.5 hover:bg-admin-ash-7/40 rounded-full pl-1 pr-1.5 sm:pr-2 py-1 transition-colors"
             >
               <img
-                src="../avatar.png"
+                src="../../../avatar.png"
                 alt="Admin profile"
                 className="h-8 w-8 rounded-full object-cover"
               />
