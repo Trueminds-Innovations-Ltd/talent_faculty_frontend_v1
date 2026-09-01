@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Signin() {
-    const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin')
     const [showPassword, setShowPassword] = useState(false)
     const [rememberMe, setRememberMe] = useState(false)
     const [formData, setFormData] = useState({
