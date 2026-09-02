@@ -30,6 +30,14 @@ import AdminUsers from '../pages/admin/Users.tsx'
 import AdminNotifications from '../pages/admin/Notifications.tsx'
 import AdminAnnouncements from '../pages/admin/Announcement.tsx'
 import AdminCohorts from '../pages/admin/Cohorts.tsx'
+import InSignup6 from '../pages/auth/instructor/Signup6.tsx'
+import InPasswordReset from '../pages/auth/instructor/PasswordReset.tsx'
+import InSignup9 from '../pages/auth/instructor/Signup9.tsx'
+import InSignup10 from '../pages/auth/instructor/Signup10.tsx'
+import AdSignup6 from '../pages/auth/admin/Signup6.tsx'
+import AdPasswordReset from '../pages/auth/admin/PasswordReset.tsx'
+import AdSignup9 from '../pages/auth/admin/Signup9.tsx'
+import AdSignup10 from '../pages/auth/admin/Signup10.tsx'
 
 import InstructorCourses from '../pages/instructor/courses/Courses.tsx'
 import ManageCourse from '../pages/instructor/courses/ManageCourse.tsx'
@@ -133,6 +141,19 @@ const AppRoutes = () => {
       <Route path="/admin/cohorts/report" element={<GenerateCohortReport />} />
       <Route path="/admin/cohorts/:id" element={<CohortDetail />} />
       <Route path="/admin/cohorts/:id/edit" element={<CohortForm />} />
+
+
+      {/* Instructor Password Reset Flow */}
+      <Route path="/instructor/passwordReset" element={<InPasswordReset />} />
+      <Route path="/instructor/signup6" element={<InSignup6 />} />
+      <Route path="/instructor/signup9" element={<InSignup9 />} />
+      <Route path="/instructor/signup10" element={<InSignup10 />} />
+
+      {/* Admin Password Reset Flow */}
+      <Route path="/admin/passwordReset" element={<AdPasswordReset />} />
+      <Route path="/admin/signup6" element={<AdSignup6 />} />
+      <Route path="/admin/signup9" element={<AdSignup9 />} />
+      <Route path="/admin/signup10" element={<AdSignup10 />} />
 
 
 

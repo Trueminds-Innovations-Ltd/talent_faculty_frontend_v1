@@ -121,7 +121,7 @@ export default function Signin() {
                                 />
                                 <span className="text-sm text-[#4b5563]">Remember me</span>
                             </label>
-                            <a href="#" className="text-sm font-medium text-[#34C759] hover:text-[#2eb14f] transition-colors">
+                            <a href="/admin/passwordReset" className="text-sm font-medium text-[#34C759] hover:text-[#2eb14f] transition-colors">
                                 Forgot password ?
                             </a>
                         </div>
