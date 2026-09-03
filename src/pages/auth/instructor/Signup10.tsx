@@ -1,26 +1,26 @@
 
-import { ThemeColors } from "../../components/ThemeColors";
+import { ThemeColors } from "../../../components/ThemeColors";
 import { Link } from "react-router-dom";
 
-export default function Signup10() {
+export default function InSignup10() {
   return (
     <main className="flex flex-col md:flex-row w-full min-h-screen font-sans">
       {/* Left Sidebar Banner */}
       <div
         style={{ backgroundColor: ThemeColors.secondaryGreen }}
-        className="flex lg:w-[42%] xl:w-[40%]  py-12 md:py-0 md:min-h-screen relative overflow-hidden shrink-0"
+        className="flex not-only:lg:w-[42%] xl:w-[40%]  py-12 md:py-0 md:min-h-screen relative overflow-hidden shrink-0"
       >
         {/* Decorative Ellipses */}
         <div className="absolute left-0 top-0 pointer-events-none opacity-50 md:opacity-100">
           <img
-            src="./Ellipse 1.png"
+            src="../Ellipse 1.png"
             alt="ellipse_1"
             className="w-[300px] lg:w-[420px] h-[300px] lg:h-[391px] drop-shadow-2xl"
           />
         </div>
         <div className="absolute right-0 bottom-0 pointer-events-none opacity-50 md:opacity-100">
           <img
-            src="./Ellipse 2.png"
+            src="../Ellipse 2.png"
             alt="ellipse_2"
             className="w-[300px] lg:w-[420px] h-[300px] lg:h-[391px] drop-shadow-2xl"
           />
@@ -31,7 +31,7 @@ export default function Signup10() {
           {/* "Done" text is visible on desktop, hidden on mobile to match design */}
           <p
             style={{ color: ThemeColors.secondaryOrange }}
-            className="hidden md:block text-xs md:text-sm  font-semibold tracking-wide mb-6"
+            className="hidden md:block text-xs md:text-sm font-semibold tracking-wide mb-6"
           >
             Done
           </p>
@@ -51,9 +51,9 @@ export default function Signup10() {
         <div className=" items-center w-full flex flex-col text-center mt-8 md:mt-0">
 
           {/* Logo Placeholder */}
-          <div className="flex flex-col mb-8 items-center md:mb-20">
+          <div className="flex flex-col mb-8 items-center justify-center md:mb-5">
             <img
-              src="./logo1.png"
+              src="../logo1.png"
               alt="TalentFaculty Logo"
               className="h-10 md:h-25 object-contain"
             />
@@ -98,7 +98,7 @@ export default function Signup10() {
           </p>
 
           {/* Action Button */}
-          <Link to='/login' className="w-full max-w-xs">
+          <Link to='/instructor/signin' className="w-full max-w-xs">
             <button
               type="button"
               style={{ backgroundColor: ThemeColors.primaryGreen }}

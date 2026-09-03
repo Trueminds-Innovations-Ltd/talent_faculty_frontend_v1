@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 interface AuthLayoutProps {
   children: React.ReactNode
@@ -11,8 +10,6 @@ interface AuthLayoutProps {
 const AuthLayout: React.FC<AuthLayoutProps> = ({
   children,
   leftPanelContent,
-  showToggle = true,
-  activeToggle = 'signup',
 }) => {
   return (
     <div className="min-h-screen lg:h-screen flex flex-col lg:flex-row lg:overflow-hidden">

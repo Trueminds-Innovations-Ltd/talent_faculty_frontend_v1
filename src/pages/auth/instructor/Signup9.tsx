@@ -15,7 +15,7 @@ export default function InSignup9() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    navigate('/signup10')
+    navigate('/instructor/signup10')
   }
 
   const eyeOpen = (
@@ -95,7 +95,7 @@ export default function InSignup9() {
 
         <div className="absolute left-0 top-0">
           <img
-            src="./Ellipse 1.png"
+            src="../Ellipse 1.png"
             alt="ellipse_1"
             className="w-[420px] h-[391px] drop-shadow-2xl"
           />
@@ -103,7 +103,7 @@ export default function InSignup9() {
 
         <div className="absolute right-0 bottom-0">
           <img
-            src="./Ellipse 2.png"
+            src="../Ellipse 2.png"
             alt="ellipse_2"
             className="w-[420px] h-[391px] drop-shadow-2xl"
           />
@@ -200,7 +200,7 @@ export default function InSignup9() {
 
           <p className="mt-8 text-center text-sm text-[#6b7280]">
             <Link
-              to="/login"
+              to="/instructor/signin"
               className="font-semibold text-[#34C759] hover:text-[#2eb14f] transition-colors"
             >
               Back to sign in

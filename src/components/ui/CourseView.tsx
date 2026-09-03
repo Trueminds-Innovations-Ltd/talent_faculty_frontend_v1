@@ -55,8 +55,8 @@ function CourseView({ course }: CourseViewProps) {
   const [noteText, setNoteText] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
   return (
-    <div className=" w-full ">
-      <div className="relative h-[363px] w-full">
+    <div className=" md:w-full space-y-[24px] ">
+      <div className="relative h-[363px] md:w-full mx-auto">
         <img src="./course-image.jpg" className=" h-[363px] w-full object-cover rounded-[16px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
           <img src="./Ellipse 1.png" className="w-[80px] h-[80px]" />
@@ -99,17 +99,17 @@ function CourseView({ course }: CourseViewProps) {
           <h3 className="font-[600] text-[24px] text-black">{course.title}</h3>
           <p className="text-[#808080] font-[400] text-[16px]">Course by: <span className="text-[#3B82F6] border-b">{course.instructor}</span></p>
         </div>
-        <div className="flex gap-[24px]">
-          <button className="flex border border-[#D1D1D1] py-[15px] px-[20px] rounded-[16px] gap-[10px] font-[600] text-black">
+        <div className="grid grid-cols-2  md:grid-cols-3  gap-[24px]">
+          <button className="flex border border-[#D1D1D1] py-[15px] px-[20px] rounded-[16px] gap-[10px] text-sm text-black">
             <Download size={24} />
             Download Course
           </button>
           {<button onClick={() => setShowNotes(!showNotes)}
-            className={`flex py-[15px] px-[20px] rounded-[16px] gap-[10px] font-[600] transition-colors ${showNotes ? "bg-[#057834] border-[#057834] text-white" : "border border-[#D1D1D1] text-black hover:bg-neutral-50 "}`}>
+            className={`flex py-[15px] px-[20px] rounded-[16px] gap-[10px] text-sm  transition-colors ${showNotes ? "bg-[#057834] border-[#057834] text-white" : "border border-[#D1D1D1] text-black hover:bg-neutral-50 "}`}>
             <NotebookPen size={24} />
             Add Notes
           </button>}
-          <button className="flex border border-[#D1D1D1] py-[15px] px-[20px] rounded-[16px] gap-[10px] font-[600] text-black">
+          <button className="flex border border-[#D1D1D1] py-[15px] px-[20px] rounded-[16px] gap-[10px] text-sm text-black">
             <Share2 />
             Share Course
           </button>
@@ -138,7 +138,7 @@ function CourseView({ course }: CourseViewProps) {
         ))}
       </div>
       {/* Conditionally render tab content */}
-      <div className="w-[1097px] ">
+      <div className="md:w-[1097px] ">
         {activeTab === 'overview' && (
           <p className="font-[400] text-[16px] text-black h-[72px] ">
             Learn how to use animation and motion to create engaging, intuitive, and memorable digital experiences. This course covers micro-interactions, transitions, motion principles, and practical techniques for bringing UI designs to life while maintaining usability and consistency.
@@ -167,7 +167,7 @@ function CourseView({ course }: CourseViewProps) {
           </div>
         )}
       </div>
-      <div className="w-[1097px] flex flex-col">
+      <div className="md:w-[1097px] flex flex-col">
         {lectures.map((lecture) => {
           const isPlaying = lecture.status === 'playing'
           const isCompleted = lecture.status === 'completed'
@@ -175,7 +175,7 @@ function CourseView({ course }: CourseViewProps) {
           return (
             <div
               key={lecture.id}
-              className={`w-[1097px] h-[94px] px-6 flex items-center justify-between    transition-colors rounded-[16px] ${isPlaying ? 'bg-[#EBF5EE]' : 'bg-white'
+              className={`md:w-[1097px] h-[94px] px-6 flex items-center justify-between    transition-colors rounded-[16px] ${isPlaying ? 'bg-[#EBF5EE]' : 'bg-white'
                 }`}
             >
               {/* Left Content Area: Status Circle and Details */}
