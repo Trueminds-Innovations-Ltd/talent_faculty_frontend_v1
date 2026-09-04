@@ -1,7 +1,13 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { authService } from '../../services/authService'
+import { useAuth } from '../../context/AuthContext'
+import { Loader2, AlertCircle } from 'lucide-react'
 
 export default function Login() {
+  const navigate = useNavigate()
+  const { login } = useAuth()
+
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin')
   const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
@@ -9,34 +15,64 @@ export default function Login() {
     email: '',
     password: '',
   })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Login submitted:', { ...formData, rememberMe })
+    setError(null)
+
+    if (!formData.email.trim()) {
+      setError('Please enter your email address.')
+      return
+    }
+    if (!formData.password) {
+      setError('Please enter your password.')
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const response = await authService.login({
+        email: formData.email.trim(),
+        password: formData.password,
+      })
+
+      if (response?.data?.user && response?.data?.token) {
+        login(response.data.user, response.data.token)
+        navigate('/dashboard')
+      } else {
+        setError(response?.message || 'Login failed. Please check your credentials.')
+      }
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string; details?: string }
+      setError(apiErr?.details || apiErr?.message || 'Invalid email or password. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="flex flex-col lg:flex-row h-screen">
 
       {/* Left Panel - Green Gradient */}
-      <div className="lg:w-[42%] xl:w-[40%] lg:flex min-h-[43vh]  md:min-h-[68vh]  lg:min-h-screen relative overflow-hidden bg-primary-dark">
-        {/* Content */}
-
+      <div className="lg:w-[42%] xl:w-[40%] lg:flex min-h-[43vh] md:min-h-[68vh] lg:min-h-screen relative overflow-hidden bg-primary-dark">
         {/* Tab Toggle */}
-        <div className="flex  px-6 pt-6 pb-4 relative z-100 lg:hidden  mb-10">
+        <div className="flex px-6 pt-6 pb-4 relative z-100 lg:hidden mb-10">
           <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1">
             <button
               onClick={() => setActiveTab('signin')}
-              className={`rounded-full px-6 py-2 text-sm  transition-all duration-200 ${activeTab === 'signin'
-                ? 'bg-white text-primary-dark shadow-md'
-                : 'text-white hover:bg-[#057834]/5'
-                }`}
+              className={`rounded-full px-6 py-2 text-sm transition-all duration-200 ${
+                activeTab === 'signin'
+                  ? 'bg-white text-primary-dark shadow-md'
+                  : 'text-white hover:bg-[#057834]/5'
+              }`}
             >
               Sign In
             </button>
             <Link
               to="/signup"
-              className="rounded-full px-6 py-2 text-sm  text-white hover:bg-[#057834]/5 transition-all duration-200"
+              className="rounded-full px-6 py-2 text-sm text-white hover:bg-[#057834]/5 transition-all duration-200"
             >
               Sign Up
             </Link>
@@ -44,40 +80,41 @@ export default function Login() {
         </div>
 
         <div className="relative z-10 flex flex-col justify-center mt-8 md:mt-1 mb-8 lg:mb-0 lg:mt-0 px-12 xl:px-16">
-          <p className="text-sm font-semibold uppercase tracking-widest  text-secondary mb-6">
+          <p className="text-sm font-semibold uppercase tracking-widest text-secondary mb-6">
             Welcome back
           </p>
-          <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl  text-white leading-tight mb-2">
+          <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl text-white leading-tight mb-2">
             Every course is a path.
           </h1>
           <h1 className="text-3xl lg:text-4xl font-display xl:text-5xl text-white leading-tight mb-8">
             Let's find yours.
           </h1>
-          <p className="text-base   text-white/60 italic leading-relaxed max-w-xs">
+          <p className="text-base text-white/60 italic leading-relaxed max-w-xs">
             TalentFlow tracks progress the way a good mentor would, one deliberate step after another.
           </p>
         </div>
-        <div className="absolute left-0 top-0">
+        <div className="absolute left-0 top-0 pointer-events-none">
           <img src="./Ellipse 1.png" alt="ellipse_1" className="w-[420px] h-[391px] drop-shadow-2xl" />
         </div>
-        <div className="absolute right-0 bottom-0">
-          <img src="./Ellipse 2.png" alt="ellipse_1" className="w-[420px] h-[391px] drop-shadow-2xl" />
+        <div className="absolute right-0 bottom-0 pointer-events-none">
+          <img src="./Ellipse 2.png" alt="ellipse_2" className="w-[420px] h-[391px] drop-shadow-2xl" />
         </div>
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex flex-col items-center lg:min-h-screen justify-center bg-[#E6F4EA] px-6 py-12 sm:px-12">
-        <div className="w-full max-w-md ">
+      <div className="flex-1 flex flex-col items-center lg:min-h-screen justify-center bg-[#E6F4EA] px-6 py-12 sm:px-12 overflow-y-auto">
+        <div className="w-full max-w-md">
 
           {/* Tab Toggle */}
-          <div className=" md:justify-center hidden lg:flex mb-10">
+          <div className="md:justify-center hidden lg:flex mb-10">
             <div className="inline-flex items-center rounded-full border border-[#34C759]/30 bg-white p-1 shadow-sm">
               <button
                 onClick={() => setActiveTab('signin')}
-                className={`rounded-full px-6 py-2 text-sm  transition-all duration-200 ${activeTab === 'signin'
-                  ? 'bg-primary-dark text-white shadow-md'
-                  : 'text-primary-dark hover:bg-primary-dark/5'
-                  }`}
+                className={`rounded-full px-6 py-2 text-sm transition-all duration-200 ${
+                  activeTab === 'signin'
+                    ? 'bg-primary-dark text-white shadow-md'
+                    : 'text-primary-dark hover:bg-primary-dark/5'
+                }`}
               >
                 Sign In
               </button>
@@ -97,6 +134,14 @@ export default function Login() {
               Sign in to pick up right where you left.
             </p>
           </div>
+
+          {/* Error Alert */}
+          {error && (
+            <div className="mb-5 flex items-start gap-3 rounded-xl bg-red-50 border border-red-200 p-3.5 text-sm text-red-700 animate-fade-in">
+              <AlertCircle size={18} className="shrink-0 text-red-500 mt-0.5" />
+              <div className="flex-1">{error}</div>
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -118,7 +163,8 @@ export default function Login() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="You@example.com"
-                  className="w-full rounded-lg border border-[#d1d5db] bg-white py-3 pl-11 pr-4 text-sm text-[#1a1a1a] placeholder-[#9ca3af] outline-none transition-colors focus:border-[#34C759] focus:ring-1 focus:ring-[#34C759]"
+                  disabled={isLoading}
+                  className="w-full rounded-lg border border-[#d1d5db] bg-white py-3 pl-11 pr-4 text-sm text-[#1a1a1a] placeholder-[#9ca3af] outline-none transition-colors focus:border-[#34C759] focus:ring-1 focus:ring-[#34C759] disabled:opacity-60"
                 />
               </div>
             </div>
@@ -135,7 +181,8 @@ export default function Login() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="Enter your password"
-                  className="w-full rounded-lg border border-[#d1d5db] bg-white py-3 pl-4 pr-11 text-sm text-[#1a1a1a] placeholder-[#9ca3af] outline-none transition-colors focus:border-[#34C759] focus:ring-1 focus:ring-[#34C759]"
+                  disabled={isLoading}
+                  className="w-full rounded-lg border border-[#d1d5db] bg-white py-3 pl-4 pr-11 text-sm text-[#1a1a1a] placeholder-[#9ca3af] outline-none transition-colors focus:border-[#34C759] focus:ring-1 focus:ring-[#34C759] disabled:opacity-60"
                 />
                 <button
                   type="button"
@@ -167,20 +214,26 @@ export default function Login() {
                 />
                 <span className="text-sm text-[#4b5563]">Remember me</span>
               </label>
-              <a href="/passwordReset" className="text-sm font-medium text-[#34C759] hover:text-[#2eb14f] transition-colors">
+              <Link to="/passwordReset" className="text-sm font-medium text-[#34C759] hover:text-[#2eb14f] transition-colors">
                 Forgot password ?
-              </a>
+              </Link>
             </div>
 
             {/* Sign In Button */}
-            <Link to="/dashboard">
-              <button
-                type="button"
-                className="w-full rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99]"
-              >
-                Sign In
-              </button>
-            </Link>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#057834] py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2eb14f] hover:shadow-md active:scale-[0.99] disabled:opacity-60 cursor-pointer"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  <span>Signing In...</span>
+                </>
+              ) : (
+                <span>Sign In</span>
+              )}
+            </button>
           </form>
 
           {/* Divider */}

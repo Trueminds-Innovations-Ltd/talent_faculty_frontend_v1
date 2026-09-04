@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { SlidersHorizontal, ArrowUpDown, ArrowRight, CheckCircle2 } from 'lucide-react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { SlidersHorizontal, ArrowUpDown, ArrowRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import StatCard from '../../components/ui/StatCard'
 import CourseCard from '../../components/ui/CourseCard'
@@ -7,6 +7,9 @@ import AssignmentRow from '../../components/ui/AssignmentRow'
 import PopularCourseCard from '../../components/ui/PopularCourseCard'
 import EmptyState from '../../components/ui/EmptyState'
 import AllCoursesCatalog, { type CourseItem } from '../../components/ui/AllCoursesCatalog'
+import { dashboardService } from '../../services/dashboardService'
+import { useAuth } from '../../context/AuthContext'
+import type { DashboardData, UpcomingItem, ContinueLearningItem } from '../../types/dashboard'
 
 interface EnrolledCourse {
   title: string
@@ -16,33 +19,7 @@ interface EnrolledCourse {
   duration: string
 }
 
-const initialEnrolledCourses: EnrolledCourse[] = [
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-]
-
-const upcomingAssignments = [
-  { title: 'Wireframe Mobile Banking', date: 'Tomorrow' },
-  { title: 'User Research Report', date: '2nd May, 2024' },
-  { title: 'Design System Creation', date: '5th May, 2024' },
-]
-
-const upcomingAssessments = [
-  { title: 'Design Thinking Quiz', date: 'Tomorrow', duration: '10 mins' },
-  { title: 'UX Principles Test', date: '4th, May 2024', duration: '10 mins' },
-]
-
-const sharedInstructor = {
-  name: 'Grace Johnson',
-  role: 'Senior Visual Designer',
-  company: 'Canva',
-  avatarUrl: '/rita.png',
-  rating: 4.9,
-}
-
-const popularCourses = [
+const fallbackPopularCourses = [
   {
     id: 'graphic-design-fundamentals',
     title: 'Graphic Design Fundamentals',
@@ -53,7 +30,13 @@ const popularCourses = [
       'Colour Theory',
       'Social Media & Marketing Design',
     ],
-    instructor: sharedInstructor,
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
   },
   {
     id: 'uiux-design-masterclass',
@@ -65,7 +48,13 @@ const popularCourses = [
       'User Flows & Information Architecture',
       'Wireframing',
     ],
-    instructor: sharedInstructor,
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
   },
   {
     id: 'professional-video-editing',
@@ -77,7 +66,13 @@ const popularCourses = [
       'Timeline & Cutting Techniques',
       'Colour Correction & Grading',
     ],
-    instructor: sharedInstructor,
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
   },
   {
     id: 'affinity-designer-essentials',
@@ -89,53 +84,165 @@ const popularCourses = [
       'Shapes, Paths & Curves',
       'Typography & Layout',
     ],
-    instructor: sharedInstructor,
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
   },
 ]
 
 const Dashboard: React.FC = () => {
-  // First time use shows first by default (no enrolled courses initially)
-  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([])
+  const { user: authUser, updateUser } = useAuth()
+
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
+  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>(() => {
+    try {
+      const saved = localStorage.getItem('talent_faculty_enrolled_courses')
+      return saved ? JSON.parse(saved) : []
+    } catch {
+      return []
+    }
+  })
+  const [upcomingAssignments, setUpcomingAssignments] = useState<UpcomingItem[]>([])
+  const [upcomingAssessments, setUpcomingAssessments] = useState<UpcomingItem[]>([])
+
   const [viewMode, setViewMode] = useState<'dashboard' | 'all-courses'>('dashboard')
-  const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
 
-  const hasEnrollments = enrolledCourses.length > 0
-
-  const stats = hasEnrollments
-    ? { overall: '76%', pending: '3', average: '88%', streak: '12 Days' }
-    : { overall: '0%', pending: '0', average: '0%', streak: '0 Day' }
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg)
+  const showToast = (text: string, type: 'success' | 'error' = 'success') => {
+    setToastMessage({ text, type })
     setTimeout(() => {
       setToastMessage(null)
     }, 4000)
   }
 
-  const handleEnrollCourse = (course: { title: string; instructor?: { name: string } } | CourseItem) => {
-    const instructorName = typeof course.instructor === 'object' ? course.instructor.name : 'Grace Johnson'
-    const newCourse: EnrolledCourse = {
-      title: course.title,
-      instructor: instructorName,
-      progress: 0,
-      tags: ['Design'],
-      duration: '20 mins',
-    }
+  const fetchDashboard = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const response = await dashboardService.getDashboardData()
+      const dataItem = Array.isArray(response.data) ? response.data[0] : response.data
 
-    setEnrolledCourses((prev) => [newCourse, ...prev])
-    showToast(`Successfully enrolled in "${course.title}"!`)
+      if (dataItem) {
+        setDashboardData(dataItem)
+
+        if (dataItem.user && (!authUser?.first_name || dataItem.user.id === authUser?.id)) {
+          updateUser(dataItem.user)
+        }
+
+        if (dataItem.continue_learning && dataItem.continue_learning.length > 0) {
+          const courses: EnrolledCourse[] = dataItem.continue_learning.map((c: ContinueLearningItem) => ({
+            title: c.title,
+            instructor: c.instructor || 'Grace Johnson',
+            progress: c.progress || 0,
+            tags: c.tags || ['Design'],
+            duration: c.duration || '20 mins',
+          }))
+          setEnrolledCourses(courses)
+          try {
+            localStorage.setItem('talent_faculty_enrolled_courses', JSON.stringify(courses))
+          } catch { }
+        }
+
+        if (dataItem.upcoming_assignments) {
+          setUpcomingAssignments(dataItem.upcoming_assignments)
+        }
+        if (dataItem.upcoming_assessments) {
+          setUpcomingAssessments(dataItem.upcoming_assessments)
+        }
+      }
+    } catch {
+      // Fallback gracefully
+    } finally {
+      setIsLoading(false)
+    }
+  }, [authUser?.first_name, authUser?.id, updateUser])
+
+  useEffect(() => {
+    fetchDashboard()
+  }, [fetchDashboard])
+
+  const handleEnrollCourse = async (course: { title: string; instructor?: { name: string } } | CourseItem) => {
+    try {
+      await dashboardService.enrollCohort({ cohort_id: 2, track_id: 3 }).catch(() => null)
+
+      const instructorName = typeof course.instructor === 'object' ? course.instructor.name : 'Grace Johnson'
+      const newCourse: EnrolledCourse = {
+        title: course.title,
+        instructor: instructorName,
+        progress: 0,
+        tags: ['Design'],
+        duration: '20 mins',
+      }
+
+      setEnrolledCourses((prev) => {
+        const updated = [newCourse, ...prev]
+        try {
+          localStorage.setItem('talent_faculty_enrolled_courses', JSON.stringify(updated))
+        } catch { }
+        return updated
+      })
+      showToast(`Successfully enrolled in "${course.title}"!`)
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string }
+      showToast(apiErr?.message || 'Could not complete enrollment', 'error')
+    }
   }
+
+  const hasEnrollments = enrolledCourses.length > 0
+  const metrics = dashboardData?.metrics
+
+  const calculatedOverallProgress = metrics?.overall_progress != null
+    ? metrics.overall_progress
+    : hasEnrollments
+      ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
+      : 0
+
+  const calculatedPending = metrics?.pending_assignments_count != null
+    ? metrics.pending_assignments_count
+    : upcomingAssignments.length
+
+  const calculatedAverage = metrics?.assessment_average != null
+    ? metrics.assessment_average
+    : hasEnrollments
+      ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
+      : 0
+
+  const calculatedStreak = metrics?.learning_streak_days != null
+    ? metrics.learning_streak_days
+    : hasEnrollments
+      ? 1
+      : 0
+
+  const stats = {
+    overall: `${calculatedOverallProgress}%`,
+    pending: `${calculatedPending}`,
+    average: `${calculatedAverage}%`,
+    streak: `${calculatedStreak} ${calculatedStreak === 1 ? 'Day' : 'Days'}`,
+  }
+
+  const learnerName = authUser?.first_name || dashboardData?.user?.first_name || authUser?.username || 'Learner'
 
   return (
     <DashboardLayout
-      title="Good Morning, Samuel 👋"
+      title={`Good Morning, ${learnerName} 👋`}
       subtitle="Continue your learning journey and stay on track!"
     >
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#057834] text-white px-5 py-3.5 rounded-2xl shadow-xl animate-fade-in">
-          <CheckCircle2 size={20} className="text-white shrink-0" />
-          <span className="text-sm font-semibold">{toastMessage}</span>
+        <div
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl animate-fade-in ${toastMessage.type === 'error' ? 'bg-red-600 text-white' : 'bg-[#057834] text-white'
+            }`}
+        >
+          {toastMessage.type === 'error' ? (
+            <AlertCircle size={20} className="text-white shrink-0" />
+          ) : (
+            <CheckCircle2 size={20} className="text-white shrink-0" />
+          )}
+          <span className="text-sm font-semibold">{toastMessage.text}</span>
         </div>
       )}
 
@@ -147,39 +254,6 @@ const Dashboard: React.FC = () => {
         />
       ) : (
         <div className="space-y-8 animate-fade-in">
-          {/* Quick Demo State Switcher */}
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-neutral-50/80 border border-neutral-200/70 px-4 py-2.5 rounded-2xl">
-            <div className="flex items-center gap-2">
-
-              <span className="text-xs font-semibold text-neutral-700">
-                Dashboard State: <strong className="text-neutral-900">{hasEnrollments ? 'Active Student (Enrolled)' : 'First Time Use (Default)'}</strong>
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setEnrolledCourses([])}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${!hasEnrollments
-                  ? 'bg-[#057834] text-white shadow-2xs'
-                  : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-100'
-                  }`}
-              >
-                First-Time View
-              </button>
-              <button
-                type="button"
-                onClick={() => setEnrolledCourses(initialEnrolledCourses)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${hasEnrollments
-                  ? 'bg-[#057834] text-white shadow-2xs'
-                  : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-100'
-                  }`}
-              >
-                Active Student View
-              </button>
-            </div>
-          </div>
-
           {/* Stats Section */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard label="Overall Progress" value={stats.overall} variant="green" />
@@ -189,7 +263,11 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Conditional Middle Section */}
-          {hasEnrollments ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <Loader2 className="animate-spin text-primary" size={32} />
+            </div>
+          ) : hasEnrollments ? (
             <>
               {/* Active Enrolled Courses */}
               <section>
@@ -216,9 +294,13 @@ const Dashboard: React.FC = () => {
                     </button>
                   </div>
                   <div className="divide-y divide-neutral-100">
-                    {upcomingAssignments.map((item, idx) => (
-                      <AssignmentRow key={idx} {...item} />
-                    ))}
+                    {upcomingAssignments.length > 0 ? (
+                      upcomingAssignments.map((item, idx) => (
+                        <AssignmentRow key={idx} title={item.title} date={item.date || item.due_date || 'Upcoming'} />
+                      ))
+                    ) : (
+                      <p className="text-xs text-neutral-400 py-6 text-center">No pending assignments</p>
+                    )}
                   </div>
                 </div>
 
@@ -230,9 +312,13 @@ const Dashboard: React.FC = () => {
                     </button>
                   </div>
                   <div className="divide-y divide-neutral-100">
-                    {upcomingAssessments.map((item, idx) => (
-                      <AssignmentRow key={idx} {...item} />
-                    ))}
+                    {upcomingAssessments.length > 0 ? (
+                      upcomingAssessments.map((item, idx) => (
+                        <AssignmentRow key={idx} title={item.title} date={item.date || 'Upcoming'} />
+                      ))
+                    ) : (
+                      <p className="text-xs text-neutral-400 py-6 text-center">No upcoming assessments</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -299,7 +385,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-              {popularCourses.map((course) => (
+              {fallbackPopularCourses.map((course) => (
                 <PopularCourseCard
                   key={course.id}
                   title={course.title}

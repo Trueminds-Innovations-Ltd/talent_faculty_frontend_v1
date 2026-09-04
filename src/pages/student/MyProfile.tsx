@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Mail,
     Eye,
@@ -14,6 +14,7 @@ import {
     X,
 } from "lucide-react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import { useAuth } from "../../context/AuthContext";
 
 
 
@@ -241,21 +242,41 @@ function ModalButtons({
 
 
 function PersonalInformationTab({
+    user,
     onSave,
 }: {
-    onSave: () => void;
+    user: any;
+    onSave: (updated: any) => void;
 }) {
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("Rita#45");
-    const [email] = useState("ritaokoro@gmail.com");
-    const [bio, setBio] = useState("Passionate about design and solving real problems.");
+    const fullName = user
+        ? [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || ''
+        : 'Rita Okoro';
+    const [name, setName] = useState(fullName);
+    const [phone, setPhone] = useState(user?.phone || user?.phone_number || '+234 708 464 4072');
+    const [password, setPassword] = useState('••••••••••••');
+    const email = user?.email || 'ritaokoro@gmail.com';
+    const [bio, setBio] = useState('Passionate about learning, design, and building real solutions.');
+
+    useEffect(() => {
+        if (user) {
+            const currentName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || '';
+            if (currentName) setName(currentName);
+            if (user.phone || user.phone_number) setPhone(user.phone || user.phone_number);
+        }
+    }, [user]);
+
+    const handleSave = () => {
+        const parts = name.trim().split(' ');
+        const first_name = parts[0] || '';
+        const last_name = parts.slice(1).join(' ') || '';
+        onSave({ first_name, last_name, phone });
+    };
 
     return (
         <div>
             <div className="grid grid-cols-1 gap-x-16 gap-y-6 lg:grid-cols-2">
                 <Field label="Name">
-                    <TextInput value={name} onChange={setName} placeholder="Rita Okoro" />
+                    <TextInput value={name} onChange={setName} placeholder="Your Full Name" />
                 </Field>
                 <Field label="Email address">
                     <TextInput value={email} onChange={() => { }} icon={<Mail size={16} />} />
@@ -275,8 +296,8 @@ function PersonalInformationTab({
 
             <button
                 type="button"
-                onClick={onSave}
-                className="mt-8 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary"
+                onClick={handleSave}
+                className="mt-8 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary-dark transition cursor-pointer"
             >
                 Save Changes
             </button>
@@ -598,30 +619,46 @@ const TABS: { id: TabId; label: string }[] = [
 ];
 
 export default function ProfilePage() {
+    const { user, updateUser } = useAuth();
     const [activeTab, setActiveTab] = useState<TabId>("personal");
     const [modal, setModal] = useState<ModalId>(null);
 
-    const [recoveryEmail, setRecoveryEmail] = useState("ritaokoro@gmail.com");
-    const [recoveryPhone, setRecoveryPhone] = useState("+234 708 4644 071");
+    const displayName = user
+        ? [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || 'Rita Okoro'
+        : 'Rita Okoro';
+    const displayEmail = user?.email || 'ritaokoro@gmail.com';
+    const displayTag = user?.unique_user_id ? `ID: ${user.unique_user_id}` : (user?.role ? `Role: ${user.role}` : 'UI/UX Design Cohort 4');
+
+    const [recoveryEmail, setRecoveryEmail] = useState(displayEmail);
+    const [recoveryPhone, setRecoveryPhone] = useState(user?.phone || user?.phone_number || "+234 708 4644 071");
+
+    const handleSavePersonalInfo = (updatedData: { first_name: string; last_name: string; phone: string }) => {
+        updateUser(updatedData);
+        setModal("success");
+    };
 
     return (
         <DashboardLayout title="Profile" subtitle="Manage your personal information">
             <div className="min-h-screen bg-white">
                 <div className="px-2 py-2 sm:px-8">
-
-
                     <div className="mt-4 flex items-center gap-4">
-                        <div className="h-16 w-16 overflow-hidden rounded-full bg-white">
-                            <img
-                                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=faces"
-                                alt="Rita Okoro"
-                                className="h-full w-full object-cover"
-                            />
+                        <div className="h-16 w-16 overflow-hidden rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+                            {user?.first_name ? (
+                                <span className="text-primary font-bold text-xl uppercase">
+                                    {user.first_name[0]}{user.last_name ? user.last_name[0] : ''}
+                                </span>
+                            ) : (
+                                <img
+                                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=faces"
+                                    alt={displayName}
+                                    className="h-full w-full object-cover"
+                                />
+                            )}
                         </div>
                         <div>
-                            <p className="text-base font-semibold text-gray-900">Rita Okoro</p>
-                            <p className="text-sm text-gray-500">UI/UX Design Cohort 4</p>
-                            <p className="text-sm text-gray-500">ritaokoro@gmail.com</p>
+                            <p className="text-base font-semibold text-gray-900">{displayName}</p>
+                            <p className="text-sm text-gray-500">{displayTag}</p>
+                            <p className="text-sm text-gray-500">{displayEmail}</p>
                         </div>
                     </div>
 
@@ -633,7 +670,7 @@ export default function ProfilePage() {
                                     key={tab.id}
                                     type="button"
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`relative pb-3 text-sm font-medium transition-colors ${active ? "text-primary" : "text-gray-400 hover:text-gray-600"
+                                    className={`relative pb-3 text-sm font-medium transition-colors cursor-pointer ${active ? "text-primary font-bold" : "text-gray-400 hover:text-gray-600"
                                         }`}
                                 >
                                     {tab.label}
@@ -646,7 +683,7 @@ export default function ProfilePage() {
                     </nav>
 
                     <div className="mt-8">
-                        {activeTab === "personal" && <PersonalInformationTab onSave={() => setModal("success")} />}
+                        {activeTab === "personal" && <PersonalInformationTab user={user} onSave={handleSavePersonalInfo} />}
                         {activeTab === "security" && (
                             <SecurityTab
                                 onLogoutAll={() => setModal("logoutAll")}
@@ -659,6 +696,7 @@ export default function ProfilePage() {
                         )}
                     </div>
                 </div>
+
 
                 {modal === "success" && <SuccessModal onDone={() => setModal(null)} />}
 

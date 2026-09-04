@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../../components/layout/AuthLayout'
 import Input from '../../components/common/Input'
 import Button from '../../components/common/Button'
 import StepIndicator from '../../components/common/StepIndicator'
+import { authService } from '../../services/authService'
+import { AlertCircle } from 'lucide-react'
 
 const PasswordReset: React.FC = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
+  const [serverError, setServerError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const steps = [
@@ -31,22 +35,36 @@ const PasswordReset: React.FC = () => {
     </div>
   )
 
-  const handleSendCode = (e: React.FormEvent) => {
+  const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    setServerError(null)
 
-    if (!email.trim()) {
+    const trimmedEmail = email.trim()
+    if (!trimmedEmail) {
       setError('Please enter your email address.')
       return
     }
 
-    setError('')
     setIsLoading(true)
+    try {
+      const response = await authService.forgotPassword({
+        email: trimmedEmail,
+        verification_type: 'password_reset',
+        verifiable_type: 'user',
+      })
 
-    // Simulate an API call
-    setTimeout(() => {
+      if (response?.success !== false) {
+        navigate('/signup6', { state: { email: trimmedEmail } })
+      } else {
+        setServerError(response?.message || 'Failed to send reset code. Please try again.')
+      }
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string; details?: string }
+      setServerError(apiErr?.details || apiErr?.message || 'Failed to send reset code. Please verify your email.')
+    } finally {
       setIsLoading(false)
-      alert(`Verification code has been sent to ${email}`)
-    }, 1500)
+    }
   }
 
   return (
@@ -55,9 +73,16 @@ const PasswordReset: React.FC = () => {
         <h2 className="text-2xl font-semibold text-neutral-800 mb-1">
           Reset your password
         </h2>
-        <p className="text-neutral-400 text-sm mb-8">
+        <p className="text-neutral-400 text-sm mb-6">
           Enter the email tied to your account and we'll send a code to verify it's you.
         </p>
+
+        {serverError && (
+          <div className="mb-6 flex items-start gap-3 rounded-xl bg-red-50 border border-red-200 p-3.5 text-sm text-red-700 animate-fade-in">
+            <AlertCircle size={18} className="shrink-0 text-red-500 mt-0.5" />
+            <div className="flex-1">{serverError}</div>
+          </div>
+        )}
 
         <form onSubmit={handleSendCode} className="space-y-6">
           <Input
@@ -67,18 +92,18 @@ const PasswordReset: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={error}
+            disabled={isLoading}
           />
-          <Link to="/signup6">
-            <Button
-              type="submit"
-              variant="primary"
-              fullWidth
-              isLoading={isLoading}
-              className="mt-2 bg-[#057834]"
-            >
-              Send code
-            </Button>
-          </Link>
+
+          <Button
+            type="submit"
+            variant="primary"
+            fullWidth
+            isLoading={isLoading}
+            className="mt-2 bg-[#057834]"
+          >
+            Send code
+          </Button>
         </form>
 
         <p className="text-center text-sm text-neutral-400 mt-6">
