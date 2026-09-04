@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { ChevronLeft, Minimize2, Play, Download, NotebookPen, Share2, CheckCircle2, Circle, Pause } from 'lucide-react'
 interface CourseViewProps {
-  course: {
-    title: string
-    instructor: string
-
+  course?: {
+    title?: string
+    instructor?: string | { name?: string }
   }
+  onBack?: () => void
 }
+
 interface LectureItem {
   id: number
   title: string
@@ -50,28 +51,41 @@ const transcriptData = [
 ]
 
 
-function CourseView({ course }: CourseViewProps) {
+function CourseView({ course, onBack }: CourseViewProps) {
   const [showNotes, setShowNotes] = useState(false)
   const [noteText, setNoteText] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
+
+  const title = course?.title || 'Course Details'
+  const instructorName = typeof course?.instructor === 'object'
+    ? course.instructor?.name || 'Grace Johnson'
+    : course?.instructor || 'Grace Johnson'
+
   return (
     <div className=" md:w-full space-y-[24px] ">
       <div className="relative h-[363px] md:w-full mx-auto">
-        <img src="./course-image.jpg" className=" h-[363px] w-full object-cover rounded-[16px]" />
+        <img
+          src="/course-image.jpg"
+          onError={(e) => { (e.target as HTMLElement).style.backgroundColor = '#057834' }}
+          className=" h-[363px] w-full object-cover rounded-[16px] bg-[#057834]"
+        />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-          <img src="./Ellipse 1.png" className="w-[80px] h-[80px]" />
-          <div className="absolute flex items-center justify-center pl-[4px]">
+          <div className="w-[80px] h-[80px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center pl-[4px]">
             <Play size={24} fill="#F57C00" className="text-[#F57C00]" />
           </div>
         </div>
-        <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
-          {/* Left Button */}
-          <button className="flex items-center justify-center w-[48px] h-[48px] rounded-[34px] bg-white/25 hover:bg-white/35 backdrop-blur-sm text-white transition-colors">
+        <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10">
+          {/* Left Button - Back to Course List */}
+          <button
+            onClick={onBack}
+            className="flex items-center justify-center w-[48px] h-[48px] rounded-[34px] bg-white/25 hover:bg-white/40 backdrop-blur-sm text-white transition-colors cursor-pointer"
+            title="Go back to courses list"
+          >
             <ChevronLeft size={24} />
           </button>
 
           {/* Right Button */}
-          <button className="flex items-center justify-center w-[48px] h-[48px] rounded-[34px] bg-white/25 hover:bg-white/35 backdrop-blur-sm text-white transition-colors">
+          <button className="flex items-center justify-center w-[48px] h-[48px] rounded-[34px] bg-white/25 hover:bg-white/35 backdrop-blur-sm text-white transition-colors cursor-pointer">
             <Minimize2 size={24} />
           </button>
         </div>
@@ -96,8 +110,8 @@ function CourseView({ course }: CourseViewProps) {
       <div className="flex flex-col gap-[24px] ">
         <div>
           <p className="text-[#808080] text-[16px] w-[128px]">Lecture 24 of 38</p>
-          <h3 className="font-[600] text-[24px] text-black">{course.title}</h3>
-          <p className="text-[#808080] font-[400] text-[16px]">Course by: <span className="text-[#3B82F6] border-b">{course.instructor}</span></p>
+          <h3 className="font-[600] text-[24px] text-black">{title}</h3>
+          <p className="text-[#808080] font-[400] text-[16px]">Course by: <span className="text-[#3B82F6] border-b">{instructorName}</span></p>
         </div>
         <div className="grid grid-cols-2  md:grid-cols-3  gap-[24px]">
           <button className="flex border border-[#D1D1D1] py-[15px] px-[20px] rounded-[16px] gap-[10px] text-sm text-black">

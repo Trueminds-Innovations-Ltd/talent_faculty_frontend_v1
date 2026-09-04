@@ -9,7 +9,7 @@ const EmptyState: React.FC<EmptyStateProps> = () => {
     <div className="flex flex-col items-center justify-center py-6 px-4">
       <div className="relative max-w-[420px] w-full flex items-center justify-center">
         <img
-          src="/courses/empty-explore.jpg"
+          src="/newuser.png"
           alt="Explore courses illustration"
           className="w-full max-h-[300px] object-contain rounded-2xl"
           onError={(e) => {
@@ -19,7 +19,7 @@ const EmptyState: React.FC<EmptyStateProps> = () => {
             if (fallback) fallback.style.display = 'block'
           }}
         />
-        
+
         {/* Vector SVG Fallback */}
         <div id="empty-state-svg-fallback" style={{ display: 'none' }} className="w-full max-w-[340px]">
           <svg viewBox="0 0 400 300" className="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,4 +47,4 @@ const EmptyState: React.FC<EmptyStateProps> = () => {
   )
 }
 
-export default EmptyState
+export default EmptyState

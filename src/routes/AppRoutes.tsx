@@ -95,7 +95,6 @@ const AppRoutes = () => {
       <Route path="/signup" element={<Navigate to="/signup-email" replace />} />
       <Route path="/signup-verify-email" element={<Navigate to="/signup-verify-email" replace />} />
       <Route path="/signup-submit-details" element={<Navigate to="/signup-submit-details" replace />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
 
       {/* Student Dashboard */}
       <Route path="/dashboard" element={<Dashboard />} />
@@ -155,8 +154,6 @@ const AppRoutes = () => {
       <Route path="/admin/signup9" element={<AdSignup9 />} />
       <Route path="/admin/signup10" element={<AdSignup10 />} />
 
-
-
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<InstructorLayout />}>
         <Route path='/instructor/assessments' element={<AssessmentManagement />} />
@@ -174,11 +171,13 @@ const AppRoutes = () => {
         <Route path="courses/video" element={<VideoResource />} />
         <Route path="report" element={<ReportsAnalytics />} />
 
-
         <Route path="learners" element={<Navigate to="/instructor/learners/all" replace />} />
         <Route path="learners/:learnerId/:tab" element={<LearnerProfile />} />
         <Route path="learners/:status" element={<Learners />} />
       </Route>
+
+      {/* Catch-all fallback route at the end */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
