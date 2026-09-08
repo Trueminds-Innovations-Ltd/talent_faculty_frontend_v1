@@ -32,19 +32,12 @@ export default function Hero() {
 
                     <Reveal animation="zoom-in" delay={400}>
                         <div className="flex flex-wrap items-center justify-center gap-4 pt-4 mb-3">
-                            <Link to='/signup'>
+                            <Link to='#Explore'>
                                 <button className="px-6 py-3.5 flex items-center gap-2 bg-primary hover:bg-primary-dark rounded-xl text-white font-semibold shadow-lg shadow-green-500/20 hover:shadow-green-500/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer">
-                                    <Play size="20" color="#d9e3f0" />
-                                    <span>Start Learning</span>
-                                </button>
-                            </Link>
-
-                            <a href='#Explore'>
-                                <button className="border-2 flex items-center justify-center gap-2 border-gray-200 hover:border-primary hover:text-primary p-3 px-6 rounded-xl text-gray-700 font-semibold hover:bg-green-50/50 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer">
                                     <span>Explore Program</span>
                                     <ArrowRight size="20" color="currentColor" />
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </Reveal>
 

@@ -97,15 +97,13 @@ const fallbackPopularCourses = [
 const Dashboard: React.FC = () => {
   const { user: authUser, updateUser } = useAuth()
 
+  // Per-user storage key — null until we actually know who's logged in.
+  const storageKey = authUser?.id
+    ? `talent_faculty_enrolled_courses_${authUser.id}`
+    : null
+
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
-  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>(() => {
-    try {
-      const saved = localStorage.getItem('talent_faculty_enrolled_courses')
-      return saved ? JSON.parse(saved) : []
-    } catch {
-      return []
-    }
-  })
+  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([])
   const [upcomingAssignments, setUpcomingAssignments] = useState<UpcomingItem[]>([])
   const [upcomingAssessments, setUpcomingAssessments] = useState<UpcomingItem[]>([])
 
@@ -120,6 +118,32 @@ const Dashboard: React.FC = () => {
     }, 4000)
   }
 
+  // Load THIS user's cached courses (and clear any previous user's leftover
+  // dashboard data) as soon as we know who's logged in. Re-runs whenever the
+  // logged-in user changes, e.g. switching accounts on the same browser.
+  useEffect(() => {
+    if (!storageKey) {
+      setEnrolledCourses([])
+      setDashboardData(null)
+      setUpcomingAssignments([])
+      setUpcomingAssessments([])
+      return
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey)
+      setEnrolledCourses(saved ? JSON.parse(saved) : [])
+    } catch {
+      setEnrolledCourses([])
+    }
+
+    // Don't wait for fetchDashboard() to resolve before clearing the previous
+    // user's numbers — otherwise old metrics flash on screen for a moment.
+    setDashboardData(null)
+    setUpcomingAssignments([])
+    setUpcomingAssessments([])
+  }, [storageKey])
+
   const fetchDashboard = useCallback(async () => {
     setIsLoading(true)
     try {
@@ -133,6 +157,11 @@ const Dashboard: React.FC = () => {
           updateUser(dataItem.user)
         }
 
+        // Only overwrite local state/cache when the API actually returns course
+        // data. An empty/missing continue_learning here is often just backend
+        // lag right after enrollCohort() — not proof the user has zero courses —
+        // so we leave existing state/cache untouched instead of wiping a course
+        // that was just added.
         if (dataItem.continue_learning && dataItem.continue_learning.length > 0) {
           const courses: EnrolledCourse[] = dataItem.continue_learning.map((c: ContinueLearningItem) => ({
             title: c.title,
@@ -142,9 +171,11 @@ const Dashboard: React.FC = () => {
             duration: c.duration || '20 mins',
           }))
           setEnrolledCourses(courses)
-          try {
-            localStorage.setItem('talent_faculty_enrolled_courses', JSON.stringify(courses))
-          } catch { }
+          if (storageKey) {
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(courses))
+            } catch { }
+          }
         }
 
         if (dataItem.upcoming_assignments) {
@@ -154,12 +185,12 @@ const Dashboard: React.FC = () => {
           setUpcomingAssessments(dataItem.upcoming_assessments)
         }
       }
-    } catch {
-      // Fallback gracefully
+    } catch (err) {
+      console.error('Dashboard fetch failed:', err)
     } finally {
       setIsLoading(false)
     }
-  }, [authUser?.first_name, authUser?.id, updateUser])
+  }, [authUser?.first_name, authUser?.id, updateUser, storageKey])
 
   useEffect(() => {
     fetchDashboard()
@@ -180,9 +211,11 @@ const Dashboard: React.FC = () => {
 
       setEnrolledCourses((prev) => {
         const updated = [newCourse, ...prev]
-        try {
-          localStorage.setItem('talent_faculty_enrolled_courses', JSON.stringify(updated))
-        } catch { }
+        if (storageKey) {
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(updated))
+          } catch { }
+        }
         return updated
       })
       showToast(`Successfully enrolled in "${course.title}"!`)
@@ -193,35 +226,29 @@ const Dashboard: React.FC = () => {
   }
 
   const hasEnrollments = enrolledCourses.length > 0
-  const metrics = dashboardData?.metrics
 
-  const calculatedOverallProgress = metrics?.overall_progress != null
-    ? metrics.overall_progress
-    : hasEnrollments
-      ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
-      : 0
+  // These are always derived directly from enrolledCourses / upcomingAssignments —
+  // never from the backend's metrics object. That guarantees the numbers start
+  // at 0 for a brand-new user and update immediately, in real time, every time
+  // a course is added — instead of waiting on (or getting stuck on) a backend
+  // value that may be stale or lag behind the actual enroll action.
+  const calculatedOverallProgress = hasEnrollments
+    ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
+    : 0
 
-  const calculatedPending = metrics?.pending_assignments_count != null
-    ? metrics.pending_assignments_count
-    : upcomingAssignments.length
+  const calculatedPending = upcomingAssignments.length
 
-  const calculatedAverage = metrics?.assessment_average != null
-    ? metrics.assessment_average
-    : hasEnrollments
-      ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
-      : 0
+  const calculatedAverage = hasEnrollments
+    ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
+    : 0
 
-  const calculatedStreak = metrics?.learning_streak_days != null
-    ? metrics.learning_streak_days
-    : hasEnrollments
-      ? 1
-      : 0
+  const calculatedStreak = hasEnrollments ? enrolledCourses.length : 0
 
   const stats = {
     overall: `${calculatedOverallProgress}%`,
     pending: `${calculatedPending}`,
     average: `${calculatedAverage}%`,
-    streak: `${calculatedStreak} ${calculatedStreak === 1 ? 'Day' : 'Days'}`,
+    streak: `${calculatedStreak} ${calculatedStreak === 1 ? 'Course' : 'Courses'}`,
   }
 
   const learnerName = authUser?.first_name || dashboardData?.user?.first_name || authUser?.username || 'Learner'
