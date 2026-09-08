@@ -23,12 +23,21 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+// Any localStorage keys that hold per-user cached data (legacy/unscoped keys
+// left over from before per-user scoping was added). Clearing these on every
+// login/logout guarantees no stale data from a previous account can leak into
+// a newly logged-in session on the same browser.
+const clearPerUserCache = () => {
+  localStorage.removeItem('talent_faculty_enrolled_courses')
+}
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => getStoredUser<User>())
   const [token, setToken] = useState<string | null>(() => getStoredToken())
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const login = useCallback((newUser: User, newToken: string) => {
+    clearPerUserCache()
     setUser(newUser)
     setToken(newToken)
     setStoredToken(newToken)
@@ -36,6 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const logout = useCallback(() => {
+    clearPerUserCache()
     setUser(null)
     setToken(null)
     removeStoredToken()
