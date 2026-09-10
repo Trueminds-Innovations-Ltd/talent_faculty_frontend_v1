@@ -45,7 +45,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
     localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
   }, [collapsed])
 
-  const isActive = (path: string) => location.pathname === path
+  // Highlights active parent item for both direct routes and nested sub-routes
+  const isActive = (path: string) => location.pathname.startsWith(path)
 
   // Only close mobile sidebar on mobile viewport
   const handleNavClick = () => {
@@ -126,25 +127,22 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
                       transition-all duration-200
                       ${collapsed ? 'lg:justify-center lg:px-2' : ''}
                       ${active
-                        ? 'bg-primary text-white shadow-sm'
+                        ? 'bg-[#057834] text-white shadow-sm'
                         : 'text-neutral-600 hover:bg-primary/10 hover:text-primary'
                       }
                     `}
                   >
                     <span className="flex-shrink-0">{item.icon}</span>
 
-
                     <span className={`whitespace-nowrap transition-all duration-300 ${collapsed ? 'lg:hidden' : ''}`}>
                       {item.label}
                     </span>
-
 
                     {active && collapsed && (
                       <span className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2">
                         <span className="block w-1.5 h-6 bg-primary rounded-l-full" />
                       </span>
                     )}
-
 
                     {collapsed && (
                       <span className="hidden lg:group-hover:block absolute left-full ml-3 px-3 py-1.5 bg-neutral-800 text-white text-xs font-medium rounded-lg whitespace-nowrap z-50 shadow-lg">

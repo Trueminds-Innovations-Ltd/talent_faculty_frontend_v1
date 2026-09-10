@@ -8,7 +8,7 @@ export default function Signup10() {
       {/* Left Sidebar Banner */}
       <div
         style={{ backgroundColor: ThemeColors.secondaryGreen }}
-        className="flex md:w-[360px] lg:w-[589px] py-12 md:py-0 md:min-h-screen relative overflow-hidden shrink-0"
+        className="flex lg:w-[42%] xl:w-[40%]  py-12 md:py-0 md:min-h-screen relative overflow-hidden shrink-0"
       >
         {/* Decorative Ellipses */}
         <div className="absolute left-0 top-0 pointer-events-none opacity-50 md:opacity-100">
@@ -31,7 +31,7 @@ export default function Signup10() {
           {/* "Done" text is visible on desktop, hidden on mobile to match design */}
           <p
             style={{ color: ThemeColors.secondaryOrange }}
-            className="hidden md:block text-xs font-semibold tracking-wide mb-6"
+            className="hidden md:block text-xs md:text-sm  font-semibold tracking-wide mb-6"
           >
             Done
           </p>

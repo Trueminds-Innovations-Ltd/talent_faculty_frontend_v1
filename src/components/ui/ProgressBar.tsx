@@ -11,7 +11,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress, size = 'md' }) => {
   return (
     <div className="w-full">
       <div className={`w-full ${height} rounded-full bg-primary-light overflow-hidden`}>
-        <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${clamped}%` }} />
+        <div className="h-full rounded-full bg-[#057834] transition-all duration-500" style={{ width: `${clamped}%` }} />
       </div>
     </div>
   )

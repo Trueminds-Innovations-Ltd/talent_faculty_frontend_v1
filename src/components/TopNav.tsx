@@ -1,57 +1,74 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function TopNav() {
   const [isOpen, setIsOpen] = useState(false)
+  const { pathname } = useLocation()
 
   const navLinks = [
-    { label: 'Home', href: '#' },
+    { label: 'Home', href: '/' },
     { label: 'Courses', href: '#footer' },
     { label: 'Features', href: '#' },
-    { label: 'Meet The Team', href: '#test' },
+    { label: 'Meet The Team', href: '/meet-the-team' },
   ]
 
+  const isActive = (href: string) => pathname === href
+
   return (
-    <nav className=" top-0 fixed z-100 w-full p-2   bg-white backdrop-blur-md">
+    <nav className="top-0 fixed z-50 w-full bg-white/90 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
           {/* Logo Section */}
           <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2.5 group">
-
-              <img src="./logo1.png" alt="logo" className='h-15 w-full' />
+            <Link to="/" className="flex items-center gap-2.5 group transition-transform hover:scale-105 duration-200">
+              <img src="./logo1.png" alt="Talent Faculty Logo" className='h-12 w-auto object-contain' />
             </Link>
           </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="relative rounded-lg px-3.5 py-2 text-md font-medium text-black  group"
-              >
-                <span className="relative z-10 flex items-center gap-1.5">
-                  {link.label}
-
-                </span>
-                <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full bg-primary-dark transition-transform duration-200 group-hover:scale-x-100"></span>
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isRouterLink = link.href.startsWith('/');
+              const active = isActive(link.href);
+              if (isRouterLink) {
+                return (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 group ${
+                      active
+                        ? 'text-primary bg-green-50 border border-green-200 shadow-2xs font-semibold'
+                        : 'text-neutral-700 hover:text-primary hover:bg-neutral-50'
+                    }`}
+                  >
+                    <span className="relative z-10">{link.label}</span>
+                  </Link>
+                );
+              }
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="relative rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:text-primary hover:bg-neutral-50 transition-all duration-200"
+                >
+                  <span>{link.label}</span>
+                </a>
+              );
+            })}
           </div>
 
           {/* Action Buttons (Desktop) */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             <Link
               to="/login"
-              className="text-sm font-semibold text-black border-2 border-gray-200 rounded-xl  px-3 py-2"
+              className="text-sm font-semibold text-neutral-800 border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 rounded-xl px-4 py-2 transition-all hover:scale-105"
             >
               Sign In
             </Link>
             <Link
               to="/signup"
-              className="relative inline-flex items-center justify-center rounded-xl bg-primary px-4.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/20 transition-all duration-200 hover:from-indigo-500 hover:to-purple-500 hover:scale-[1.02] hover:shadow-indigo-500/35 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/50"
+              className="relative inline-flex items-center justify-center rounded-xl bg-primary hover:bg-primary-dark px-5 py-2 text-sm font-semibold text-white shadow-md shadow-green-500/20 transition-all duration-200 hover:scale-105"
             >
               Enroll Now
             </Link>
@@ -62,7 +79,7 @@ export default function TopNav() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-white/5 hover:text-white focus:outline-hidden"
+              className="inline-flex items-center justify-center rounded-xl p-2 text-neutral-700 hover:bg-neutral-100 transition"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
@@ -84,32 +101,50 @@ export default function TopNav() {
 
       {/* Mobile Menu Panel */}
       {isOpen && (
-        <div className="lg:hidden border-t border-white/5 bg-white/20 backdrop-blur-lg" id="mobile-menu">
-          <div className="space-y-1.5 px-4 py-4.5">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-black"
-              >
-                <span>{link.label}</span>
-
-
-              </a>
-            ))}
-            <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/5 pt-5">
+        <div className="lg:hidden border-t border-neutral-100 bg-white/95 backdrop-blur-xl animate-fade-in" id="mobile-menu">
+          <div className="space-y-2 px-5 py-5">
+            {navLinks.map((link) => {
+              const isRouterLink = link.href.startsWith('/');
+              const active = isActive(link.href);
+              if (isRouterLink) {
+                return (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-all ${
+                      active
+                        ? 'text-primary bg-green-50 font-bold'
+                        : 'text-neutral-800 hover:bg-neutral-50'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              }
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium text-neutral-800 hover:bg-neutral-50"
+                >
+                  <span>{link.label}</span>
+                </a>
+              );
+            })}
+            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-neutral-100 pt-4">
               <Link
                 to="/login"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center rounded-xl border border-gray-100 px-4 py-2.5 text-sm font-semibold text-black hover:bg-white/5 hover:text-white"
+                className="flex items-center justify-center rounded-xl border border-neutral-200 px-4 py-2.5 text-sm font-semibold text-neutral-800 hover:bg-neutral-50"
               >
                 Sign In
               </Link>
               <Link
                 to="/signup"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:from-indigo-500 hover:to-purple-500"
+                className="flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark"
               >
                 Join Now
               </Link>
@@ -120,3 +155,4 @@ export default function TopNav() {
     </nav>
   )
 }
+

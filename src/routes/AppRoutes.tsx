@@ -30,6 +30,14 @@ import AdminUsers from '../pages/admin/Users.tsx'
 import AdminNotifications from '../pages/admin/Notifications.tsx'
 import AdminAnnouncements from '../pages/admin/Announcement.tsx'
 import AdminCohorts from '../pages/admin/Cohorts.tsx'
+import InSignup6 from '../pages/auth/instructor/Signup6.tsx'
+import InPasswordReset from '../pages/auth/instructor/PasswordReset.tsx'
+import InSignup9 from '../pages/auth/instructor/Signup9.tsx'
+import InSignup10 from '../pages/auth/instructor/Signup10.tsx'
+import AdSignup6 from '../pages/auth/admin/Signup6.tsx'
+import AdPasswordReset from '../pages/auth/admin/PasswordReset.tsx'
+import AdSignup9 from '../pages/auth/admin/Signup9.tsx'
+import AdSignup10 from '../pages/auth/admin/Signup10.tsx'
 
 import InstructorCourses from '../pages/instructor/courses/Courses.tsx'
 import ManageCourse from '../pages/instructor/courses/ManageCourse.tsx'
@@ -43,12 +51,29 @@ import Learners from '../pages/instructor/learners/Learners.tsx'
 import LearnerProfile from '../pages/instructor/learners/LearnerProfile.tsx'
 import AssessmentManagement from '../pages/instructor/assessments/AssessmentManagement.tsx'
 import AssignmentGrading from '../pages/instructor/assessments/AssignmentGrading.tsx'
+import MeetTheTeam from '../pages/MeetTheTeam'
 
+import TakeQuiz from '../components/common/instructor/learners/TakeQuiz.tsx'
+import AdminCertificates from '../pages/admin/Certificates.tsx'
+import EditCertificate from '../components/layout/admin/EditCertificate.tsx'
+import GenerateCertificate from '../components/layout/admin/GenerateCertificate.tsx'
+import GenerateCertificatesReport from '../components/layout/admin/GenerateCertificatesReport.tsx'
+import AdminSignin from '../pages/auth/admin/signin.tsx'
+import SignupAdminDetails from '../pages/auth/admin/signup.tsx'
+import InstructorSignin from '../pages/auth/instructor/signin.tsx'
+import SignupInstructorDetails from '../pages/auth/instructor/signup.tsx'
+
+import Cohorts from "../pages/admin/Cohorts";
+import CohortDetail from "../pages/admin/CohortDetail";
+import CohortForm from "../pages/admin/CohortForm";
+import GenerateCohortReport from "../pages/admin/GenerateCohortReport";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/team" element={<MeetTheTeam />} />
+      <Route path="/meet-the-team" element={<MeetTheTeam />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup-email" element={<Signupemail />} />
 
@@ -70,13 +95,13 @@ const AppRoutes = () => {
       <Route path="/signup" element={<Navigate to="/signup-email" replace />} />
       <Route path="/signup-verify-email" element={<Navigate to="/signup-verify-email" replace />} />
       <Route path="/signup-submit-details" element={<Navigate to="/signup-submit-details" replace />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
 
       {/* Student Dashboard */}
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/courses" element={<MyCourses />} />
       <Route path="/assignments" element={<Assignments />} />
       <Route path="/assessments" element={<Assessments />} />
+      <Route path="assessments/:id/take" element={<TakeQuiz />} />
       <Route path="/messages" element={<Messages />} />
       <Route path="/notifications" element={<Notifications />} />
       <Route path="/profile" element={<MyProfile />} />
@@ -93,7 +118,41 @@ const AppRoutes = () => {
       <Route path="/admin/notifications" element={<AdminNotifications />} />
       <Route path="/admin/announcements" element={<AdminAnnouncements />} />
       <Route path="/admin/cohorts" element={<AdminCohorts />} />
+      <Route path="/admin/certificates" element={<AdminCertificates />} />
+      <Route path="/admin/certificates/:id/edit" element={<EditCertificate />} />
+      <Route path="/admin/certificates/generate" element={<GenerateCertificate />} />
+      <Route path="/admin/certificates/reports" element={<GenerateCertificatesReport />} />
 
+      {/* Admin sign in flow */}
+      <Route path="/admin/signin" element={<AdminSignin />} />
+
+      {/* Admin Sign Up flow */}
+      <Route path="/admin/signup" element={<SignupAdminDetails />} />
+
+      {/* Instructor sign in flow */}
+      <Route path="/instructor/signin" element={<InstructorSignin />} />
+
+      {/* Instructor Sign Up flow */}
+      <Route path="/instructor/signup" element={<SignupInstructorDetails />} />
+
+      <Route path="/admin/cohorts" element={<Cohorts />} />
+      <Route path="/admin/cohorts/new" element={<CohortForm />} />
+      <Route path="/admin/cohorts/report" element={<GenerateCohortReport />} />
+      <Route path="/admin/cohorts/:id" element={<CohortDetail />} />
+      <Route path="/admin/cohorts/:id/edit" element={<CohortForm />} />
+
+
+      {/* Instructor Password Reset Flow */}
+      <Route path="/instructor/passwordReset" element={<InPasswordReset />} />
+      <Route path="/instructor/signup6" element={<InSignup6 />} />
+      <Route path="/instructor/signup9" element={<InSignup9 />} />
+      <Route path="/instructor/signup10" element={<InSignup10 />} />
+
+      {/* Admin Password Reset Flow */}
+      <Route path="/admin/passwordReset" element={<AdPasswordReset />} />
+      <Route path="/admin/signup6" element={<AdSignup6 />} />
+      <Route path="/admin/signup9" element={<AdSignup9 />} />
+      <Route path="/admin/signup10" element={<AdSignup10 />} />
 
       {/* Instructor Dashboard */}
       <Route path="/instructor" element={<InstructorLayout />}>
@@ -111,12 +170,14 @@ const AppRoutes = () => {
         <Route path="courses/link" element={<LinkResource />} />
         <Route path="courses/video" element={<VideoResource />} />
         <Route path="report" element={<ReportsAnalytics />} />
-        
-        
+
         <Route path="learners" element={<Navigate to="/instructor/learners/all" replace />} />
         <Route path="learners/:learnerId/:tab" element={<LearnerProfile />} />
         <Route path="learners/:status" element={<Learners />} />
       </Route>
+
+      {/* Catch-all fallback route at the end */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

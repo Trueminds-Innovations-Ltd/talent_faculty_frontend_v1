@@ -1,13 +1,14 @@
 
 import { useRef, useState, useEffect } from 'react';
-import { ArrowLeft2, ArrowRight2, } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import Reveal from './common/Reveal';
 
 const Name = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
 
-    interface Name {
+    interface Mentor {
         id: string;
         title: string;
         img: string;
@@ -15,8 +16,7 @@ const Name = () => {
         projects: string;
     }
 
-
-    const name: Name[] = [
+    const name: Mentor[] = [
         {
             id: 'sarah-amos',
             title: 'Sarah Amos',
@@ -61,7 +61,6 @@ const Name = () => {
         },
     ];
 
-
     const updateScrollState = () => {
         const el = scrollRef.current;
         if (!el) return;
@@ -88,83 +87,81 @@ const Name = () => {
         const step = card ? card.offsetWidth + 16 : el.clientWidth * 0.8;
         el.scrollBy({ left: direction === 'left' ? -step : step, behavior: 'smooth' });
     };
+
     return (
-        <section className="w-full max-w-7xl mx-auto rounded-2xl   bg-white md:px-3 px-3">
-            <div className="flex items-start justify-between gap-4 mb-6 md:px-5">
-                <div>
-                    <h2 className="text-3xl font-bold text-gray-900">
-                        Meet your Mentors
-                    </h2>
-                    <p className="text-md text-gray-500 mt-1">
-                        Learn directly from experienced professionals passionate about helping you grow.
-                    </p>
+        <section className="w-full max-w-7xl mx-auto rounded-2xl bg-white px-4 sm:px-8 py-10 overflow-hidden">
+            <Reveal animation="slide-down" delay={100}>
+                <div className="flex items-start justify-between gap-4 mb-8">
+                    <div>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                            Meet your Mentors
+                        </h2>
+                        <p className="text-base text-gray-500 mt-1">
+                            Learn directly from experienced professionals passionate about helping you grow.
+                        </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                        <button
+                            type="button"
+                            onClick={() => scrollByCard('left')}
+                            disabled={!canScrollLeft}
+                            aria-label="Scroll to previous mentor"
+                            className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-200 hover:text-gray-700 transition cursor-pointer"
+                        >
+                            <ArrowLeft2 size={18} color='#555555' variant="Linear" />
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => scrollByCard('right')}
+                            disabled={!canScrollRight}
+                            aria-label="Scroll to next mentor"
+                            className="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary-dark transition cursor-pointer"
+                        >
+                            <ArrowRight2 size={18} color='#f1f5f9' variant="Linear" />
+                        </button>
+                    </div>
                 </div>
+            </Reveal>
 
-                <div className="flex items-center gap-2 shrink-0">
-                    <button
-                        type="button"
-                        onClick={() => scrollByCard('left')}
-                        disabled={!canScrollLeft}
-                        aria-label="Scroll to previous name"
-                        className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-300 text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 hover:text-gray-600 transition-colors"
-                    >
-                        <ArrowLeft2 size={18} color='#555555' variant="Linear" />
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={() => scrollByCard('right')}
-                        disabled={!canScrollRight}
-                        aria-label="Scroll to next name"
-                        className="w-9 h-9 flex items-center justify-center rounded-full bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all"
-                    >
-                        <ArrowRight2 size={18} color='#f1f5f9' variant="Linear" />
-                    </button>
-                </div>
-            </div>
-
-            {/* Cards */}
-            <div
-                ref={scrollRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-20"
-            >
-                {name.map((path) => (
-                    <article
-                        key={path.id}
-                        data-card
-                        className="shrink-0 w-[280px] md:w-[320px] rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                    >
-                        <div className="h-[400px] w-full relative overflow-hidden  inset-0 bg-gray-100">
-                            <img
-                                src={path.img}
-                                alt={path.title}
-                                loading="lazy"
-                                className="w-full h-full absolute top-0 left-0 object-cover"
-                            />
-                            <div className="p-3 flex flex-col absolute bottom-0">
-                                <h3 className="font-semibold  text-white text-md">
-                                    {path.title}
-                                </h3>
-                                <p className="text-sm text-gray-300 mt-1">
-                                    {path.name}
-                                    <span className="mx-1.5 text-gray-300">|</span>
-                                    {path.projects}
-                                </p>
+            {/* Mentor Cards Track */}
+            <Reveal animation="slide-up" delay={200}>
+                <div
+                    ref={scrollRef}
+                    className="flex gap-5 overflow-x-auto scroll-smooth mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-2"
+                >
+                    {name.map((path) => (
+                        <article
+                            key={path.id}
+                            data-card
+                            className="shrink-0 w-[260px] sm:w-[300px] rounded-2xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer group"
+                        >
+                            <div className="h-[380px] w-full relative overflow-hidden bg-gray-100">
+                                <img
+                                    src={path.img}
+                                    alt={path.title}
+                                    loading="lazy"
+                                    className="w-full h-full absolute top-0 left-0 object-cover group-hover:scale-108 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                                <div className="p-5 flex flex-col absolute bottom-0 left-0 right-0 text-white">
+                                    <h3 className="font-bold text-lg text-white group-hover:text-primary-light transition-colors">
+                                        {path.title}
+                                    </h3>
+                                    <p className="text-xs sm:text-sm text-gray-200 mt-1 flex items-center gap-1.5">
+                                        <span>{path.name}</span>
+                                        <span className="text-gray-400">•</span>
+                                        <span className="text-emerald-300 font-medium">{path.projects}</span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-
-                    </article>
-                ))}
-            </div>
-
-
+                        </article>
+                    ))}
+                </div>
+            </Reveal>
         </section>
     );
 };
 
 export default Name;
-
-
-
-
-

@@ -19,13 +19,6 @@ const tabs = [
   { name: "Overdue", count: 1 },
 ];
 
-/*
-  12 assignments total:
-  2 Pending
-  3 Submitted
-  6 Graded
-  1 Overdue
-*/
 
 const assignments: Assignment[] = [
   // PENDING - 2
@@ -128,8 +121,8 @@ const Assignments: React.FC = () => {
     activeTab === "All"
       ? assignments
       : assignments.filter(
-          (assignment) => assignment.status === activeTab
-        );
+        (assignment) => assignment.status === activeTab
+      );
 
   return (
     <DashboardLayout
@@ -147,11 +140,10 @@ const Assignments: React.FC = () => {
               <button
                 key={tab.name}
                 onClick={() => setActiveTab(tab.name)}
-                className={`relative pb-4 text-sm font-medium transition ${
-                  isActive
-                    ? "text-green-700"
-                    : "text-neutral-400 hover:text-neutral-600"
-                }`}
+                className={`relative pb-4 text-sm font-medium transition ${isActive
+                  ? "text-green-700"
+                  : "text-neutral-400 hover:text-neutral-600"
+                  }`}
               >
                 {tab.name} ({tab.count})
 
@@ -205,11 +197,10 @@ const Assignments: React.FC = () => {
 
                 {/* DUE DATE */}
                 <div
-                  className={`text-sm ${
-                    assignment.status === "Graded"
-                      ? "text-red-500"
-                      : "text-neutral-700"
-                  }`}
+                  className={`text-sm ${assignment.status === "Graded"
+                    ? "text-red-500"
+                    : "text-neutral-700"
+                    }`}
                 >
                   {assignment.due}
                 </div>
@@ -217,15 +208,14 @@ const Assignments: React.FC = () => {
                 {/* STATUS */}
                 <div>
                   <span
-                    className={`inline-flex rounded-full px-4 py-2 text-xs font-medium ${
-                      assignment.status === "Pending"
-                        ? "bg-orange-50 text-orange-500"
-                        : assignment.status === "Submitted"
+                    className={`inline-flex rounded-full px-4 py-2 text-xs font-medium ${assignment.status === "Pending"
+                      ? "bg-orange-50 text-orange-500"
+                      : assignment.status === "Submitted"
                         ? "bg-green-50 text-green-500"
                         : assignment.status === "Graded"
-                        ? "bg-green-50 text-green-500"
-                        : "bg-red-50 text-red-500"
-                    }`}
+                          ? "bg-green-50 text-green-500"
+                          : "bg-red-50 text-red-500"
+                      }`}
                   >
                     {assignment.status === "Graded"
                       ? "Passed"

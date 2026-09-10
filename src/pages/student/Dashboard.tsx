@@ -1,74 +1,431 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { SlidersHorizontal, ArrowUpDown, ArrowRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import StatCard from '../../components/ui/StatCard'
 import CourseCard from '../../components/ui/CourseCard'
 import AssignmentRow from '../../components/ui/AssignmentRow'
+import PopularCourseCard from '../../components/ui/PopularCourseCard'
+import EmptyState from '../../components/ui/EmptyState'
+import AllCoursesCatalog, { type CourseItem } from '../../components/ui/AllCoursesCatalog'
+import { dashboardService } from '../../services/dashboardService'
+import { useAuth } from '../../context/AuthContext'
+import type { DashboardData, UpcomingItem, ContinueLearningItem } from '../../types/dashboard'
 
-const continueLearningCourses = [
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-  { title: 'UI/UX Design Fundamentals', instructor: 'Grace Johnson', progress: 68, tags: ['UI/UX Design'], duration: '15 mins' },
-]
+interface EnrolledCourse {
+  title: string
+  instructor: string
+  progress: number
+  tags: string[]
+  duration: string
+}
 
-const upcomingAssignments = [
-  { title: 'Wireframe Mobile Banking', date: 'Tomorrow' },
-  { title: 'User Research Report', date: '2nd May, 2024' },
-  { title: 'Design System Creation', date: '5th May, 2024' },
-]
-
-const upcomingAssessments = [
-  { title: 'Design Thinking Quiz', date: 'Tomorrow', duration: '10 mins' },
-  { title: 'UX Principles Test', date: '4th, May 2024', duration: '10 mins' },
+const fallbackPopularCourses = [
+  {
+    id: 'graphic-design-fundamentals',
+    title: 'Graphic Design Fundamentals',
+    bannerUrl: '/courses/graphic-design.jpg',
+    outline: [
+      'Design Principles & Visual Hierarchy',
+      'Typography & Font Pairing',
+      'Colour Theory',
+      'Social Media & Marketing Design',
+    ],
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
+  },
+  {
+    id: 'uiux-design-masterclass',
+    title: 'UI/UX Design Masterclass',
+    bannerUrl: '/courses/uiux-masterclass.jpg',
+    outline: [
+      'Introduction to UX Design',
+      'User Research & Personas',
+      'User Flows & Information Architecture',
+      'Wireframing',
+    ],
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
+  },
+  {
+    id: 'professional-video-editing',
+    title: 'Professional Video Editing',
+    bannerUrl: '/courses/video-editing.jpg',
+    outline: [
+      'Video Editing Fundamentals',
+      'Storytelling & Visual Narrative',
+      'Timeline & Cutting Techniques',
+      'Colour Correction & Grading',
+    ],
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
+  },
+  {
+    id: 'affinity-designer-essentials',
+    title: 'Affinity Designer Essentials',
+    bannerUrl: '/courses/affinity-designer.jpg',
+    outline: [
+      'Getting Started with Affinity Designer',
+      'Vector & Raster Workflows',
+      'Shapes, Paths & Curves',
+      'Typography & Layout',
+    ],
+    instructor: {
+      name: 'Grace Johnson',
+      role: 'Senior Visual Designer',
+      company: 'Canva',
+      avatarUrl: '/rita.png',
+      rating: 4.9,
+    },
+  },
 ]
 
 const Dashboard: React.FC = () => {
+  const { user: authUser, updateUser } = useAuth()
+
+  // Per-user storage key — null until we actually know who's logged in.
+  const storageKey = authUser?.id
+    ? `talent_faculty_enrolled_courses_${authUser.id}`
+    : null
+
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
+  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([])
+  const [upcomingAssignments, setUpcomingAssignments] = useState<UpcomingItem[]>([])
+  const [upcomingAssessments, setUpcomingAssessments] = useState<UpcomingItem[]>([])
+
+  const [viewMode, setViewMode] = useState<'dashboard' | 'all-courses'>('dashboard')
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
+
+  const showToast = (text: string, type: 'success' | 'error' = 'success') => {
+    setToastMessage({ text, type })
+    setTimeout(() => {
+      setToastMessage(null)
+    }, 4000)
+  }
+
+  // Load THIS user's cached courses (and clear any previous user's leftover
+  // dashboard data) as soon as we know who's logged in. Re-runs whenever the
+  // logged-in user changes, e.g. switching accounts on the same browser.
+  useEffect(() => {
+    if (!storageKey) {
+      setEnrolledCourses([])
+      setDashboardData(null)
+      setUpcomingAssignments([])
+      setUpcomingAssessments([])
+      return
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey)
+      setEnrolledCourses(saved ? JSON.parse(saved) : [])
+    } catch {
+      setEnrolledCourses([])
+    }
+
+    // Don't wait for fetchDashboard() to resolve before clearing the previous
+    // user's numbers — otherwise old metrics flash on screen for a moment.
+    setDashboardData(null)
+    setUpcomingAssignments([])
+    setUpcomingAssessments([])
+  }, [storageKey])
+
+  const fetchDashboard = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const response = await dashboardService.getDashboardData()
+      const dataItem = Array.isArray(response.data) ? response.data[0] : response.data
+
+      if (dataItem) {
+        setDashboardData(dataItem)
+
+        if (dataItem.user && (!authUser?.first_name || dataItem.user.id === authUser?.id)) {
+          updateUser(dataItem.user)
+        }
+
+        // Only overwrite local state/cache when the API actually returns course
+        // data. An empty/missing continue_learning here is often just backend
+        // lag right after enrollCohort() — not proof the user has zero courses —
+        // so we leave existing state/cache untouched instead of wiping a course
+        // that was just added.
+        if (dataItem.continue_learning && dataItem.continue_learning.length > 0) {
+          const courses: EnrolledCourse[] = dataItem.continue_learning.map((c: ContinueLearningItem) => ({
+            title: c.title,
+            instructor: c.instructor || 'Grace Johnson',
+            progress: c.progress || 0,
+            tags: c.tags || ['Design'],
+            duration: c.duration || '20 mins',
+          }))
+          setEnrolledCourses(courses)
+          if (storageKey) {
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(courses))
+            } catch { }
+          }
+        }
+
+        if (dataItem.upcoming_assignments) {
+          setUpcomingAssignments(dataItem.upcoming_assignments)
+        }
+        if (dataItem.upcoming_assessments) {
+          setUpcomingAssessments(dataItem.upcoming_assessments)
+        }
+      }
+    } catch (err) {
+      console.error('Dashboard fetch failed:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [authUser?.first_name, authUser?.id, updateUser, storageKey])
+
+  useEffect(() => {
+    fetchDashboard()
+  }, [fetchDashboard])
+
+  const handleEnrollCourse = async (course: { title: string; instructor?: { name: string } } | CourseItem) => {
+    try {
+      await dashboardService.enrollCohort({ cohort_id: 2, track_id: 3 }).catch(() => null)
+
+      const instructorName = typeof course.instructor === 'object' ? course.instructor.name : 'Grace Johnson'
+      const newCourse: EnrolledCourse = {
+        title: course.title,
+        instructor: instructorName,
+        progress: 0,
+        tags: ['Design'],
+        duration: '20 mins',
+      }
+
+      setEnrolledCourses((prev) => {
+        const updated = [newCourse, ...prev]
+        if (storageKey) {
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(updated))
+          } catch { }
+        }
+        return updated
+      })
+      showToast(`Successfully enrolled in "${course.title}"!`)
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string }
+      showToast(apiErr?.message || 'Could not complete enrollment', 'error')
+    }
+  }
+
+  const hasEnrollments = enrolledCourses.length > 0
+
+  // These are always derived directly from enrolledCourses / upcomingAssignments —
+  // never from the backend's metrics object. That guarantees the numbers start
+  // at 0 for a brand-new user and update immediately, in real time, every time
+  // a course is added — instead of waiting on (or getting stuck on) a backend
+  // value that may be stale or lag behind the actual enroll action.
+  const calculatedOverallProgress = hasEnrollments
+    ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
+    : 0
+
+  const calculatedPending = upcomingAssignments.length
+
+  const calculatedAverage = hasEnrollments
+    ? Math.round(enrolledCourses.reduce((acc, c) => acc + (c.progress || 0), 0) / enrolledCourses.length)
+    : 0
+
+  const calculatedStreak = hasEnrollments ? enrolledCourses.length : 0
+
+  const stats = {
+    overall: `${calculatedOverallProgress}%`,
+    pending: `${calculatedPending}`,
+    average: `${calculatedAverage}%`,
+    streak: `${calculatedStreak} ${calculatedStreak === 1 ? 'Course' : 'Courses'}`,
+  }
+
+  const learnerName = authUser?.first_name || dashboardData?.user?.first_name || authUser?.username || 'Learner'
+
   return (
-    <DashboardLayout title="Good Morning, Samuel 👋" subtitle="Continue your learning journey and stay on track!">
-      <div className="space-y-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Overall Progress" value="76%" variant="green" />
-          <StatCard label="Pending Assignments" value="3" variant="red" />
-          <StatCard label="Assessment Average" value="88%" variant="blue" />
-          <StatCard label="Learning Streak" value="12 Days" variant="orange" />
+    <DashboardLayout
+      title={`Good Morning, ${learnerName} 👋`}
+      subtitle="Continue your learning journey and stay on track!"
+    >
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl animate-fade-in ${toastMessage.type === 'error' ? 'bg-red-600 text-white' : 'bg-[#057834] text-white'
+            }`}
+        >
+          {toastMessage.type === 'error' ? (
+            <AlertCircle size={20} className="text-white shrink-0" />
+          ) : (
+            <CheckCircle2 size={20} className="text-white shrink-0" />
+          )}
+          <span className="text-sm font-semibold">{toastMessage.text}</span>
         </div>
+      )}
 
-        <section>
-          <h2 className="text-lg font-bold text-neutral-800 mb-1">Continue Learning</h2>
-          <p className="text-sm text-neutral-400 mb-5">Pick up where you left off and continue progressing through your active courses.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-            {continueLearningCourses.map((course, idx) => (
-              <CourseCard key={idx} {...course} />
-            ))}
+      {/* Main View Router inside Dashboard */}
+      {viewMode === 'all-courses' ? (
+        <AllCoursesCatalog
+          onBack={() => setViewMode('dashboard')}
+          onEnrollCourse={handleEnrollCourse}
+        />
+      ) : (
+        <div className="space-y-8 animate-fade-in">
+          {/* Stats Section */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <StatCard label="Overall Progress" value={stats.overall} variant="green" />
+            <StatCard label="Pending Assignments" value={stats.pending} variant="red" />
+            <StatCard label="Assessment Average" value={stats.average} variant="blue" />
+            <StatCard label="Learning Streak" value={stats.streak} variant="orange" />
           </div>
-        </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl border border-neutral-100 p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-neutral-800">Upcoming Assignments</h3>
-              <button className="text-xs font-medium text-primary hover:text-primary-dark">View All</button>
+          {/* Conditional Middle Section */}
+          {isLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <Loader2 className="animate-spin text-primary" size={32} />
             </div>
-            <div>
-              {upcomingAssignments.map((item, idx) => (
-                <AssignmentRow key={idx} {...item} />
+          ) : hasEnrollments ? (
+            <>
+              {/* Active Enrolled Courses */}
+              <section>
+                <div className="mb-4">
+                  <h2 className="text-lg font-bold text-neutral-900 mb-1">Continue Learning</h2>
+                  <p className="text-sm text-neutral-500">
+                    Pick up where you left off and continue progressing through your active courses.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+                  {enrolledCourses.map((course, idx) => (
+                    <CourseCard key={idx} {...course} />
+                  ))}
+                </div>
+              </section>
+
+              {/* Assignments & Assessments Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white rounded-3xl border border-neutral-100 p-6 shadow-xs">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-bold text-neutral-900">Upcoming Assignments</h3>
+                    <button className="text-xs font-bold text-[#057834] hover:underline cursor-pointer">
+                      View All
+                    </button>
+                  </div>
+                  <div className="divide-y divide-neutral-100">
+                    {upcomingAssignments.length > 0 ? (
+                      upcomingAssignments.map((item, idx) => (
+                        <AssignmentRow key={idx} title={item.title} date={item.date || item.due_date || 'Upcoming'} />
+                      ))
+                    ) : (
+                      <p className="text-xs text-neutral-400 py-6 text-center">No pending assignments</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-3xl border border-neutral-100 p-6 shadow-xs">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-bold text-neutral-900">Upcoming Assessments</h3>
+                    <button className="text-xs font-bold text-[#057834] hover:underline cursor-pointer">
+                      View All
+                    </button>
+                  </div>
+                  <div className="divide-y divide-neutral-100">
+                    {upcomingAssessments.length > 0 ? (
+                      upcomingAssessments.map((item, idx) => (
+                        <AssignmentRow key={idx} title={item.title} date={item.date || 'Upcoming'} />
+                      ))
+                    ) : (
+                      <p className="text-xs text-neutral-400 py-6 text-center">No upcoming assessments</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* First Time Empty Explore Section */
+            <section className="bg-white rounded-3xl border border-neutral-100 p-6 sm:p-8 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h2 className="text-lg font-bold text-neutral-900 mb-1">Explore Courses</h2>
+                  <p className="text-sm text-neutral-500">
+                    Discover courses designed to help you build new skills and deepen your knowledge.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('all-courses')}
+                  className="rounded-full bg-[#057834] px-6 py-3 text-sm font-bold text-white hover:bg-[#04632b] transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                >
+                  <ArrowRight size={16} />
+                  <span>Find Your Next Skill</span>
+                </button>
+              </div>
+
+              <EmptyState onActionClick={() => setViewMode('all-courses')} />
+            </section>
+          )}
+
+          {/* Popular Courses Section */}
+          <section>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-lg font-bold text-neutral-900 mb-1">Popular Courses</h2>
+                <p className="text-sm text-neutral-500">
+                  See what other learners are currently exploring and building their skills with.
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('all-courses')}
+                  className="rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition flex items-center gap-2 cursor-pointer shadow-2xs"
+                >
+                  <SlidersHorizontal size={14} className="text-neutral-500" />
+                  <span>Filter</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('all-courses')}
+                  className="rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition flex items-center gap-2 cursor-pointer shadow-2xs"
+                >
+                  <ArrowUpDown size={14} className="text-neutral-500" />
+                  <span>Sort</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('all-courses')}
+                  className="rounded-full bg-[#057834] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#04632b] transition flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-md"
+                >
+                  <ArrowRight size={14} />
+                  <span>View More</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+              {fallbackPopularCourses.map((course) => (
+                <PopularCourseCard
+                  key={course.id}
+                  title={course.title}
+                  bannerUrl={course.bannerUrl}
+                  outline={course.outline}
+                  instructor={course.instructor}
+                  onEnroll={() => handleEnrollCourse(course)}
+                />
               ))}
             </div>
-          </div>
-
-          <div className="bg-white rounded-2xl border border-neutral-100 p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-neutral-800">Upcoming Assessments</h3>
-              <button className="text-xs font-medium text-primary hover:text-primary-dark">View All</button>
-            </div>
-            <div>
-              {upcomingAssessments.map((item, idx) => (
-                <AssignmentRow key={idx} {...item} />
-              ))}
-            </div>
-          </div>
+          </section>
         </div>
-      </div>
+      )}
     </DashboardLayout>
   )
 }

@@ -39,7 +39,13 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
     localStorage.setItem('admin-sidebar-collapsed', JSON.stringify(collapsed))
   }, [collapsed])
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) => {
+    if (location.pathname === path) return true
+    if (path === '/admin/certificates' && location.pathname.startsWith('/admin/certificates')) {
+      return true
+    }
+    return false
+  }
 
   // Only close mobile sidebar on mobile viewport
   const handleNavClick = () => {
@@ -71,7 +77,7 @@ const AdminSidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMob
         <div className={`flex items-center gap-2 px-5 py-6 ${collapsed ? 'lg:justify-center lg:px-3' : ''}`}>
           <Link to="/admin/dashboard" className="flex items-center overflow-hidden min-w-0">
             <img
-              src="../logo1.png"
+              src="../../../logo1.png"
               alt="Talent Faculty logo"
               className={`h-18 object-contain transition-all duration-300 ${collapsed ? 'lg:h-8' : ''}`}
             />
