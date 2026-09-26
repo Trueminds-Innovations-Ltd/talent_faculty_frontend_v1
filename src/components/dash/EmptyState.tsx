@@ -23,7 +23,7 @@ export default function EmptyState({ title, description, ctaLabel, onCtaClick, f
           <button
             onClick={onCtaClick}
             disabled={!onCtaClick}
-            className={`flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition-opacity ${!onCtaClick ? "cursor-default opacity-40" : "hover:bg-primary"}`}
+            className={`flex items-center gap-2 rounded-xl bg-primary px-5 py-3 md:text-sm text-xs md:font-semibold text-white transition-opacity ${!onCtaClick ? "cursor-default opacity-40" : "hover:bg-primary"}`}
           >
             <SearchNormal1 color="#ffffff" size={16} />
             {ctaLabel}

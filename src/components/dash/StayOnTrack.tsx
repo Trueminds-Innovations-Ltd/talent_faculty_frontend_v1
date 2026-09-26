@@ -10,7 +10,7 @@ function ListPanel({ title, items }: ListPanelProps) {
     <div className="flex-1 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-slate-900">{title}</h3>
-        <button className="text-sm font-medium text-slate-400 hover:text-primary">
+        <button className="text-sm font-medium text-slate-400 hover:text-primary-500">
           View All
         </button>
       </div>

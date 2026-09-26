@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StatsRow from "../../components/dash/StatsRow";
 import ContinueLearningCard from "../../components/dash/ContinueLearningCard";
 import StayOnTrack from "../../components/dash/StayOnTrack";
@@ -10,6 +10,9 @@ import SuccessModal from "../../components/dash/SuccessModal";
 import CohortExplorer from "../../components/dash/CohortExplorer";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import SearchingIllustration from "../../components/dash/SearchingIllustration";
+import { useAuth } from "../../context/AuthContext";
+import { dashboardService } from "../../services/dashboardService";
+import { genericService } from "../../services/genericService";
 import type { Cohort, Course, Track } from "../../types";
 import {
   activeCourse,
@@ -27,6 +30,11 @@ type JoinStep = "closed" | "track" | "confirm" | "success";
 type View = "dashboard" | "explorer";
 
 export default function Dashboard() {
+  const { user, updateUser } = useAuth();
+  const [dashboardUserName, setDashboardUserName] = useState(
+    user ? [user.first_name, user.last_name].filter(Boolean).join(" ") || user.username || "Samuel" : student.name,
+  );
+
   // New users should start in the onboarding state until they join a cohort.
   const [hasJoined, setHasJoined] = useState(false);
   const [joinedCohortId, setJoinedCohortId] = useState<string | number | null>(null);
@@ -35,6 +43,101 @@ export default function Dashboard() {
 
   const [cohorts, setCohorts] = useState<Cohort[]>(initialCohorts);
   const [view, setView] = useState<View>("dashboard");
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        const response = await dashboardService.getDashboardData();
+        const payload = Array.isArray(response?.data) ? response.data[0] : response?.data;
+        const apiUser = payload?.user;
+
+        if (apiUser) {
+          const nextName = [apiUser.first_name, apiUser.last_name].filter(Boolean).join(" ") || apiUser.username || "Samuel";
+          setDashboardUserName(nextName);
+
+          if (user) {
+            updateUser({
+              first_name: apiUser.first_name || user.first_name,
+              last_name: apiUser.last_name || user.last_name,
+              username: apiUser.username || user.username,
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load dashboard data", error);
+      }
+    };
+
+    loadDashboardData();
+  }, [updateUser, user]);
+
+  useEffect(() => {
+    const loadCohorts = async () => {
+      try {
+        const response = await genericService.getCohorts();
+        const rawCohorts = Array.isArray(response?.data) ? response.data : [];
+
+        if (rawCohorts.length > 0) {
+          const mappedCohorts: Cohort[] = rawCohorts.map((cohort, index) => {
+            const statusValue = String((cohort as { status?: string }).status ?? "").toLowerCase();
+            const isActive = Boolean((cohort as { is_active?: boolean }).is_active);
+            const startDate = (cohort as { start_date?: string }).start_date;
+            const endDate = (cohort as { end_date?: string }).end_date;
+
+            let status: Cohort["status"] = "upcoming";
+            if (isActive || statusValue.includes("active") || statusValue.includes("in-session")) {
+              status = "in-session";
+            } else if (statusValue.includes("complete") || statusValue.includes("completed")) {
+              status = "completed";
+            } else {
+              const now = new Date();
+              const start = startDate ? new Date(startDate) : null;
+              const end = endDate ? new Date(endDate) : null;
+
+              if (start && end && now >= start && now <= end) {
+                status = "in-session";
+              } else if (start && now < start) {
+                status = "upcoming";
+              } else if (end && now > end) {
+                status = "completed";
+              } else if (index === 2) {
+                status = "in-session";
+              }
+            }
+
+            const code = (cohort as { code?: string }).code ?? `COHORT ${index + 1}`;
+            const name = (cohort as { name?: string }).name ?? `Cohort ${index + 1}`;
+            const description =
+              (cohort as { description?: string }).description ??
+              "Build practical skills and grow with your learning track.";
+
+            return {
+              id: String((cohort as { id?: string | number }).id ?? index + 1),
+              code,
+              name,
+              description,
+              status,
+              opensLabel:
+                status === "upcoming" && startDate
+                  ? `Opens ${new Date(startDate).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}`
+                  : undefined,
+            };
+          });
+
+          setCohorts(mappedCohorts);
+        }
+      } catch (error) {
+        console.error("Failed to load cohorts", error);
+        setCohorts(initialCohorts);
+      }
+    };
+
+    loadCohorts();
+  }, []);
 
   const [joinStep, setJoinStep] = useState<JoinStep>("closed");
   const [joinCohort, setJoinCohort] = useState<Cohort | null>(null);
@@ -87,11 +190,11 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout
-      title={`Good Morning, ${student.name}`}
+      title={`Good Morning, ${dashboardUserName}`}
       subtitle="Continue your learning journey and stay on track!"
     >
-      <div className="flex min-h-screen bg-white">
-        <main className="flex-1 space-y-8 px-8 py-8">
+      <div className="flex min-h-screen w-full bg-white">
+        <main className="flex-1 space-y-8 px-1 md:px-8 py-8">
           {view === "dashboard" ? (
             <>
               <StatsRow stats={stats} />
