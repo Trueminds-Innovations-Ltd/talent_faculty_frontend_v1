@@ -78,6 +78,7 @@ import Cohorts from "../pages/admin/Cohorts";
 import CohortDetail from "../pages/admin/CohortDetail";
 import CohortForm from "../pages/admin/CohortForm";
 import GenerateCohortReport from "../pages/admin/GenerateCohortReport";
+import Deliverables from '../pages/student/Deliverables.tsx'
 
 const AppRoutes = () => {
   return (
@@ -120,6 +121,7 @@ const AppRoutes = () => {
       <Route path="/help" element={<Help$Support />} />
       <Route path="/progress" element={<Progress />} />
       <Route path="/certificates" element={<Certificates />} />
+      <Route path="/deliverables" element={<Deliverables />} />
 
       {/* Admin */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
