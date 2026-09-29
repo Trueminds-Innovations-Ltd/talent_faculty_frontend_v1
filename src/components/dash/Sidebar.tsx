@@ -25,7 +25,7 @@ const mainMenu: NavItem[] = [
   { label: "Dashboard", icon: <Category2 size={20} variant="Bold" />, href: "/dashboard" },
   { label: "My Courses", icon: <Book1 size={20} />, href: "/courses" },
   { label: "Deliverables", icon: <FolderOpen size={20} />, href: "/deliverables" },
-  { label: "Group Project", icon: <Profile2User size={20} />, href: "/group-project" },
+  { label: "Group Project", icon: <Profile2User size={20} />, href: "/group-projects" },
   { label: "Progress", icon: <Clock size={20} />, href: "/progress" },
   { label: "Assessments", icon: <TickCircle size={20} />, href: "/assessments" },
   { label: "Assignments", icon: <DocumentText size={20} />, href: "/assignments" },
@@ -52,11 +52,10 @@ export default function Sidebar({ activeHref = "/dashboard", onNavigate }: Sideb
       <button
         key={item.href}
         onClick={() => onNavigate?.(item.href)}
-        className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-          isActive
-            ? "bg-primary text-white"
-            : "text-slate-600 hover:bg-primary hover:text-primary"
-        }`}
+        className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${isActive
+          ? "bg-primary text-white"
+          : "text-slate-600 hover:bg-primary hover:text-primary"
+          }`}
       >
         {item.icon}
         <span>{item.label}</span>

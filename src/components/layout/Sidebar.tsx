@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, TrendingUp, ClipboardList,
-  FileText, Award, MessageSquare, User, Settings,
+  FileText, Award, MessageSquare, User, Users, Settings,
   HelpCircle, LogOut, ChevronDown, ChevronUp, X,
   PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
@@ -16,8 +16,8 @@ interface SidebarProps {
 const mainMenuItems = [
   { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
   { label: 'My Courses', icon: <BookOpen size={20} />, path: '/courses' },
-  { label: 'Deliverables', icon: <TrendingUp size={20} />, path: '/Deliverables' },
-    { label: 'Group Project', icon: <BookOpen size={20} />, path: '/Group Project' },
+  { label: 'Deliverables', icon: <TrendingUp size={20} />, path: '/deliverables' },
+  { label: 'Group Project', icon: <Users size={20} />, path: '/group-projects' },
   { label: 'Progress', icon: <TrendingUp size={20} />, path: '/progress' },
   { label: 'Assessments', icon: <ClipboardList size={20} />, path: '/assessments' },
   { label: 'Assignments', icon: <FileText size={20} />, path: '/assignments' },
@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogoutClick, mobileOpen, onMobileCl
         <div className={`flex items-center gap-2 px-5 py-5 ${collapsed ? 'lg:justify-center lg:px-3' : ''}`}>
           <div className="flex items-center gap-2 overflow-hidden">
             <img
-              src="./logo1.png"
+              src="../logo1.png"
               alt="Talent-Flow Logo"
               className={`h-18 object-contain transition-all duration-300 ${collapsed ? 'lg:h-8' : ''}`}
             />
