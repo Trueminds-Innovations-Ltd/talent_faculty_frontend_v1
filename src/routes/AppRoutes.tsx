@@ -78,7 +78,11 @@ import Cohorts from "../pages/admin/Cohorts";
 import CohortDetail from "../pages/admin/CohortDetail";
 import CohortForm from "../pages/admin/CohortForm";
 import GenerateCohortReport from "../pages/admin/GenerateCohortReport";
-import Deliverables from '../pages/student/Deliverables.tsx'
+import Deliverables from '../pages/student/Deliverables.tsx';
+import FinalSubmission from '../pages/FinalSubmission.tsx'
+import GroupProjects from '../pages/student/GroupProjects.tsx'
+import ProjectDetails from '../pages/ProjectDetails.tsx'
+
 
 const AppRoutes = () => {
   return (
@@ -122,6 +126,10 @@ const AppRoutes = () => {
       <Route path="/progress" element={<Progress />} />
       <Route path="/certificates" element={<Certificates />} />
       <Route path="/deliverables" element={<Deliverables />} />
+      <Route path="/group-projects" element={<GroupProjects />} />
+      <Route path="/group-project" element={<Navigate to="/group-projects" replace />} />
+      <Route path="/group-projects/:projectId" element={<ProjectDetails />} />
+      <Route path="/group-projects/:projectId/submit" element={<FinalSubmission />} />
 
       {/* Admin */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
@@ -148,7 +156,7 @@ const AppRoutes = () => {
       <Route path="/admin/certificates/:id/edit" element={<EditCertificate />} />
       <Route path="/admin/certificates/generate" element={<GenerateCertificate />} />
       <Route path="/admin/certificates/reports" element={<GenerateCertificatesReport />} />
-      <Route path="/admin/profile" element={<AdminProfile /> }/>
+      <Route path="/admin/profile" element={<AdminProfile />} />
 
       {/* Admin sign in flow */}
       <Route path="/admin/signin" element={<AdminSignin />} />
