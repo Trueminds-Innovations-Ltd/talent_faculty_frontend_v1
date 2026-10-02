@@ -158,7 +158,7 @@ const Team = () => {
             id: 'frontend Development',
             title: 'Tochukwu Joshua Ozo-Osiedo',
             img: "/toch.jpg",
-            name: 'Frontend Develer',
+            name: 'Frontend Developer',
             socials: {
                 github: 'https://github.com/Tochukwu-001',
                 linkedin: 'https://www.linkedin.com/in/tochukwu-ozo-osiedo',
