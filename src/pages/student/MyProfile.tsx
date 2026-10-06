@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import {
     Mail,
     Eye,
@@ -11,14 +11,17 @@ import {
     Phone,
     Lock,
     ChevronRight,
-    X,
+    Camera,
+    Trash2,
+    Star,
+    Users,
+    BookOpen,
+    CheckCircle2,
 } from "lucide-react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { useAuth } from "../../context/AuthContext";
 
-
-
-type TabId = "personal" | "security";
+type TabId = "personal" | "security" | "cart";
 
 type ModalId =
     | null
@@ -30,7 +33,6 @@ type ModalId =
 
 interface Device {
     id: string;
-    label: string;
     os: string;
     browser: string;
     location: string;
@@ -39,11 +41,22 @@ interface Device {
     icon: React.ReactNode;
 }
 
+interface CartItem {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    reviews: number;
+    students: number;
+    courses: number;
+    price: number;
+    originalPrice: number;
+    discountPercent: number;
+}
 
 const DEVICES: Device[] = [
     {
         id: "1",
-        label: "Windows",
         os: "Windows",
         browser: "Chrome",
         location: "Lagos, Nigeria",
@@ -53,7 +66,6 @@ const DEVICES: Device[] = [
     },
     {
         id: "2",
-        label: "MacOS",
         os: "MacOS",
         browser: "Chrome",
         location: "Lagos, Nigeria",
@@ -63,7 +75,6 @@ const DEVICES: Device[] = [
     },
     {
         id: "3",
-        label: "Iphone",
         os: "Iphone",
         browser: "Safari",
         location: "Lagos, Nigeria",
@@ -80,6 +91,81 @@ const SECURITY_QUESTIONS = [
     "Favorite Teacher's Name",
 ];
 
+const GENDERS = ["Female", "Male", "Prefer not to say"];
+const COUNTRIES = ["Nigeria", "Ghana", "Kenya", "South Africa"];
+const STATES: Record<string, string[]> = {
+    Nigeria: ["Lagos", "Abuja", "Rivers", "Oyo"],
+    Ghana: ["Greater Accra", "Ashanti"],
+    Kenya: ["Nairobi", "Mombasa"],
+    "South Africa": ["Gauteng", "Western Cape"],
+};
+const CITIES: Record<string, string[]> = {
+    Lagos: ["Ketu", "Ikeja", "Lekki", "Yaba"],
+    Abuja: ["Garki", "Wuse"],
+    Rivers: ["Port Harcourt"],
+    Oyo: ["Ibadan"],
+    "Greater Accra": ["Accra"],
+    Ashanti: ["Kumasi"],
+    Nairobi: ["Nairobi CBD"],
+    Mombasa: ["Mombasa Island"],
+    Gauteng: ["Johannesburg"],
+    "Western Cape": ["Cape Town"],
+};
+
+const INITIAL_CART: CartItem[] = [
+    {
+        id: "graphic-design",
+        title: "Graphic Design Fundamentals",
+        description: "Turn ideas into impactful visual designs.",
+        image: "/profile/cart-graphic-design.png",
+        reviews: 765,
+        students: 2507,
+        courses: 7,
+        price: 60000,
+        originalPrice: 60000,
+        discountPercent: 60,
+    },
+    {
+        id: "uiux-masterclass",
+        title: "UI/UX Design Masterclass",
+        description: "Create intuitive and engaging digital experiences.",
+        image: "/profile/cart-uiux.png",
+        reviews: 765,
+        students: 2507,
+        courses: 7,
+        price: 60000,
+        originalPrice: 60000,
+        discountPercent: 60,
+    },
+    {
+        id: "video-editing",
+        title: "Professional Video Editing",
+        description: "Transform footage into engaging visual stories.",
+        image: "/profile/cart-video-editing.png",
+        reviews: 765,
+        students: 2507,
+        courses: 7,
+        price: 60000,
+        originalPrice: 60000,
+        discountPercent: 60,
+    },
+    {
+        id: "affinity-essentials",
+        title: "Affinity Designer Essentials",
+        description: "Create professional designs with Affinity tools.",
+        image: "/profile/cart-affinity.png",
+        reviews: 765,
+        students: 2507,
+        courses: 7,
+        price: 60000,
+        originalPrice: 60000,
+        discountPercent: 60,
+    },
+];
+
+function formatNaira(amount: number) {
+    return `\u20A6${amount.toLocaleString()}`;
+}
 
 function Field({
     label,
@@ -101,11 +187,15 @@ function TextInput({
     onChange,
     placeholder,
     icon,
+    disabled = false,
+    type = "text",
 }: {
     value: string;
     onChange: (v: string) => void;
     placeholder?: string;
     icon?: React.ReactNode;
+    disabled?: boolean;
+    type?: string;
 }) {
     return (
         <div className="relative">
@@ -115,13 +205,58 @@ function TextInput({
                 </span>
             )}
             <input
-                type="text"
+                type={type}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className={`w-full rounded-xl border border-gray-200 py-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${icon ? "pl-11 pr-4" : "px-4"
-                    }`}
+                disabled={disabled}
+                className={`w-full rounded-xl border py-3 text-sm placeholder:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    disabled
+                        ? "border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed"
+                        : "border-gray-200 text-gray-700 focus:border-primary"
+                } ${icon ? "pl-11 pr-4" : "px-4"}`}
             />
+        </div>
+    );
+}
+
+function SelectInput({
+    value,
+    onChange,
+    options,
+    disabled = false,
+}: {
+    value: string;
+    onChange: (v: string) => void;
+    options: string[];
+    disabled?: boolean;
+}) {
+    return (
+        <div className="relative">
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                disabled={disabled}
+                className={`w-full cursor-pointer appearance-none rounded-xl border py-3 pl-4 pr-10 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    disabled
+                        ? "border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed"
+                        : "border-gray-200 text-gray-700 focus:border-primary"
+                }`}
+            >
+                {options.map((opt) => (
+                    <option key={opt} value={opt}>
+                        {opt}
+                    </option>
+                ))}
+            </select>
+            <svg
+                className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
         </div>
     );
 }
@@ -130,10 +265,12 @@ function PasswordInput({
     value,
     onChange,
     placeholder,
+    disabled = false,
 }: {
     value: string;
     onChange: (v: string) => void;
     placeholder?: string;
+    disabled?: boolean;
 }) {
     const [visible, setVisible] = useState(false);
     return (
@@ -143,12 +280,18 @@ function PasswordInput({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-11 text-sm text-gray-700 placeholder:text-gray-400 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                disabled={disabled}
+                className={`w-full rounded-xl border px-4 py-3 pr-11 text-sm placeholder:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    disabled
+                        ? "border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed"
+                        : "border-gray-200 text-gray-700 focus:border-primary"
+                }`}
             />
             <button
                 type="button"
                 onClick={() => setVisible((v) => !v)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                disabled={disabled}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 disabled:cursor-not-allowed"
                 aria-label={visible ? "Hide password" : "Show password"}
             >
                 {visible ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -170,13 +313,15 @@ function Toggle({
             role="switch"
             aria-checked={checked}
             onClick={() => onChange(!checked)}
-            className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${checked ? "bg-primary" : "bg-gray-200"
-                }`}
+            className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                checked ? "bg-primary" : "bg-gray-200"
+            }`}
         >
             <span
-                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-200 ${checked ? "translate-x-5" : "translate-x-0.5"
-                    }`}
-            />s
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-200 ${
+                    checked ? "translate-x-5" : "translate-x-0.5"
+                }`}
+            />
         </button>
     );
 }
@@ -197,14 +342,6 @@ function ModalShell({
                 onClick={(e) => e.stopPropagation()}
                 className="relative w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-xl"
             >
-                <button
-                    type="button"
-                    onClick={onClose}
-                    className="absolute right-5 top-5 text-gray-400 hover:text-gray-600"
-                    aria-label="Close"
-                >
-                    <X size={18} />
-                </button>
                 {children}
             </div>
         </div>
@@ -232,7 +369,7 @@ function ModalButtons({
             <button
                 type="button"
                 onClick={onConfirm}
-                className="flex-1 rounded-full bg-primary py-3 text-sm font-semibold text-white hover:bg-primary"
+                className="flex-1 rounded-full bg-primary py-3 text-sm font-semibold text-white hover:bg-primary-dark"
             >
                 {confirmLabel}
             </button>
@@ -240,63 +377,153 @@ function ModalButtons({
     );
 }
 
+interface PersonalInfoValues {
+    name: string;
+    phone: string;
+    gender: string;
+    password: string;
+    email: string;
+    bio: string;
+    dob: string;
+    address: string;
+    country: string;
+    state: string;
+    city: string;
+}
 
 function PersonalInformationTab({
-    user,
+    values,
+    setValues,
+    isEditing,
+    onStartEditing,
     onSave,
 }: {
-    user: any;
-    onSave: (updated: any) => void;
+    values: PersonalInfoValues;
+    setValues: React.Dispatch<React.SetStateAction<PersonalInfoValues>>;
+    isEditing: boolean;
+    onStartEditing: () => void;
+    onSave: () => void;
 }) {
-    const fullName = user
-        ? [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || ''
-        : 'Rita Okoro';
-    const [name, setName] = useState(fullName);
-    const [phone, setPhone] = useState(user?.phone || user?.phone_number || '+234 708 464 4072');
-    const [password, setPassword] = useState('••••••••••••');
-    const email = user?.email || 'ritaokoro@gmail.com';
-    const [bio, setBio] = useState('Passionate about learning, design, and building real solutions.');
+    const set = <K extends keyof PersonalInfoValues>(key: K) => (v: string) =>
+        setValues((prev) => ({ ...prev, [key]: v }));
 
-    useEffect(() => {
-        if (user) {
-            const currentName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || '';
-            if (currentName) setName(currentName);
-            if (user.phone || user.phone_number) setPhone(user.phone || user.phone_number);
-        }
-    }, [user]);
+    const stateOptions = STATES[values.country] ?? [];
+    const cityOptions = CITIES[values.state] ?? [];
 
-    const handleSave = () => {
-        const parts = name.trim().split(' ');
-        const first_name = parts[0] || '';
-        const last_name = parts.slice(1).join(' ') || '';
-        onSave({ first_name, last_name, phone });
-    };
+    if (!isEditing) {
+        return (
+            <div>
+                <div className="grid grid-cols-1 gap-x-16 gap-y-6 lg:grid-cols-2">
+                    <Field label="Name">
+                        <TextInput value={values.name} onChange={() => {}} disabled />
+                    </Field>
+                    <Field label="Email address">
+                        <TextInput value={values.email} onChange={() => {}} icon={<Mail size={16} />} disabled />
+                    </Field>
+
+                    <Field label="Gender">
+                        <SelectInput value={values.gender} onChange={() => {}} options={GENDERS} disabled />
+                    </Field>
+                    <Field label="Date of Birth">
+                        <TextInput value={values.dob} onChange={() => {}} placeholder="DD/MM/YYYY" disabled />
+                    </Field>
+
+                    <Field label="Country">
+                        <SelectInput value={values.country} onChange={() => {}} options={COUNTRIES} disabled />
+                    </Field>
+                    <Field label="Address">
+                        <TextInput value={values.address} onChange={() => {}} placeholder="123 Main Street" disabled />
+                    </Field>
+
+                    <Field label="State">
+                        <SelectInput value={values.state} onChange={() => {}} options={stateOptions.length ? stateOptions : [values.state]} disabled />
+                    </Field>
+                    <Field label="City">
+                        <SelectInput value={values.city} onChange={() => {}} options={cityOptions.length ? cityOptions : [values.city]} disabled />
+                    </Field>
+
+                    <Field label="Phone number">
+                        <TextInput value={values.phone} onChange={() => {}} disabled />
+                    </Field>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={onStartEditing}
+                    className="mt-8 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary-dark transition cursor-pointer"
+                >
+                    Update Personal Information
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div>
             <div className="grid grid-cols-1 gap-x-16 gap-y-6 lg:grid-cols-2">
                 <Field label="Name">
-                    <TextInput value={name} onChange={setName} placeholder="Your Full Name" />
+                    <TextInput value={values.name} onChange={set("name")} placeholder="Your Full Name" />
                 </Field>
                 <Field label="Email address">
-                    <TextInput value={email} onChange={() => { }} icon={<Mail size={16} />} />
+                    <TextInput value={values.email} onChange={() => {}} icon={<Mail size={16} />} disabled />
                 </Field>
 
                 <Field label="Phone number">
-                    <TextInput value={phone} onChange={setPhone} placeholder="+234 708 464 4072" />
+                    <TextInput value={values.phone} onChange={set("phone")} placeholder="+234 708 464 4072" />
                 </Field>
                 <Field label="Bio">
-                    <TextInput value={bio} onChange={setBio} />
+                    <TextInput value={values.bio} onChange={set("bio")} placeholder="Tell us a little about yourself" />
+                </Field>
+
+                <Field label="Gender">
+                    <SelectInput value={values.gender} onChange={set("gender")} options={GENDERS} />
+                </Field>
+                <Field label="Date of Birth">
+                    <TextInput value={values.dob} onChange={set("dob")} placeholder="DD/MM/YYYY" type="date" />
                 </Field>
 
                 <Field label="Password">
-                    <PasswordInput value={password} onChange={setPassword} />
+                    <PasswordInput value={values.password} onChange={set("password")} />
+                </Field>
+                <Field label="Address">
+                    <TextInput value={values.address} onChange={set("address")} placeholder="123 Main Street" />
+                </Field>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <Field label="Country">
+                    <SelectInput
+                        value={values.country}
+                        onChange={(v) => {
+                            const nextStates = STATES[v] ?? [];
+                            setValues((prev) => ({
+                                ...prev,
+                                country: v,
+                                state: nextStates[0] ?? "",
+                                city: CITIES[nextStates[0] ?? ""]?.[0] ?? "",
+                            }));
+                        }}
+                        options={COUNTRIES}
+                    />
+                </Field>
+                <Field label="State">
+                    <SelectInput
+                        value={values.state}
+                        onChange={(v) => {
+                            const nextCities = CITIES[v] ?? [];
+                            setValues((prev) => ({ ...prev, state: v, city: nextCities[0] ?? "" }));
+                        }}
+                        options={stateOptions}
+                    />
+                </Field>
+                <Field label="City">
+                    <SelectInput value={values.city} onChange={set("city")} options={cityOptions} />
                 </Field>
             </div>
 
             <button
                 type="button"
-                onClick={handleSave}
+                onClick={onSave}
                 className="mt-8 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary-dark transition cursor-pointer"
             >
                 Save Changes
@@ -304,8 +531,6 @@ function PersonalInformationTab({
         </div>
     );
 }
-
-
 
 function SecurityTab({
     onLogoutAll,
@@ -326,6 +551,32 @@ function SecurityTab({
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [twoFactor, setTwoFactor] = useState(true);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [passwordSaved, setPasswordSaved] = useState(false);
+
+    const handleUpdatePassword = () => {
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            setPasswordError("Fill in all three password fields.");
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            setPasswordError("New password and confirmation don't match.");
+            return;
+        }
+
+        /**
+         * Backend Integration
+         *
+         * await authService.changePassword({ currentPassword, newPassword })
+         */
+
+        setPasswordError(null);
+        setPasswordSaved(true);
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setTimeout(() => setPasswordSaved(false), 3000);
+    };
 
     return (
         <div className="grid grid-cols-1 gap-x-16 gap-y-10 lg:grid-cols-2">
@@ -346,9 +597,17 @@ function SecurityTab({
                         </Field>
                     </div>
 
+                    {passwordError && <p className="mt-3 text-sm text-red-500">{passwordError}</p>}
+                    {passwordSaved && (
+                        <p className="mt-3 flex items-center gap-1.5 text-sm text-primary">
+                            <CheckCircle2 size={15} /> Password updated successfully.
+                        </p>
+                    )}
+
                     <button
                         type="button"
-                        className="mt-6 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary"
+                        onClick={handleUpdatePassword}
+                        className="mt-6 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary-dark"
                     >
                         Update Password
                     </button>
@@ -468,19 +727,103 @@ function SecurityTab({
     );
 }
 
+function CartTab({
+    items,
+    onRemove,
+    onCheckout,
+}: {
+    items: CartItem[];
+    onRemove: (id: string) => void;
+    onCheckout: () => void;
+}) {
+    if (items.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center rounded-3xl border border-gray-100 py-20 text-center">
+                <p className="text-sm text-gray-400">Your cart is empty.</p>
+            </div>
+        );
+    }
 
+    const total = items.reduce((sum, item) => sum + item.price, 0);
 
-function SuccessModal({ onDone }: { onDone: () => void }) {
+    return (
+        <div>
+            <div className="space-y-5">
+                {items.map((item) => (
+                    <div
+                        key={item.id}
+                        className="flex flex-col gap-4 rounded-3xl border border-gray-100 p-5 shadow-sm sm:flex-row sm:items-center"
+                    >
+                        <img
+                            src={item.image}
+                            alt={item.title}
+                            className="h-24 w-full shrink-0 rounded-2xl object-cover sm:w-32"
+                        />
+                        <div className="min-w-0 flex-1">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <h3 className="text-base font-semibold text-gray-900">{item.title}</h3>
+                                    <p className="mt-0.5 text-sm text-gray-500">{item.description}</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => onRemove(item.id)}
+                                    className="shrink-0 text-red-400 hover:text-red-500"
+                                    aria-label={`Remove ${item.title} from cart`}
+                                >
+                                    <Trash2 size={18} />
+                                </button>
+                            </div>
+
+                            <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-gray-500">
+                                <span className="flex items-center gap-1.5">
+                                    <Star size={14} className="text-primary" /> {item.reviews} reviews
+                                </span>
+                                <span className="flex items-center gap-1.5">
+                                    <Users size={14} className="text-blue-500" /> {item.students.toLocaleString()} students
+                                </span>
+                                <span className="flex items-center gap-1.5">
+                                    <BookOpen size={14} className="text-amber-500" /> {item.courses} courses
+                                </span>
+                            </div>
+
+                            <div className="mt-3 flex items-center gap-3">
+                                <span className="text-base font-bold text-gray-900">{formatNaira(item.price)}</span>
+                                <span className="text-sm text-gray-400 line-through">{formatNaira(item.originalPrice)}</span>
+                                <span className="rounded-full bg-primary-light px-2.5 py-0.5 text-xs font-semibold text-primary">
+                                    {item.discountPercent}% OFF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-gray-500">
+                    Total: <span className="text-base font-bold text-gray-900">{formatNaira(total)}</span>
+                </p>
+                <button
+                    type="button"
+                    onClick={onCheckout}
+                    className="rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white hover:bg-primary-dark transition cursor-pointer"
+                >
+                    Checkout Now
+                </button>
+            </div>
+        </div>
+    );
+}
+
+function SuccessModal({ title, description, onDone }: { title: string; description: string; onDone: () => void }) {
     return (
         <ModalShell onClose={onDone}>
-            <h2 className="text-2xl font-extrabold text-gray-900">Profile Updated Successfully</h2>
-            <p className="mt-3 text-sm text-gray-500">
-                Your changes have been saved and will now appear on your profile.
-            </p>
+            <h2 className="text-2xl font-extrabold text-gray-900">{title}</h2>
+            <p className="mt-3 text-sm text-gray-500">{description}</p>
             <button
                 type="button"
                 onClick={onDone}
-                className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-semibold text-white hover:bg-primary"
+                className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-semibold text-white hover:bg-primary-dark"
             >
                 Done
             </button>
@@ -580,27 +923,7 @@ function SecurityQuestionModal({
             </p>
             <div className="mt-6 space-y-5 text-left">
                 <Field label="Security Question">
-                    <div className="relative">
-                        <select
-                            value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
-                            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-700 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                        >
-                            {SECURITY_QUESTIONS.map((q) => (
-                                <option key={q} value={q}>
-                                    {q}
-                                </option>
-                            ))}
-                        </select>
-                        <svg
-                            className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
+                    <SelectInput value={question} onChange={setQuestion} options={SECURITY_QUESTIONS} />
                 </Field>
                 <Field label="Security Answer">
                     <TextInput value={answer} onChange={setAnswer} placeholder="Your answer" />
@@ -611,29 +934,94 @@ function SecurityQuestionModal({
     );
 }
 
-
-
 const TABS: { id: TabId; label: string }[] = [
     { id: "personal", label: "Personal Information" },
     { id: "security", label: "Security" },
+    { id: "cart", label: "Your Cart" },
 ];
 
 export default function ProfilePage() {
     const { user, updateUser } = useAuth();
     const [activeTab, setActiveTab] = useState<TabId>("personal");
     const [modal, setModal] = useState<ModalId>(null);
+    const [isEditingPersonal, setIsEditingPersonal] = useState(false);
+    const [avatarSrc, setAvatarSrc] = useState("/profile/avatar.png");
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const [cartItems, setCartItems] = useState<CartItem[]>(INITIAL_CART);
 
     const displayName = user
-        ? [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || 'Rita Okoro'
-        : 'Rita Okoro';
-    const displayEmail = user?.email || 'ritaokoro@gmail.com';
-    const displayTag = user?.unique_user_id ? `ID: ${user.unique_user_id}` : (user?.role ? `Role: ${user.role}` : 'UI/UX Design Cohort 4');
+        ? [user.first_name, user.last_name].filter(Boolean).join(" ") || user.username || "Rita Okoro"
+        : "Rita Okoro";
+    const displayEmail = user?.email || "ritaokoro@gmail.com";
+    const displayTag = user?.unique_user_id
+        ? `ID: ${user.unique_user_id}`
+        : user?.role
+          ? `Role: ${user.role}`
+          : "UI/UX Design Cohort 4";
 
     const [recoveryEmail, setRecoveryEmail] = useState(displayEmail);
     const [recoveryPhone, setRecoveryPhone] = useState(user?.phone || user?.phone_number || "+234 708 4644 071");
 
-    const handleSavePersonalInfo = (updatedData: { first_name: string; last_name: string; phone: string }) => {
-        updateUser(updatedData);
+    // Lazy initializer: seeds the form from `user` on first render only. The
+    // user object is already hydrated from storage/login before this page is
+    // reachable, so there's no later "user arrives" case to sync against —
+    // avoiding an effect here sidesteps an unnecessary extra render pass.
+    const [personalValues, setPersonalValues] = useState<PersonalInfoValues>(() => ({
+        name: displayName,
+        phone: user?.phone || user?.phone_number || "+234 708 464 4072",
+        gender: user?.gender || "Female",
+        password: "",
+        email: displayEmail,
+        bio: "Passionate about design and solving real problems.",
+        dob: user?.dob || "",
+        address: user?.address || "123 Main Street",
+        country: "Nigeria",
+        state: user?.state || "Lagos",
+        city: user?.city || "Ketu",
+    }));
+
+    const handleSavePersonalInfo = () => {
+        const parts = personalValues.name.trim().split(" ");
+        const first_name = parts[0] || "";
+        const last_name = parts.slice(1).join(" ") || "";
+
+        /**
+         * Backend Integration
+         *
+         * await userService.updateProfile({ ...personalValues, avatar: avatarFile })
+         */
+
+        updateUser({
+            first_name,
+            last_name,
+            phone: personalValues.phone,
+            gender: personalValues.gender,
+            dob: personalValues.dob,
+            address: personalValues.address,
+            state: personalValues.state,
+            city: personalValues.city,
+        });
+        setModal("success");
+    };
+
+    const handleAvatarClick = () => {
+        if (isEditingPersonal) fileInputRef.current?.click();
+    };
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        setAvatarSrc(url);
+    };
+
+    const handleCheckout = () => {
+        /**
+         * Backend Integration
+         *
+         * await cartService.checkout({ items: cartItems })
+         */
         setModal("success");
     };
 
@@ -642,19 +1030,29 @@ export default function ProfilePage() {
             <div className="min-h-screen bg-white">
                 <div className="px-2 py-2 sm:px-8">
                     <div className="mt-4 flex items-center gap-4">
-                        <div className="h-16 w-16 overflow-hidden rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-                            {user?.first_name ? (
-                                <span className="text-primary font-bold text-xl uppercase">
-                                    {user.first_name[0]}{user.last_name ? user.last_name[0] : ''}
+                        <button
+                            type="button"
+                            onClick={handleAvatarClick}
+                            className={`group relative h-16 w-16 overflow-hidden rounded-full border border-primary/20 bg-primary/10 ${
+                                isEditingPersonal ? "cursor-pointer" : "cursor-default"
+                            }`}
+                            aria-label={isEditingPersonal ? "Change profile photo" : "Profile photo"}
+                        >
+                            <img src={avatarSrc} alt={displayName} className="h-full w-full object-cover" />
+                            {isEditingPersonal && (
+                                <span className="absolute inset-0 flex items-center justify-center bg-black/50 text-center text-[10px] font-semibold leading-tight text-white opacity-0 transition-opacity group-hover:opacity-100">
+                                    <Camera size={14} className="mr-1" />
+                                    Change Photo
                                 </span>
-                            ) : (
-                                <img
-                                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=faces"
-                                    alt={displayName}
-                                    className="h-full w-full object-cover"
-                                />
                             )}
-                        </div>
+                        </button>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleAvatarChange}
+                        />
                         <div>
                             <p className="text-base font-semibold text-gray-900">{displayName}</p>
                             <p className="text-sm text-gray-500">{displayTag}</p>
@@ -670,8 +1068,9 @@ export default function ProfilePage() {
                                     key={tab.id}
                                     type="button"
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`relative pb-3 text-sm font-medium transition-colors cursor-pointer ${active ? "text-primary font-bold" : "text-gray-400 hover:text-gray-600"
-                                        }`}
+                                    className={`relative pb-3 text-sm font-medium transition-colors cursor-pointer ${
+                                        active ? "text-primary font-bold" : "text-gray-400 hover:text-gray-600"
+                                    }`}
                                 >
                                     {tab.label}
                                     {active && (
@@ -683,7 +1082,15 @@ export default function ProfilePage() {
                     </nav>
 
                     <div className="mt-8">
-                        {activeTab === "personal" && <PersonalInformationTab user={user} onSave={handleSavePersonalInfo} />}
+                        {activeTab === "personal" && (
+                            <PersonalInformationTab
+                                values={personalValues}
+                                setValues={setPersonalValues}
+                                isEditing={isEditingPersonal}
+                                onStartEditing={() => setIsEditingPersonal(true)}
+                                onSave={handleSavePersonalInfo}
+                            />
+                        )}
                         {activeTab === "security" && (
                             <SecurityTab
                                 onLogoutAll={() => setModal("logoutAll")}
@@ -694,11 +1101,34 @@ export default function ProfilePage() {
                                 recoveryPhone={recoveryPhone}
                             />
                         )}
+                        {activeTab === "cart" && (
+                            <CartTab
+                                items={cartItems}
+                                onRemove={(id) => setCartItems((prev) => prev.filter((item) => item.id !== id))}
+                                onCheckout={handleCheckout}
+                            />
+                        )}
                     </div>
                 </div>
 
+                {modal === "success" && activeTab === "cart" && (
+                    <SuccessModal
+                        title="Redirecting to Checkout"
+                        description="Your order summary is ready. You'll be taken to secure checkout to complete your purchase."
+                        onDone={() => setModal(null)}
+                    />
+                )}
 
-                {modal === "success" && <SuccessModal onDone={() => setModal(null)} />}
+                {modal === "success" && activeTab !== "cart" && (
+                    <SuccessModal
+                        title="Profile Updated Successfully"
+                        description="Your changes have been saved and will now appear on your profile."
+                        onDone={() => {
+                            setModal(null);
+                            setIsEditingPersonal(false);
+                        }}
+                    />
+                )}
 
                 {modal === "logoutAll" && (
                     <LogoutAllModal onCancel={() => setModal(null)} onConfirm={() => setModal(null)} />
